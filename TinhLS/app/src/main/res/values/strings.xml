@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="action_settings">Settings</string>
+    <string name="app_name">Tinh Lai Suat</string>
+    <string name="amount">Nhập số tiền gửi</string>
+    <string name="currency">VND</string>
+    <string name="put_date">Nhập ngày gửi</string>
+    <string name="withdraw_date">Nhập ngày rút</string>
+    <string name="interest_rate">Nhập lãi suất (%)</string>
+    <string name="byYear">Năm</string>
+    <string name="byMonth">Tháng</string>
+    <string name="Calculate">Tính</string>
+    <string name="result_amount">Số tiền</string>
+    <string name="result_fromDate">Từ ngày</string>
+    <string name="result_toDate">Đến ngày</string>
+    <string name="result_nuber_of_date">Số ngày gửi</string>
+    <string name="result_interest_rate">Lãi suất</string>
+    <string name="result_interest_amount">Số tiền lãi</string>
+    <string name="result_total">Tổng tiền</string>
+    <string name="title_activity_result">Result</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="chooseDate">Chọn Ngày</string>
+</resources>
