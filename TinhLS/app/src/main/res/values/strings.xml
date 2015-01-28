@@ -3,7 +3,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="app_name">Tinh Lai Suat</string>
-    <string name="amount">Nhập số tiền gửi</string>
+    <string name="amount">Nhập số tiền gửi (VND)</string>
     <string name="currency">VND</string>
     <string name="put_date">Nhập ngày gửi</string>
     <string name="withdraw_date">Nhập ngày rút</string>
@@ -21,4 +21,8 @@
     <string name="title_activity_result">Result</string>
     <string name="hello_world">Hello world!</string>
     <string name="chooseDate">Chọn Ngày</string>
+    <string name="calculateByMonth">Tính theo tháng</string>
+    <string name="calculateByDays">Tính theo ngày</string>
+    <string name="input_number_of_months">Nhập vào số tháng gửi</string>
+    <string name="input_number_of_days">Nhập vào ngày gửi và ngày rút</string>
 </resources>
