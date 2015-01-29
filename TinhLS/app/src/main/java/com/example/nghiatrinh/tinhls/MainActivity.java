@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,10 +61,38 @@ public class MainActivity extends ActionBarActivity {
         Intent intent = new Intent(this,Result.class);
         ModelLS model = new ModelLS();
         model.Amount = Double.parseDouble(((EditText) findViewById(R.id.txtInputAmount)).getText().toString().replace(",", ""));
-        model.FormDate = ((EditText)findViewById(R.id.txtPutDate)).getText().toString();
-        model.ToDate = ((EditText)findViewById(R.id.txtWithDrawDate)).getText().toString();
         model.Interest = Double.parseDouble(((EditText) findViewById(R.id.txtInterestRate)).getText().toString());
-        model.InterestBy=((RadioButton)findViewById(R.id.rdoByMonth)).isChecked()?1:2;
+        RadioGroup groupInterestBy = (RadioGroup)findViewById(R.id.rdgInterestBy);
+        switch (groupInterestBy.getCheckedRadioButtonId())
+        {
+            case R.id.rdoByMonth:
+                model.InterestBy=1;
+                break;
+            case R.id.rdoByYear:
+                model.InterestBy=2;
+                break;
+        }
+        RadioGroup groupCalBy = (RadioGroup)findViewById(R.id.rdgCalBy);
+        switch (groupCalBy.getCheckedRadioButtonId())
+        {
+            case R.id.rdoCalculateByMonth:
+                model.IsCalByMonth=true;
+                break;
+            case R.id.rdoCalculateByDays:
+                model.IsCalByMonth=false;
+                break;
+        }
+
+        if (model.IsCalByMonth)
+        {
+            model.NumberOfMonths = Integer.parseInt(((TextView) findViewById(R.id.txt_numberOfMonth)).getText().toString());
+        }
+        else {
+            model.FormDate = ((TextView) findViewById(R.id.tv_Fromdate)).getText().toString();
+            model.ToDate = ((TextView) findViewById(R.id.tv_Todate)).getText().toString();
+            model.NumberOfDays = Integer.parseInt(((TextView) findViewById(R.id.txt_numberOfDays)).getText().toString());
+        }
+
         intent.putExtra("data", new Gson().toJson(model));
         startActivity(intent);
     }
@@ -80,12 +109,12 @@ public class MainActivity extends ActionBarActivity {
     }
     public void setNumberOfDays(String days,String fromDate,String toDate)
     {
-        Toast.makeText(this,days,Toast.LENGTH_SHORT).show();
-//        ((TextView)findViewById(R.id.txt_numberOfDays)).setText(days);
-//        ((TextView)findViewById(R.id.tv_Fromdate)).setText(fromDate);
-//        ((TextView)findViewById(R.id.tv_Todate)).setText(toDate);
-//        (findViewById(R.id.txt_numberOfDays_left)).setVisibility(View.VISIBLE);
-//        (findViewById(R.id.txt_numberOfDays_right)).setVisibility(View.VISIBLE);
+        //Toast.makeText(this,days,Toast.LENGTH_SHORT).show();
+        ((TextView)findViewById(R.id.txt_numberOfDays)).setText(days);
+        ((TextView)findViewById(R.id.tv_Fromdate)).setText(fromDate);
+        ((TextView)findViewById(R.id.tv_Todate)).setText(toDate);
+        (findViewById(R.id.txt_numberOfDays_left)).setVisibility(View.VISIBLE);
+        (findViewById(R.id.txt_numberOfDays_right)).setVisibility(View.VISIBLE);
     }
     public void showCalculateByDaysDialog(View view)
     {
@@ -95,27 +124,55 @@ public class MainActivity extends ActionBarActivity {
     private boolean CheckDataInput()
     {
         String amount = ((EditText)findViewById(R.id.txtInputAmount)).getText().toString();
-        String fromDate = ((EditText)findViewById(R.id.txtPutDate)).getText().toString();
-        String toDate = ((EditText)findViewById(R.id.txtWithDrawDate)).getText().toString();
         String interest = ((EditText)findViewById(R.id.txtInterestRate)).getText().toString();
         if (amount.isEmpty()||!amount.replace(",","").matches("[0-9]+[\\.[0-9]]*")) {
             Toast.makeText(this,"Chưa nhập số tiền muốn tính",Toast.LENGTH_SHORT ).show();
             return false;
         }
-        if (fromDate.isEmpty()) {
-            Toast.makeText(this,"Chưa nhập ngày gửi",Toast.LENGTH_SHORT ).show();
-            return false;
-        }
-
-        if (toDate.isEmpty()){
-            Toast.makeText(this,"Chưa nhập ngày rút",Toast.LENGTH_SHORT ).show();
-            return false;
-        }
-
         if (interest.isEmpty()||!interest.matches("[0-9]+[\\.[0-9]]*")) {
             Toast.makeText(this,"Chưa nhập lãi suất",Toast.LENGTH_SHORT ).show();
             return false;
         }
+
+        RadioButton rdoByMonth = (RadioButton)findViewById(R.id.rdoCalculateByMonth);
+        RadioButton rdoByDay = (RadioButton)findViewById(R.id.rdoCalculateByDays);
+
+        if (!rdoByDay.isChecked()&&!rdoByMonth.isChecked()) return  false;
+
+        if(rdoByMonth.isChecked())
+        {
+            String nbrOfMonth = ((TextView)findViewById(R.id.txt_numberOfMonth)).getText().toString();
+            if (nbrOfMonth.isEmpty()) {
+                Toast.makeText(this,"Số tháng gửi không đúng",Toast.LENGTH_SHORT ).show();
+                return false;
+            }
+        }
+        else
+        {
+            String fromDate = ((TextView)findViewById(R.id.tv_Fromdate)).getText().toString();
+            String toDate = ((TextView)findViewById(R.id.tv_Todate)).getText().toString();
+            String nbrOfDays = ((TextView)findViewById(R.id.txt_numberOfDays)).getText().toString();
+            if (fromDate.isEmpty()) {
+                Toast.makeText(this,"Chưa nhập ngày gửi",Toast.LENGTH_SHORT ).show();
+                return false;
+            }
+
+            if (toDate.isEmpty()){
+                Toast.makeText(this,"Chưa nhập ngày rút",Toast.LENGTH_SHORT ).show();
+                return false;
+            }
+
+            if (nbrOfDays.isEmpty()) {
+                Toast.makeText(this,"Số ngày gửi không đúng",Toast.LENGTH_SHORT ).show();
+                return false;
+            }
+        }
+
+
+
+
+
+
         return  true;
     }
 

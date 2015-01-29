@@ -1,4 +1,4 @@
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/tablelayoutResult"
     xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent" android:layout_margin="10dp"
     tools:context="com.example.nghiatrinh.tinhls.Result">
@@ -27,7 +27,20 @@
             android:layout_height="wrap_content" android:layout_marginStart="20dp" android:layout_marginLeft="20dp"/>
 
     </TableRow>
-    <TableRow
+
+    <TableRow android:id="@+id/tv_result_number_of_month_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:layout_marginBottom="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="@string/result_nuber_of_month"/>
+        <TextView
+            android:layout_width="wrap_content" android:id="@+id/tv_result_number_of_month"
+            android:layout_height="wrap_content" android:layout_marginStart="20dp" android:layout_marginLeft="20dp" />
+
+    </TableRow>
+
+    <TableRow android:id="@+id/tv_resultFromDate_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" android:layout_marginBottom="10dp">
         <TextView
@@ -38,7 +51,7 @@
             android:layout_height="wrap_content" android:layout_marginStart="20dp" android:layout_marginLeft="20dp" />
 
     </TableRow>
-    <TableRow
+    <TableRow android:id="@+id/tv_resultToDate_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" android:layout_marginBottom="10dp">
         <TextView
@@ -49,7 +62,7 @@
             android:layout_height="wrap_content" android:layout_marginStart="20dp" android:layout_marginLeft="20dp" />
 
     </TableRow>
-    <TableRow
+    <TableRow android:id="@+id/tv_resultNumberOfDate_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" android:layout_marginBottom="10dp">
         <TextView

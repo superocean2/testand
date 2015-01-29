@@ -15,6 +15,7 @@
     <string name="result_fromDate">Từ ngày</string>
     <string name="result_toDate">Đến ngày</string>
     <string name="result_nuber_of_date">Số ngày gửi</string>
+    <string name="result_nuber_of_month">Số tháng gửi</string>
     <string name="result_interest_rate">Lãi suất</string>
     <string name="result_interest_amount">Số tiền lãi</string>
     <string name="result_total">Tổng tiền</string>

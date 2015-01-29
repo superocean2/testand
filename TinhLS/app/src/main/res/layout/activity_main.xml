@@ -26,7 +26,7 @@
                 android:layout_weight="2"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtInterestRate"/>
-            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            <RadioGroup android:id="@+id/rdgInterestBy" xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="0dp"
                 android:layout_weight="2"
                 android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
                     android:id="@+id/rdoByYear"/>
             </RadioGroup>
         </LinearLayout>
-        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        <RadioGroup android:id="@+id/rdgCalBy" xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" android:layout_marginTop="30dp">
@@ -89,7 +89,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/txt_numberOfDays_right"
-                android:text=" tháng)" android:visibility="invisible" android:layout_marginRight="30dp"/>
+                android:text=" ngày)" android:visibility="invisible" android:layout_marginRight="30dp"/>
         </RadioGroup>
 
     <Button

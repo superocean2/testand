@@ -12,5 +12,8 @@ public class ModelLS {
     public String FormDate;
     public String ToDate;
     public int InterestBy;
+    public int NumberOfDays;
+    public int NumberOfMonths;
+    public boolean IsCalByMonth;
 }
 
