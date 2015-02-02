@@ -1,6 +1,9 @@
+<ScrollView
+    android:layout_height="fill_parent" android:layout_width="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:orientation="vertical" tools:context=".MainActivity"
+    android:layout_height="wrap_content" android:orientation="vertical" tools:context=".MainActivity"
     android:layout_margin="10dp">
 
         <TextView
@@ -10,7 +13,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/txtInputAmount"/>
+            android:id="@+id/txtInputAmount" android:inputType="number"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,74 +25,70 @@
             android:orientation="horizontal"
             android:gravity="center">
             <EditText
-                android:layout_width="0dp"
-                android:layout_weight="2"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/txtInterestRate"/>
-            <RadioGroup android:id="@+id/rdgInterestBy" xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <RadioButton
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="@string/byMonth"
-                    android:id="@+id/rdoByMonth"
-                    android:checked="true" />
-                <RadioButton
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="@string/byYear"
-                    android:id="@+id/rdoByYear"/>
-            </RadioGroup>
+                android:id="@+id/txtInterestRate" android:inputType="numberDecimal"/>
         </LinearLayout>
+        <RadioGroup android:id="@+id/rdgInterestBy" xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/byMonth"
+                android:id="@+id/rdoByMonth"
+                android:checked="true" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/byYear"
+                android:id="@+id/rdoByYear"/>
+        </RadioGroup>
         <RadioGroup android:id="@+id/rdgCalBy" xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" android:layout_marginTop="30dp">
+            android:orientation="vertical" android:layout_marginTop="30dp">
             <RadioButton
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/calculateByMonth"
                 android:id="@+id/rdoCalculateByMonth" android:onClick="showCalculateByMonthDialog" />
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/txt_numberOfMonth_left"
-                android:layout_marginLeft="10dp" android:text="( " android:visibility="invisible"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/txt_numberOfMonth" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/txt_numberOfMonth_right"
-                android:text=" tháng)" android:visibility="invisible" android:layout_marginRight="30dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/tv_Fromdate"
-                android:visibility="invisible" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/tv_Todate"
-                android:visibility="invisible" />
+                android:layout_height="wrap_content" android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/txt_numberOfMonth_left"
+                    android:layout_marginLeft="10dp" android:text="( " android:visibility="invisible"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/txt_numberOfMonth" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/txt_numberOfMonth_right"
+                    android:text=" tháng)" android:visibility="invisible" android:layout_marginRight="30dp"/>
+            </LinearLayout>
             <RadioButton
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/calculateByDays"
                 android:id="@+id/rdoCalculateByDays" android:onClick="showCalculateByDaysDialog"/>
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/txt_numberOfDays_left"
-                android:layout_marginLeft="10dp" android:text="( " android:visibility="invisible"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/txt_numberOfDays" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/txt_numberOfDays_right"
-                android:text=" ngày)" android:visibility="invisible" android:layout_marginRight="30dp"/>
+                android:layout_height="wrap_content" android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/txt_numberOfDays_left"
+                    android:layout_marginLeft="10dp" android:text="( " android:visibility="invisible"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/txt_numberOfDays" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/txt_numberOfDays_right"
+                    android:text=" ngày)" android:visibility="invisible" android:layout_marginRight="30dp"/>
+            </LinearLayout>
         </RadioGroup>
 
     <Button
@@ -97,4 +96,18 @@
         android:background="@drawable/btn_blue"
         android:text="@string/Calculate"
         android:onClick="Calculate"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/tv_Fromdate"
+            android:visibility="invisible" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/tv_Todate"
+            android:visibility="invisible" />
+    </LinearLayout>
 </LinearLayout>
+
+</ScrollView>
