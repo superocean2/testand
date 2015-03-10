@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" android:id="@+id/menu_top">
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/overview"
+            android:textColor="#ffffff"
+            android:onClick="goToOverview"
+            android:background="@drawable/tab_btn_blue"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/income"
+            android:textColor="#ffffff"
+            android:onClick="goToIncome"
+            android:background="@drawable/tab_btn_blue"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/expense"
+            android:textColor="#ffffff"
+            android:onClick="goToSpend"
+            android:background="@drawable/tab_btn_blue"/>
+    </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:id="@+id/contents" android:layout_below="@+id/menu_top">
+    </FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" android:layout_alignParentBottom="true">
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/by_date"
+            android:textColor="#ffffff"
+            android:onClick="openDateDialog"
+            android:background="@drawable/tab_btn_blue"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/by_month"
+            android:textColor="#ffffff"
+            android:onClick="openMonthDialog"
+            android:background="@drawable/tab_btn_blue"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/by_year"
+            android:textColor="#ffffff"
+            android:onClick="openYearDialog"
+            android:background="@drawable/tab_btn_blue"/>
+    </LinearLayout>
+</RelativeLayout>
