@@ -9,15 +9,11 @@
         android:textColor="#ffffff"
         android:background="@drawable/btn_blue"
         android:layout_marginBottom="20dp"
-        android:id="@+id/add_new_income"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textview_title_list"
-        android:layout_marginBottom="20dp"/>
+        android:onClick="openAddNewCategory"
+        android:id="@+id/add_new_income_category"/>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/listview_list_income">
+        android:id="@+id/listview_list_income_category">
     </ListView>
 </LinearLayout>

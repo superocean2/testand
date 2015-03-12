@@ -6,15 +6,41 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme" android:name="com.orm.SugarApp">
         <activity
-            android:name=".MainActivity"
+            android:name=".activitys.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="DATABASE"
+            android:value="income_expense.db" />
+        <meta-data
+            android:name="VERSION"
+            android:value="1" />
+        <meta-data
+            android:name="QUERY_LOG"
+            android:value="true" />
+        <meta-data
+            android:name="DOMAIN_PACKAGE_NAME"
+            android:value="com.android.nghiatrinh.thuchi.model" />
+
+        <activity
+            android:name=".activitys.AddNewIncomeCategoryActivity"
+            android:label="@string/title_activity_add_new_income_category" >
+        </activity>
+        <activity
+            android:name=".activitys.AddNewIncomeActivity"
+            android:label="@string/title_activity_add_new_income" >
+        </activity>
+        <activity
+            android:name=".activitys.ListCategoryActivity"
+            android:label="@string/title_activity_list_category" >
         </activity>
     </application>
 

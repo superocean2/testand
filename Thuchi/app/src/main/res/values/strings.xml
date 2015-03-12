@@ -14,4 +14,18 @@
     <string name="select_year">Select year</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="today">Today</string>
+    <string name="add_new">New</string>
+    <string name="save">Save</string>
+    <string name="category_name">Category name</string>
+    <string name="title_activity_add_new_income_category">New Income Category</string>
+    <string name="title_activity_add_new_income">New Income</string>
+
+    <string name="amount">Amount</string>
+    <string name="category">Category</string>
+    <string name="date">Date</string>
+    <string name="description">Description</string>
+    <string name="title_activity_list_category">Income Category</string>
+
+    <string name="choose">Choose</string>
 </resources>

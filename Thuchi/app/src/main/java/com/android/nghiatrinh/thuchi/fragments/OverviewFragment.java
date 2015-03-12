@@ -1,10 +1,12 @@
-package com.android.nghiatrinh.thuchi;
+package com.android.nghiatrinh.thuchi.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.android.nghiatrinh.thuchi.R;
 
 /**
  * Created by NghiaTrinh on 3/2/2015.

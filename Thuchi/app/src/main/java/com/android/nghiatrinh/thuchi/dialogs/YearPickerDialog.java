@@ -1,4 +1,4 @@
-package com.android.nghiatrinh.thuchi;
+package com.android.nghiatrinh.thuchi.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.Toast;
+
+import com.android.nghiatrinh.thuchi.R;
 
 
 /**

@@ -1,0 +1,20 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.android.nghiatrinh.thuchi.activitys.AddNewIncomeCategoryActivity"
+    android:padding="10dp" android:orientation="vertical">
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        android:textColor="#ffffff"
+        android:background="@drawable/btn_blue"
+        android:layout_marginBottom="20dp"
+        android:onClick="saveIncomeCategory"
+        android:id="@+id/save_income_category"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edittext_income_category_name"
+        android:hint="@string/category_name"/>
+</LinearLayout>

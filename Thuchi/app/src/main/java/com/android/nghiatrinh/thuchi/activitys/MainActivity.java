@@ -1,4 +1,4 @@
-package com.android.nghiatrinh.thuchi;
+package com.android.nghiatrinh.thuchi.activitys;
 
 
 import android.app.DatePickerDialog;
@@ -10,8 +10,14 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
+import com.android.nghiatrinh.thuchi.R;
+import com.android.nghiatrinh.thuchi.dialogs.MonthPickerDialog;
+import com.android.nghiatrinh.thuchi.dialogs.YearPickerDialog;
+import com.android.nghiatrinh.thuchi.fragments.IncomeFragment;
+import com.android.nghiatrinh.thuchi.fragments.OverviewFragment;
+import com.android.nghiatrinh.thuchi.fragments.SpendFragment;
+
 import java.util.Calendar;
-import java.util.Date;
 
 public class MainActivity extends ActionBarActivity{
 
@@ -78,12 +84,14 @@ public class MainActivity extends ActionBarActivity{
         YearPickerDialog dialog = new YearPickerDialog();
         dialog.show(getSupportFragmentManager(),"YearPicker");
     }
-    public class SetDate implements DatePickerDialog.OnDateSetListener
+    private class SetDate implements DatePickerDialog.OnDateSetListener
     {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             Toast.makeText(view.getContext(),year+"-"+monthOfYear+"-"+dayOfMonth,Toast.LENGTH_SHORT).show();
         }
     }
+
+    
 }
 
