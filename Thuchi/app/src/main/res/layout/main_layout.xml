@@ -13,7 +13,8 @@
             android:text="@string/overview"
             android:textColor="#ffffff"
             android:onClick="goToOverview"
-            android:background="@drawable/tab_btn_blue"/>
+            android:background="@drawable/tab_btn_blue"
+            android:id="@+id/btn_overview"/>
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -21,7 +22,8 @@
             android:text="@string/income"
             android:textColor="#ffffff"
             android:onClick="goToIncome"
-            android:background="@drawable/tab_btn_blue"/>
+            android:background="@drawable/tab_btn_blue"
+            android:id="@+id/btn_income"/>
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -29,11 +31,13 @@
             android:text="@string/expense"
             android:textColor="#ffffff"
             android:onClick="goToSpend"
-            android:background="@drawable/tab_btn_blue"/>
+            android:background="@drawable/tab_btn_blue"
+            android:id="@+id/btn_expense"/>
     </LinearLayout>
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:id="@+id/contents" android:layout_below="@+id/menu_top">
+        android:layout_height="wrap_content" android:id="@+id/contents" android:layout_below="@+id/menu_top"
+        android:paddingBottom="50dp">
     </FrameLayout>
     <LinearLayout
         android:layout_width="match_parent"

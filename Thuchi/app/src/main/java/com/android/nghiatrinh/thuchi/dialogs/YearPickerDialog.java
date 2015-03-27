@@ -2,6 +2,7 @@ package com.android.nghiatrinh.thuchi.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -11,6 +12,12 @@ import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.android.nghiatrinh.thuchi.R;
+import com.android.nghiatrinh.thuchi.fragments.ExpenseFragment;
+import com.android.nghiatrinh.thuchi.fragments.IncomeFragment;
+import com.android.nghiatrinh.thuchi.fragments.OverviewFragment;
+import com.android.nghiatrinh.thuchi.helpers.Helper;
+
+import java.util.Calendar;
 
 
 /**
@@ -24,8 +31,10 @@ public class YearPickerDialog extends DialogFragment {
         final View view = inflater.inflate(R.layout.year_picker_dialog,null);
         final NumberPicker yearPicker = (NumberPicker) view.findViewById(R.id.year_selected_year);
         Button okButton = (Button)view.findViewById(R.id.ok_btn_year);
+        Calendar calendar = Calendar.getInstance();
         yearPicker.setMaxValue(2035);
         yearPicker.setMinValue(2014);
+        yearPicker.setValue(calendar.get(calendar.YEAR));
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.select_year).setView(view);
         final Dialog dialog =builder.create();
@@ -33,7 +42,31 @@ public class YearPickerDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                Toast.makeText(getActivity(),String.valueOf(yearPicker.getValue()),Toast.LENGTH_SHORT).show();
+                Fragment fragment =getActivity().getFragmentManager().findFragmentById(R.id.contents);
+                String year = Helper.format4digits(yearPicker.getValue());
+                Bundle bundle = new Bundle();
+                bundle.putString("byyear",year);
+                if (fragment instanceof IncomeFragment)
+                {
+                    IncomeFragment incomeFragment = new IncomeFragment();
+                    incomeFragment.setArguments(bundle);
+                    //getFragmentManager().popBackStack();
+                    getActivity().getFragmentManager().beginTransaction().replace(R.id.contents, incomeFragment).commit();
+                }
+                if (fragment instanceof  OverviewFragment)
+                {
+                    OverviewFragment overviewFragment = new OverviewFragment();
+                    overviewFragment.setArguments(bundle);
+                    //getFragmentManager().popBackStack();
+                    getActivity().getFragmentManager().beginTransaction().replace(R.id.contents, overviewFragment).commit();
+                }
+                if (fragment instanceof ExpenseFragment)
+                {
+                    ExpenseFragment expenseFragment = new ExpenseFragment();
+                    expenseFragment.setArguments(bundle);
+                    //getFragmentManager().popBackStack();
+                    getActivity().getFragmentManager().beginTransaction().replace(R.id.contents, expenseFragment).commit();
+                }
             }
         });
         return  dialog;

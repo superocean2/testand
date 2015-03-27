@@ -2,13 +2,10 @@ package com.android.nghiatrinh.thuchi.activitys;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
-import android.text.Selection;
 import android.text.TextWatcher;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -20,7 +17,7 @@ import android.widget.TextView;
 import com.android.nghiatrinh.thuchi.R;
 import com.android.nghiatrinh.thuchi.helpers.Helper;
 import com.android.nghiatrinh.thuchi.model.Category;
-import com.android.nghiatrinh.thuchi.model.Income;
+import com.android.nghiatrinh.thuchi.model.Expense;
 import com.android.nghiatrinh.thuchi.model.IncomeCategoryAutocompleteListAdapter;
 import com.google.gson.Gson;
 
@@ -28,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class AddNewIncomeActivity extends ActionBarActivity {
+public class AddNewExpenseActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +38,7 @@ public class AddNewIncomeActivity extends ActionBarActivity {
         ((EditText) findViewById(R.id.edittext_income_date)).setText(dateNow);
 
         //autocomplete
-        List<Category> list = Category.find(Category.class,"isincome=?","1");
+        List<Category> list = Category.find(Category.class,"isincome=?","0");
         ArrayList<Category> listCategory = new ArrayList<>();
         for(Category item:list)
         {
@@ -64,7 +61,7 @@ public class AddNewIncomeActivity extends ActionBarActivity {
             }
         });
         if (o!=null) {
-            Income income = new Gson().fromJson(o,Income.class);
+            Expense income = new Gson().fromJson(o,Expense.class);
             Category category = Category.findById(Category.class, income.getCategoryid());
             if (category!=null) {
                 ((AutoCompleteTextView) findViewById(R.id.autocomplete_income_category)).setText(category.getName());
@@ -135,7 +132,7 @@ public class AddNewIncomeActivity extends ActionBarActivity {
     public void openChooseCategory(View view)
     {
         Intent  intent = new Intent(this,ListCategoryActivity.class);
-        Income income = new Income();
+        Expense income = new Expense();
         String amount=  ((EditText)findViewById(R.id.edittext_income_amount)).getText().toString().replace(",","");
         String date=  ((EditText)findViewById(R.id.edittext_income_date)).getText().toString();
         String desc=  ((EditText)findViewById(R.id.edittext_income_desc)).getText().toString();
@@ -155,7 +152,7 @@ public class AddNewIncomeActivity extends ActionBarActivity {
         String json = new Gson().toJson(income);
         intent.putExtra("income",json);
         intent.putExtra("type","add");
-        intent.putExtra("kind","income");
+        intent.putExtra("kind","expense");
         startActivity(intent);
         overridePendingTransition(R.transition.pull_in_right, R.transition.fade_out);
     }
@@ -173,12 +170,12 @@ public class AddNewIncomeActivity extends ActionBarActivity {
 
         if (categoryId.isEmpty()&&!name.trim().isEmpty())
         {
-            Category category = new Category(name,true,-1);
+            Category category = new Category(name,false,-1);
             category.save();
             categoryId = Category.findWithQuery(Category.class,"select ID from CATEGORY order by ID desc limit 1").get(0).getId().toString();
         }
 
-        Income income = new Income();
+        Expense income = new Expense();
         income.setAmount(Double.parseDouble(amount));
         income.setDate(ydate);
         income.setDescription(desc);
@@ -188,7 +185,7 @@ public class AddNewIncomeActivity extends ActionBarActivity {
         income.save();
         Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra("bydate",ydate);
-        intent.putExtra("display","income");
+        intent.putExtra("display","expense");
         startActivity(intent);
     }
 

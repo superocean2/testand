@@ -12,9 +12,9 @@ import com.android.nghiatrinh.thuchi.R;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class IncomeListAdapter extends ArrayAdapter<Income>
+public class ExpenseListAdapter extends ArrayAdapter<Expense>
 {
-    public IncomeListAdapter(Context context, ArrayList<Income> incomes) {
+    public ExpenseListAdapter(Context context, ArrayList<Expense> incomes) {
         super(context,0, incomes);
     }
 
@@ -29,7 +29,7 @@ public class IncomeListAdapter extends ArrayAdapter<Income>
         TextView amount = (TextView)convertView.findViewById(R.id.textview_amount);
         TextView incomeId = (TextView)convertView.findViewById(R.id.itemId);
 
-        Income income = getItem(position);
+        Expense income = getItem(position);
         stt.setText(Integer.toString(position+1) +". ");
         Category category = Category.findById( Category.class,income.getCategoryid());
         if (category!=null)

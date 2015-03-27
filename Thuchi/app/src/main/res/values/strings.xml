@@ -19,6 +19,7 @@
     <string name="save">Save</string>
     <string name="category_name">Category name</string>
     <string name="title_activity_add_new_income_category">New Income Category</string>
+    <string name="title_activity_edit_new_income_category">Edit Income Category</string>
     <string name="title_activity_add_new_income">New Income</string>
 
     <string name="amount">Amount</string>
@@ -28,4 +29,12 @@
     <string name="title_activity_list_category">Income Category</string>
 
     <string name="choose">Choose</string>
+    <string name="create">Create</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="confirm_delete">Are you sure to delete?</string>
+    <string name="exist_item_inform">Your item already exist</string>
+    <string name="required">is required</string>
+    <string name="close">Close</string>
+    <string name="cannot_delete_category">Can not delete category</string>
 </resources>

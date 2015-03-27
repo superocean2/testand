@@ -11,9 +11,9 @@ import com.android.nghiatrinh.thuchi.R;
 
 import java.util.ArrayList;
 
-public class IncomeCategoryListAdapter extends ArrayAdapter<Category>
+public class IncomeCategoryAutocompleteListAdapter extends ArrayAdapter<Category>
 {
-    public IncomeCategoryListAdapter(Context context, ArrayList<Category> incomes) {
+    public IncomeCategoryAutocompleteListAdapter(Context context, ArrayList<Category> incomes) {
         super(context,0, incomes);
     }
 
@@ -21,7 +21,7 @@ public class IncomeCategoryListAdapter extends ArrayAdapter<Category>
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView==null)
         {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_category_layout,parent,false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_category_autocomplete_layout,parent,false);
         }
         TextView name = (TextView)convertView.findViewById(R.id.textview_name);
         TextView categoryId = (TextView)convertView.findViewById(R.id.hiddenCategoryID);

@@ -2,15 +2,14 @@ package com.android.nghiatrinh.thuchi.activitys;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
@@ -28,14 +27,27 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class AddNewIncomeActivity extends ActionBarActivity {
-
+public class EditIncomeActivity extends ActionBarActivity {
+    Income editIncome=null;
+    String incomeId=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_income_expense_layout);
         Intent intent = getIntent();
         String o = intent.getStringExtra("income");
+        incomeId = intent.getStringExtra("incomeid");
+
+        if (incomeId!=null)
+        {
+            editIncome = Income.findById(Income.class,Long.parseLong(incomeId));
+        }
+        if(editIncome==null){
+            Intent editintent = new Intent(this,MainActivity.class);
+            editintent.putExtra("display","income");
+            finish();
+            startActivity(editintent);
+        }
         Calendar now = Calendar.getInstance();
         String dateNow = Helper.formatDate(now,false);
         ((EditText) findViewById(R.id.edittext_income_date)).setText(dateNow);
@@ -63,6 +75,20 @@ public class AddNewIncomeActivity extends ActionBarActivity {
 
             }
         });
+        if (editIncome!=null) {
+            Category category = Category.findById(Category.class, editIncome.getCategoryid());
+            if (category!=null) {
+                ((AutoCompleteTextView) findViewById(R.id.autocomplete_income_category)).setText(category.getName());
+                ((TextView)findViewById(R.id.hiddenCategoryID)).setText(String.valueOf(editIncome.getCategoryid()));
+            }
+            ((EditText)findViewById(R.id.edittext_income_amount)).setText(Helper.formatMoney(editIncome.getAmount()));
+            if (editIncome.getDate()!=null) {
+                ((EditText) findViewById(R.id.edittext_income_date)).setText(Helper.formatDate(editIncome.getDate()));
+            }
+            if (editIncome.getDescription()!=null) {
+                ((EditText) findViewById(R.id.edittext_income_desc)).setText(editIncome.getDescription());
+            }
+        }
         if (o!=null) {
             Income income = new Gson().fromJson(o,Income.class);
             Category category = Category.findById(Category.class, income.getCategoryid());
@@ -93,7 +119,7 @@ public class AddNewIncomeActivity extends ActionBarActivity {
                 {
                     isTextChanged=true;
                     amountText.setTextKeepState(Helper.formatMoney(Double.parseDouble(s.toString().replace(",",""))));
-                    //Selection.setSelection(amountText.getText(),amountText.getText().length());
+                    //Selection.setSelection(amountText.getText(), amountText.getText().length());
                 }
                 else
                 {
@@ -107,17 +133,7 @@ public class AddNewIncomeActivity extends ActionBarActivity {
             }
         };
         amountText.addTextChangedListener(textWatcher);
-        amountText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus)
-                {
-                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                }
-            }
-        });
     }
-
     public void openDateDialog(View view)
     {
         Calendar calendar = Calendar.getInstance();
@@ -139,6 +155,7 @@ public class AddNewIncomeActivity extends ActionBarActivity {
         String amount=  ((EditText)findViewById(R.id.edittext_income_amount)).getText().toString().replace(",","");
         String date=  ((EditText)findViewById(R.id.edittext_income_date)).getText().toString();
         String desc=  ((EditText)findViewById(R.id.edittext_income_desc)).getText().toString();
+
         if (!amount.isEmpty()) {
             income.setAmount(Double.parseDouble(amount));
         }
@@ -154,8 +171,9 @@ public class AddNewIncomeActivity extends ActionBarActivity {
         }
         String json = new Gson().toJson(income);
         intent.putExtra("income",json);
-        intent.putExtra("type","add");
+        intent.putExtra("type","edit");
         intent.putExtra("kind","income");
+        intent.putExtra("incomeid",incomeId);
         startActivity(intent);
         overridePendingTransition(R.transition.pull_in_right, R.transition.fade_out);
     }
@@ -178,17 +196,17 @@ public class AddNewIncomeActivity extends ActionBarActivity {
             categoryId = Category.findWithQuery(Category.class,"select ID from CATEGORY order by ID desc limit 1").get(0).getId().toString();
         }
 
-        Income income = new Income();
-        income.setAmount(Double.parseDouble(amount));
-        income.setDate(ydate);
-        income.setDescription(desc);
-        income.setCategoryid(Long.parseLong(categoryId));
-        income.setHour("00:00:00");
-        income.setUserid(-1);
-        income.save();
+        editIncome.setAmount(Double.parseDouble(amount));
+        editIncome.setDate(ydate);
+        editIncome.setDescription(desc);
+        editIncome.setCategoryid(Long.parseLong(categoryId));
+        editIncome.setHour("00:00:00");
+        editIncome.setUserid(-1);
+        editIncome.save();
         Intent intent = new Intent(this,MainActivity.class);
-        intent.putExtra("bydate",ydate);
         intent.putExtra("display","income");
+        intent.putExtra("bydate",ydate);
+
         startActivity(intent);
     }
 

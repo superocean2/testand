@@ -31,7 +31,7 @@
             android:value="com.android.nghiatrinh.thuchi.model" />
 
         <activity
-            android:name=".activitys.AddNewIncomeCategoryActivity"
+            android:name=".activitys.AddNewCategoryActivity"
             android:label="@string/title_activity_add_new_income_category" >
         </activity>
         <activity
@@ -39,8 +39,22 @@
             android:label="@string/title_activity_add_new_income" >
         </activity>
         <activity
+            android:name=".activitys.AddNewExpenseActivity"
+            android:label="@string/title_activity_add_new_income" >
+        </activity>
+        <activity
             android:name=".activitys.ListCategoryActivity"
             android:label="@string/title_activity_list_category" >
+        </activity>
+        <activity
+            android:name=".activitys.EditCategoryActivity"
+            android:label="@string/title_activity_edit_new_income_category" >
+        </activity>
+        <activity
+            android:name=".activitys.EditIncomeActivity" >
+        </activity>
+        <activity
+            android:name=".activitys.EditExpenseActivity" >
         </activity>
     </application>
 

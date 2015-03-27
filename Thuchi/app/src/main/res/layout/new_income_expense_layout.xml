@@ -3,22 +3,27 @@
     android:layout_height="match_parent" android:padding="10dp"
     tools:context="com.android.nghiatrinh.thuchi.activitys.AddNewIncomeActivity">
 
-    <Button
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/save"
-        android:textColor="#ffffff"
-        android:background="@drawable/btn_blue"
-        android:layout_marginBottom="20dp"
-        android:onClick="saveIncome"
         android:id="@+id/save_income"
-        android:layout_alignParentLeft="true"/>
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/ic_save"
+        android:background="@null"
+        android:onClick="saveIncome"
+        android:padding="15dp"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/edittext_income_amount"
         android:inputType="numberDecimal"
-        android:layout_below="@+id/save_income"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="45dp"
         android:hint="@string/amount"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,17 +31,25 @@
         android:orientation="horizontal"
         android:layout_below="@+id/edittext_income_amount"
         android:id="@+id/choose_category">
-        <EditText
+        <AutoCompleteTextView
             android:layout_width="0dp"
-            android:layout_weight="0.7"
+            android:layout_weight="0.8"
             android:layout_height="wrap_content"
-            android:id="@+id/edittext_income_category"
+            android:id="@+id/autocomplete_income_category"
             android:hint="@string/category"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:id="@+id/hiddenCategoryID"/>
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_arrow_right"
             android:onClick="openChooseCategory"
+            android:paddingTop="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:background="@null"/>
     </LinearLayout>
     <LinearLayout
@@ -47,14 +60,18 @@
         android:id="@+id/choose_date">
         <EditText
             android:layout_width="0dp"
-            android:layout_weight="0.7"
+            android:layout_weight="0.8"
             android:layout_height="wrap_content"
             android:id="@+id/edittext_income_date"
-            android:inputType="date"
-            android:hint="@string/date"/>
+            android:focusable="false"
+            android:hint="@string/date"
+            android:onClick="openDateDialog"/>
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:src="@drawable/ic_arrow_right"
             android:background="@null"
             android:onClick="openDateDialog"/>

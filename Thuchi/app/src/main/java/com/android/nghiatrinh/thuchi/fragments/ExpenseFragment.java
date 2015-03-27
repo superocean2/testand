@@ -13,17 +13,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.android.nghiatrinh.thuchi.R;
-import com.android.nghiatrinh.thuchi.activitys.AddNewIncomeActivity;
-import com.android.nghiatrinh.thuchi.activitys.EditIncomeActivity;
+import com.android.nghiatrinh.thuchi.activitys.AddNewExpenseActivity;
+import com.android.nghiatrinh.thuchi.activitys.EditExpenseActivity;
 import com.android.nghiatrinh.thuchi.activitys.MainActivity;
 import com.android.nghiatrinh.thuchi.helpers.Helper;
-import com.android.nghiatrinh.thuchi.model.Income;
-import com.android.nghiatrinh.thuchi.model.IncomeListAdapter;
+import com.android.nghiatrinh.thuchi.model.Expense;
+import com.android.nghiatrinh.thuchi.model.ExpenseListAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,9 +31,9 @@ import java.util.List;
 /**
  * Created by NghiaTrinh on 3/2/2015.
  */
-public class IncomeFragment extends Fragment {
+public class ExpenseFragment extends Fragment {
 
-    ArrayList<Income> incomes = new ArrayList<>();
+    ArrayList<Expense> incomes = new ArrayList<>();
     String bydate=null;
     String bymonth=null;
     String byyear=null;
@@ -43,17 +41,17 @@ public class IncomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.income_fragment_layout,container,false);
-        Helper.setActiveFragment(getActivity(),false,true,false);
+        Helper.setActiveFragment(getActivity(),false,false,true);
         ImageButton button_new = (ImageButton)view.findViewById(R.id.add_new_income);
         TextView title_list = (TextView)view.findViewById(R.id.textview_title_list);
         button_new.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AddNewIncomeActivity.class);
+                Intent intent = new Intent(getActivity(), AddNewExpenseActivity.class);
                 startActivity(intent);
             }
         });
-        List<Income> list;
+        List<Expense> list;
         ListView listView = (ListView)view.findViewById(R.id.listview_list_income);
 
         double total=0;
@@ -67,23 +65,23 @@ public class IncomeFragment extends Fragment {
         }
 
         title_list.setText(R.string.today);
-        list = Income.getByDate(Helper.formatDate(Calendar.getInstance(),true));
+        list = Expense.getByDate(Helper.formatDate(Calendar.getInstance(),true));
         if (bydate!=null)
         {
             title_list.setText(Helper.formatDate(bydate));
-            list = Income.getByDate(bydate);
+            list = Expense.getByDate(bydate);
         }
         if (bymonth!=null)
         {
             title_list.setText(bymonth);
-            list = Income.getByMonth(bymonth);
+            list = Expense.getByMonth(bymonth);
         }
         if (byyear!=null)
         {
             title_list.setText(byyear);
-            list = Income.getByYear(byyear);
+            list = Expense.getByYear(byyear);
         }
-        for (Income income:list)
+        for (Expense income:list)
         {
             total+=income.getAmount();
             incomes.add(income);
@@ -95,13 +93,13 @@ public class IncomeFragment extends Fragment {
             totalTextview.setVisibility(View.INVISIBLE);
         }
         totalTextview.setText(Helper.formatMoney(total));
-        IncomeListAdapter adapter = new IncomeListAdapter(getActivity(),incomes);
+        ExpenseListAdapter adapter = new ExpenseListAdapter(getActivity(),incomes);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView incomeId = (TextView)view.findViewById(R.id.itemId);
-                Income income = Income.findById(Income.class,Long.parseLong(incomeId.getText().toString()));
+                Expense income = Expense.findById(Expense.class,Long.parseLong(incomeId.getText().toString()));
                 if (income !=null)
                 {
                     if (!income.getDescription().isEmpty())
@@ -129,11 +127,11 @@ public class IncomeFragment extends Fragment {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-        final Income income = incomes.get(info.position);
+        final Expense income = incomes.get(info.position);
         switch (item.getOrder())
         {
             case 0:
-                Intent intent = new Intent(getActivity(),EditIncomeActivity.class);
+                Intent intent = new Intent(getActivity(),EditExpenseActivity.class);
                 intent.putExtra("incomeid", income.getId().toString());
                 startActivity(intent);
                 return true;
@@ -148,7 +146,7 @@ public class IncomeFragment extends Fragment {
                                 income.delete();
                                 dialog.dismiss();
                                 Intent intent = new Intent(getActivity(),MainActivity.class);
-                                intent.putExtra("display","income");
+                                intent.putExtra("display","expense");
                                 if (bydate!=null)
                                 {
                                     intent.putExtra("bydate",bydate);

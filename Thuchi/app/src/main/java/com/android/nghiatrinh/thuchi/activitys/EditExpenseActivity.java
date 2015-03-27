@@ -2,15 +2,11 @@ package com.android.nghiatrinh.thuchi.activitys;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
-import android.text.Selection;
 import android.text.TextWatcher;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
@@ -20,7 +16,7 @@ import android.widget.TextView;
 import com.android.nghiatrinh.thuchi.R;
 import com.android.nghiatrinh.thuchi.helpers.Helper;
 import com.android.nghiatrinh.thuchi.model.Category;
-import com.android.nghiatrinh.thuchi.model.Income;
+import com.android.nghiatrinh.thuchi.model.Expense;
 import com.android.nghiatrinh.thuchi.model.IncomeCategoryAutocompleteListAdapter;
 import com.google.gson.Gson;
 
@@ -28,14 +24,27 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class AddNewIncomeActivity extends ActionBarActivity {
-
+public class EditExpenseActivity extends ActionBarActivity {
+    Expense editExpense=null;
+    String incomeId=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_income_expense_layout);
         Intent intent = getIntent();
         String o = intent.getStringExtra("income");
+        incomeId = intent.getStringExtra("incomeid");
+
+        if (incomeId!=null)
+        {
+            editExpense = Expense.findById(Expense.class,Long.parseLong(incomeId));
+        }
+        if(editExpense==null){
+            Intent editintent = new Intent(this,MainActivity.class);
+            editintent.putExtra("display","income");
+            finish();
+            startActivity(editintent);
+        }
         Calendar now = Calendar.getInstance();
         String dateNow = Helper.formatDate(now,false);
         ((EditText) findViewById(R.id.edittext_income_date)).setText(dateNow);
@@ -63,8 +72,22 @@ public class AddNewIncomeActivity extends ActionBarActivity {
 
             }
         });
+        if (editExpense!=null) {
+            Category category = Category.findById(Category.class, editExpense.getCategoryid());
+            if (category!=null) {
+                ((AutoCompleteTextView) findViewById(R.id.autocomplete_income_category)).setText(category.getName());
+                ((TextView)findViewById(R.id.hiddenCategoryID)).setText(String.valueOf(editExpense.getCategoryid()));
+            }
+            ((EditText)findViewById(R.id.edittext_income_amount)).setText(Helper.formatMoney(editExpense.getAmount()));
+            if (editExpense.getDate()!=null) {
+                ((EditText) findViewById(R.id.edittext_income_date)).setText(Helper.formatDate(editExpense.getDate()));
+            }
+            if (editExpense.getDescription()!=null) {
+                ((EditText) findViewById(R.id.edittext_income_desc)).setText(editExpense.getDescription());
+            }
+        }
         if (o!=null) {
-            Income income = new Gson().fromJson(o,Income.class);
+            Expense income = new Gson().fromJson(o,Expense.class);
             Category category = Category.findById(Category.class, income.getCategoryid());
             if (category!=null) {
                 ((AutoCompleteTextView) findViewById(R.id.autocomplete_income_category)).setText(category.getName());
@@ -93,7 +116,7 @@ public class AddNewIncomeActivity extends ActionBarActivity {
                 {
                     isTextChanged=true;
                     amountText.setTextKeepState(Helper.formatMoney(Double.parseDouble(s.toString().replace(",",""))));
-                    //Selection.setSelection(amountText.getText(),amountText.getText().length());
+                    //Selection.setSelection(amountText.getText(), amountText.getText().length());
                 }
                 else
                 {
@@ -107,17 +130,7 @@ public class AddNewIncomeActivity extends ActionBarActivity {
             }
         };
         amountText.addTextChangedListener(textWatcher);
-        amountText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus)
-                {
-                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                }
-            }
-        });
     }
-
     public void openDateDialog(View view)
     {
         Calendar calendar = Calendar.getInstance();
@@ -135,10 +148,11 @@ public class AddNewIncomeActivity extends ActionBarActivity {
     public void openChooseCategory(View view)
     {
         Intent  intent = new Intent(this,ListCategoryActivity.class);
-        Income income = new Income();
+        Expense income = new Expense();
         String amount=  ((EditText)findViewById(R.id.edittext_income_amount)).getText().toString().replace(",","");
         String date=  ((EditText)findViewById(R.id.edittext_income_date)).getText().toString();
         String desc=  ((EditText)findViewById(R.id.edittext_income_desc)).getText().toString();
+
         if (!amount.isEmpty()) {
             income.setAmount(Double.parseDouble(amount));
         }
@@ -154,8 +168,9 @@ public class AddNewIncomeActivity extends ActionBarActivity {
         }
         String json = new Gson().toJson(income);
         intent.putExtra("income",json);
-        intent.putExtra("type","add");
-        intent.putExtra("kind","income");
+        intent.putExtra("type","edit");
+        intent.putExtra("kind","expense");
+        intent.putExtra("incomeid",incomeId);
         startActivity(intent);
         overridePendingTransition(R.transition.pull_in_right, R.transition.fade_out);
     }
@@ -178,17 +193,17 @@ public class AddNewIncomeActivity extends ActionBarActivity {
             categoryId = Category.findWithQuery(Category.class,"select ID from CATEGORY order by ID desc limit 1").get(0).getId().toString();
         }
 
-        Income income = new Income();
-        income.setAmount(Double.parseDouble(amount));
-        income.setDate(ydate);
-        income.setDescription(desc);
-        income.setCategoryid(Long.parseLong(categoryId));
-        income.setHour("00:00:00");
-        income.setUserid(-1);
-        income.save();
+        editExpense.setAmount(Double.parseDouble(amount));
+        editExpense.setDate(ydate);
+        editExpense.setDescription(desc);
+        editExpense.setCategoryid(Long.parseLong(categoryId));
+        editExpense.setHour("00:00:00");
+        editExpense.setUserid(-1);
+        editExpense.save();
         Intent intent = new Intent(this,MainActivity.class);
+        intent.putExtra("display","expense");
         intent.putExtra("bydate",ydate);
-        intent.putExtra("display","income");
+
         startActivity(intent);
     }
 
