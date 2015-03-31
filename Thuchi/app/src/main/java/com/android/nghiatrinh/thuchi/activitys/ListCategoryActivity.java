@@ -166,7 +166,7 @@ public class ListCategoryActivity extends ActionBarActivity {
                 intent.putExtra("income", json);
                 intent.putExtra("type",type);
                 intent.putExtra("kind",kind);
-                intent.putExtra("categoryid",category.getId());
+                intent.putExtra("categoryid",category.getId().toString());
                 if(incomeId!=null)
                 {
                     intent.putExtra("incomeid",incomeId);

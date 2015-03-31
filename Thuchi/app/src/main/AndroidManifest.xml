@@ -9,7 +9,8 @@
         android:theme="@style/AppTheme" android:name="com.orm.SugarApp">
         <activity
             android:name=".activitys.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,29 +33,36 @@
 
         <activity
             android:name=".activitys.AddNewCategoryActivity"
-            android:label="@string/title_activity_add_new_income_category" >
+            android:label="@string/title_activity_add_new_income_category" android:configChanges="orientation"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".activitys.AddNewIncomeActivity"
-            android:label="@string/title_activity_add_new_income" >
+            android:label="@string/title_activity_add_new_income" android:configChanges="orientation"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".activitys.AddNewExpenseActivity"
-            android:label="@string/title_activity_add_new_income" >
+            android:label="@string/title_activity_add_new_income" android:configChanges="orientation"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".activitys.ListCategoryActivity"
-            android:label="@string/title_activity_list_category" >
+            android:label="@string/title_activity_list_category" android:configChanges="orientation"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".activitys.EditCategoryActivity"
-            android:label="@string/title_activity_edit_new_income_category" >
+            android:label="@string/title_activity_edit_new_income_category" android:configChanges="orientation"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activitys.EditIncomeActivity" >
+            android:name=".activitys.EditIncomeActivity" android:configChanges="orientation"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activitys.EditExpenseActivity" >
+            android:name=".activitys.EditExpenseActivity" android:configChanges="orientation"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

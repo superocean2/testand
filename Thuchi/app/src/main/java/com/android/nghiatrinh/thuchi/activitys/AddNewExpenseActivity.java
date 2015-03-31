@@ -115,6 +115,10 @@ public class AddNewExpenseActivity extends ActionBarActivity {
         });
     }
 
+    public void backButton(View view)
+    {
+        finish();
+    }
     public void openDateDialog(View view)
     {
         Calendar calendar = Calendar.getInstance();

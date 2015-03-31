@@ -12,6 +12,7 @@ import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.android.nghiatrinh.thuchi.R;
+import com.android.nghiatrinh.thuchi.fragments.DetailOverviewFragment;
 import com.android.nghiatrinh.thuchi.fragments.ExpenseFragment;
 import com.android.nghiatrinh.thuchi.fragments.IncomeFragment;
 import com.android.nghiatrinh.thuchi.fragments.OverviewFragment;
@@ -57,9 +58,9 @@ public class MonthPickerDialog extends DialogFragment {
                     //getFragmentManager().popBackStack();
                     getActivity().getFragmentManager().beginTransaction().replace(R.id.contents, incomeFragment).commit();
                 }
-                if (fragment instanceof  OverviewFragment)
+                if (fragment instanceof  OverviewFragment|| fragment instanceof DetailOverviewFragment)
                 {
-                    OverviewFragment overviewFragment = new OverviewFragment();
+                    DetailOverviewFragment overviewFragment = new DetailOverviewFragment();
                     overviewFragment.setArguments(bundle);
                     //getFragmentManager().popBackStack();
                     getActivity().getFragmentManager().beginTransaction().replace(R.id.contents, overviewFragment).commit();

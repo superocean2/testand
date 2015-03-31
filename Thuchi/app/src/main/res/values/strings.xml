@@ -37,4 +37,5 @@
     <string name="required">is required</string>
     <string name="close">Close</string>
     <string name="cannot_delete_category">Can not delete category</string>
+    <string name="remaining">Remaining</string>
 </resources>

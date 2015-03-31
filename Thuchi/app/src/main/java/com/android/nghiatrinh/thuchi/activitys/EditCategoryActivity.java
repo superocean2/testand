@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -29,13 +30,26 @@ public class EditCategoryActivity extends ActionBarActivity {
         kind = intent.getStringExtra("kind");
         incomeId = intent.getStringExtra("incomeid");
 
-        long id =Long.parseLong(getIntent().getStringExtra("categoryid"));
+        long id =Long.parseLong(intent.getStringExtra("categoryid"));
         incomeCategory = Category.findById(Category.class, id);
         if (incomeCategory!=null) {
             EditText name = (EditText) findViewById(R.id.edittext_income_category_name);
             name.setText(incomeCategory.getName());
+            name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (hasFocus)
+                    {
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                    }
+                }
+            });
         }
 
+    }
+    public void backButton(View view)
+    {
+        finish();
     }
     public void saveIncomeCategory(View view)
     {

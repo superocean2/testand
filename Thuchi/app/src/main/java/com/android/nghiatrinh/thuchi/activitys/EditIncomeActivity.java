@@ -134,6 +134,10 @@ public class EditIncomeActivity extends ActionBarActivity {
         };
         amountText.addTextChangedListener(textWatcher);
     }
+    public void backButton(View view)
+    {
+        finish();
+    }
     public void openDateDialog(View view)
     {
         Calendar calendar = Calendar.getInstance();
@@ -186,10 +190,10 @@ public class EditIncomeActivity extends ActionBarActivity {
         String desc=  ((EditText)findViewById(R.id.edittext_income_desc)).getText().toString();
         String name = ((EditText)findViewById(R.id.autocomplete_income_category)).getText().toString();
         String categoryId = ((TextView)findViewById(R.id.hiddenCategoryID)).getText().toString();
-
+        Category c = Category.findById(Category.class,Long.parseLong(categoryId));
         if (!validateInput(amount,name))return;
 
-        if (categoryId.isEmpty()&&!name.trim().isEmpty())
+        if (!name.trim().isEmpty()&&!c.getName().equals(name.trim()))
         {
             Category category = new Category(name,true,-1);
             category.save();

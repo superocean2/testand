@@ -132,6 +132,10 @@ public class AddNewIncomeActivity extends ActionBarActivity {
             ((EditText)findViewById(R.id.edittext_income_date)).setText(Helper.formatDate(year,monthOfYear,dayOfMonth,false));
         }
     }
+    public void backButton(View view)
+    {
+        finish();
+    }
     public void openChooseCategory(View view)
     {
         Intent  intent = new Intent(this,ListCategoryActivity.class);

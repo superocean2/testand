@@ -41,7 +41,7 @@ public class EditExpenseActivity extends ActionBarActivity {
         }
         if(editExpense==null){
             Intent editintent = new Intent(this,MainActivity.class);
-            editintent.putExtra("display","income");
+            editintent.putExtra("display","expense");
             finish();
             startActivity(editintent);
         }
@@ -50,7 +50,7 @@ public class EditExpenseActivity extends ActionBarActivity {
         ((EditText) findViewById(R.id.edittext_income_date)).setText(dateNow);
 
         //autocomplete
-        List<Category> list = Category.find(Category.class,"isincome=?","1");
+        List<Category> list = Category.find(Category.class,"isincome=?","0");
         ArrayList<Category> listCategory = new ArrayList<>();
         for(Category item:list)
         {
@@ -131,6 +131,10 @@ public class EditExpenseActivity extends ActionBarActivity {
         };
         amountText.addTextChangedListener(textWatcher);
     }
+    public void backButton(View view)
+    {
+        finish();
+    }
     public void openDateDialog(View view)
     {
         Calendar calendar = Calendar.getInstance();
@@ -183,12 +187,12 @@ public class EditExpenseActivity extends ActionBarActivity {
         String desc=  ((EditText)findViewById(R.id.edittext_income_desc)).getText().toString();
         String name = ((EditText)findViewById(R.id.autocomplete_income_category)).getText().toString();
         String categoryId = ((TextView)findViewById(R.id.hiddenCategoryID)).getText().toString();
-
+        Category c = Category.findById(Category.class,Long.parseLong(categoryId));
         if (!validateInput(amount,name))return;
 
-        if (categoryId.isEmpty()&&!name.trim().isEmpty())
+        if (!name.trim().isEmpty()&&!c.getName().equals(name.trim()))
         {
-            Category category = new Category(name,true,-1);
+            Category category = new Category(name,false,-1);
             category.save();
             categoryId = Category.findWithQuery(Category.class,"select ID from CATEGORY order by ID desc limit 1").get(0).getId().toString();
         }

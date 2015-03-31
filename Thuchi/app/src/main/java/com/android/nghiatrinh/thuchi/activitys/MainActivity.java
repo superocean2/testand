@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.android.nghiatrinh.thuchi.R;
 import com.android.nghiatrinh.thuchi.dialogs.MonthPickerDialog;
 import com.android.nghiatrinh.thuchi.dialogs.YearPickerDialog;
+import com.android.nghiatrinh.thuchi.fragments.DetailOverviewFragment;
 import com.android.nghiatrinh.thuchi.fragments.IncomeFragment;
 import com.android.nghiatrinh.thuchi.fragments.OverviewFragment;
 import com.android.nghiatrinh.thuchi.fragments.ExpenseFragment;
@@ -157,9 +158,9 @@ public class MainActivity extends ActionBarActivity{
                 //getFragmentManager().popBackStack();
                 getFragmentManager().beginTransaction().replace(R.id.contents, incomeFragment).commit();
             }
-            if (fragment instanceof  OverviewFragment)
+            if (fragment instanceof  OverviewFragment|| fragment instanceof DetailOverviewFragment)
             {
-                OverviewFragment overviewFragment = new OverviewFragment();
+                DetailOverviewFragment overviewFragment = new DetailOverviewFragment();
                 overviewFragment.setArguments(bundle);
                 //getFragmentManager().popBackStack();
                 getFragmentManager().beginTransaction().replace(R.id.contents, overviewFragment).commit();
