@@ -38,4 +38,7 @@
     <string name="close">Close</string>
     <string name="cannot_delete_category">Can not delete category</string>
     <string name="remaining">Remaining</string>
+
+    <string name="detail">Detail</string>
+    <string name="back">Back</string>
 </resources>

@@ -1,13 +1,16 @@
 package com.android.nghiatrinh.thuchi.fragments;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.nghiatrinh.thuchi.R;
+import com.android.nghiatrinh.thuchi.activitys.DetailIncomeExpenseActivity;
 import com.android.nghiatrinh.thuchi.helpers.Helper;
 import com.android.nghiatrinh.thuchi.model.Expense;
 import com.android.nghiatrinh.thuchi.model.Income;
@@ -34,6 +37,7 @@ public class DetailOverviewFragment extends Fragment {
         TextView textviewExpense = (TextView)view.findViewById(R.id.today_expense);
         TextView textviewRemaining = (TextView)view.findViewById(R.id.today_remaining);
         TextView title = (TextView)view.findViewById(R.id.today_title);
+        Button buttonViewDetail=(Button)view.findViewById(R.id.btn_view_detail);
         Double totalIncomes = 0.0;
         Double totalExpense = 0.0;
 
@@ -102,6 +106,26 @@ public class DetailOverviewFragment extends Fragment {
             textviewRemaining.setText(Helper.formatMoney(totalIncomes-totalExpense));
             title.setText(byyear);
         }
+        buttonViewDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), DetailIncomeExpenseActivity.class);
+                if (bydate!=null)
+                {
+                    intent.putExtra("bydate", bydate);
+                }
+                if (bymonth!=null)
+                {
+                    intent.putExtra("bymonth", bymonth);
+                }
+                if (byyear!=null)
+                {
+                    intent.putExtra("byyear", byyear);
+                }
+                startActivity(intent);
+            }
+        });
+
         return view;
     }
 }

@@ -115,4 +115,17 @@ public final class Helper {
         }
     }
 
+    public  static Calendar getNewCalendar(String date)
+    {
+        Calendar calendar = Calendar.getInstance();
+        String[] arr = date.split("-");
+        String year=arr[0];
+        String month=arr[1];
+        String day = arr[2];
+        calendar.set(Calendar.YEAR,Integer.parseInt(year));
+        calendar.set(Calendar.MONTH,Integer.parseInt(month)-1);
+        calendar.set(Calendar.DAY_OF_MONTH,Integer.parseInt(day));
+        return  calendar;
+    }
+
 }

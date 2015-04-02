@@ -21,10 +21,13 @@ import com.android.nghiatrinh.thuchi.activitys.EditExpenseActivity;
 import com.android.nghiatrinh.thuchi.activitys.MainActivity;
 import com.android.nghiatrinh.thuchi.helpers.Helper;
 import com.android.nghiatrinh.thuchi.model.Expense;
+import com.android.nghiatrinh.thuchi.model.ExpenseComparatorByDate;
+import com.android.nghiatrinh.thuchi.model.ExpenseComparatorByID;
 import com.android.nghiatrinh.thuchi.model.ExpenseListAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -66,20 +69,24 @@ public class ExpenseFragment extends Fragment {
 
         title_list.setText(R.string.today);
         list = Expense.getByDate(Helper.formatDate(Calendar.getInstance(),true));
+        Collections.sort(list,new ExpenseComparatorByID());
         if (bydate!=null)
         {
             title_list.setText(Helper.formatDate(bydate));
             list = Expense.getByDate(bydate);
+            Collections.sort(list,new ExpenseComparatorByID());
         }
         if (bymonth!=null)
         {
             title_list.setText(bymonth);
             list = Expense.getByMonth(bymonth);
+            Collections.sort(list,new ExpenseComparatorByDate());
         }
         if (byyear!=null)
         {
             title_list.setText(byyear);
             list = Expense.getByYear(byyear);
+            Collections.sort(list,new ExpenseComparatorByDate());
         }
         for (Expense income:list)
         {

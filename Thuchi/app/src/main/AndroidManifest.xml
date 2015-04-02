@@ -3,14 +3,16 @@
     package="com.android.nghiatrinh.thuchi" >
 
     <application
+        android:name="com.orm.SugarApp"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" android:name="com.orm.SugarApp">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".activitys.MainActivity"
-            android:label="@string/app_name" android:configChanges="orientation"
-            android:screenOrientation="portrait">
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,36 +35,46 @@
 
         <activity
             android:name=".activitys.AddNewCategoryActivity"
-            android:label="@string/title_activity_add_new_income_category" android:configChanges="orientation"
-            android:screenOrientation="portrait">
+            android:configChanges="orientation"
+            android:label="@string/title_activity_add_new_income_category"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".activitys.AddNewIncomeActivity"
-            android:label="@string/title_activity_add_new_income" android:configChanges="orientation"
-            android:screenOrientation="portrait">
+            android:configChanges="orientation"
+            android:label="@string/title_activity_add_new_income"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".activitys.AddNewExpenseActivity"
-            android:label="@string/title_activity_add_new_income" android:configChanges="orientation"
-            android:screenOrientation="portrait">
+            android:configChanges="orientation"
+            android:label="@string/title_activity_add_new_income"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".activitys.ListCategoryActivity"
-            android:label="@string/title_activity_list_category" android:configChanges="orientation"
-            android:screenOrientation="portrait">
+            android:configChanges="orientation"
+            android:label="@string/title_activity_list_category"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".activitys.EditCategoryActivity"
-            android:label="@string/title_activity_edit_new_income_category" android:configChanges="orientation"
-            android:screenOrientation="portrait">
+            android:configChanges="orientation"
+            android:label="@string/title_activity_edit_new_income_category"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activitys.EditIncomeActivity" android:configChanges="orientation"
-            android:screenOrientation="portrait">
+            android:name=".activitys.EditIncomeActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activitys.EditExpenseActivity" android:configChanges="orientation"
-            android:screenOrientation="portrait">
+            android:name=".activitys.EditExpenseActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activitys.DetailIncomeExpenseActivity">
         </activity>
     </application>
 

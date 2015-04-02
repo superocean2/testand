@@ -2,10 +2,11 @@ package com.android.nghiatrinh.thuchi.model;
 
 import com.orm.SugarRecord;
 
+
 /**
  * Created by NghiaTrinh on 3/11/2015.
  */
-public class Category extends SugarRecord<Category> {
+public class Category extends SugarRecord<Category> implements Comparable {
     String name;
     boolean isincome;
     long userid;
@@ -17,6 +18,22 @@ public class Category extends SugarRecord<Category> {
         this.name = name;
         this.isincome = isincome;
         this.userid = userid;
+    }
+
+    @Override
+    public int compareTo(Object category) {
+
+        String[] arrThisName = this.name.trim().split(" ");
+        String[] arrOtherName = ((Category)category).getName().trim().split(" ");
+
+        try{
+            return arrThisName[0].compareToIgnoreCase(arrOtherName[0]);
+        }
+        catch (Exception ex)
+        {
+            return 0;
+        }
+
     }
 
     @Override

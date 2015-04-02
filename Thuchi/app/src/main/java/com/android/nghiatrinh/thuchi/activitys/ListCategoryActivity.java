@@ -23,6 +23,7 @@ import com.android.nghiatrinh.thuchi.model.IncomeCategoryListAdapter;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ListCategoryActivity extends ActionBarActivity {
@@ -65,6 +66,7 @@ public class ListCategoryActivity extends ActionBarActivity {
         {
             arrayList.add(incomeCategory);
         }
+        Collections.sort(arrayList);
         IncomeCategoryListAdapter adapter = new IncomeCategoryListAdapter(this,arrayList);
         listView.setAdapter(adapter);
         registerForContextMenu(listView);

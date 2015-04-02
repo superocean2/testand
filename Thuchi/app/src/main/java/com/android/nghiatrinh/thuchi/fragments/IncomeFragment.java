@@ -23,10 +23,13 @@ import com.android.nghiatrinh.thuchi.activitys.EditIncomeActivity;
 import com.android.nghiatrinh.thuchi.activitys.MainActivity;
 import com.android.nghiatrinh.thuchi.helpers.Helper;
 import com.android.nghiatrinh.thuchi.model.Income;
+import com.android.nghiatrinh.thuchi.model.IncomeComparatorByDate;
+import com.android.nghiatrinh.thuchi.model.IncomeComparatorByID;
 import com.android.nghiatrinh.thuchi.model.IncomeListAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -68,20 +71,24 @@ public class IncomeFragment extends Fragment {
 
         title_list.setText(R.string.today);
         list = Income.getByDate(Helper.formatDate(Calendar.getInstance(),true));
+        Collections.sort(list, new IncomeComparatorByID());
         if (bydate!=null)
         {
             title_list.setText(Helper.formatDate(bydate));
             list = Income.getByDate(bydate);
+            Collections.sort(list, new IncomeComparatorByID());
         }
         if (bymonth!=null)
         {
             title_list.setText(bymonth);
             list = Income.getByMonth(bymonth);
+            Collections.sort(list, new IncomeComparatorByDate());
         }
         if (byyear!=null)
         {
             title_list.setText(byyear);
             list = Income.getByYear(byyear);
+            Collections.sort(list, new IncomeComparatorByDate());
         }
         for (Income income:list)
         {
