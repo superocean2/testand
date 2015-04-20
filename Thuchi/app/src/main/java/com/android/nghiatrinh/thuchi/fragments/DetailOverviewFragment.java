@@ -48,13 +48,13 @@ public class DetailOverviewFragment extends Fragment {
         }
         if (bydate!=null)
         {
-           List<Income> listincomes = Income.getByDate(bydate);
+           List<Income> listincomes = Income.getByDate(bydate,getActivity());
            for(Income income:listincomes)
            {
                incomes.add(income);
                totalIncomes+=income.getAmount();
            }
-            List<Expense> listexpense= Expense.getByDate(Helper.formatDate(bydate));
+            List<Expense> listexpense= Expense.getByDate(Helper.formatDate(bydate,getActivity()),getActivity());
             for(Expense expense:listexpense)
             {
                 expenses.add(expense);
@@ -63,19 +63,19 @@ public class DetailOverviewFragment extends Fragment {
            textviewIncome.setText(Helper.formatMoney(totalIncomes));
            textviewExpense.setText(Helper.formatMoney(totalExpense));
            textviewRemaining.setText(Helper.formatMoney(totalIncomes-totalExpense));
-           title.setText(Helper.formatDate(bydate));
+           title.setText(Helper.formatDate(bydate,getActivity()));
         }
 
         //month
         if (bymonth!=null)
         {
-            List<Income> listincomes = Income.getByMonth(bymonth);
+            List<Income> listincomes = Income.getByMonth(bymonth,getActivity());
             for(Income income:listincomes)
             {
                 incomes.add(income);
                 totalIncomes+=income.getAmount();
             }
-            List<Expense> listexpense= Expense.getByMonth(bymonth);
+            List<Expense> listexpense= Expense.getByMonth(bymonth,getActivity());
             for(Expense expense:listexpense)
             {
                 expenses.add(expense);
@@ -89,13 +89,13 @@ public class DetailOverviewFragment extends Fragment {
         //year
         if (byyear!=null)
         {
-            List<Income> listincomes = Income.getByYear(byyear);
+            List<Income> listincomes = Income.getByYear(byyear,getActivity());
             for(Income income:listincomes)
             {
                 incomes.add(income);
                 totalIncomes+=income.getAmount();
             }
-            List<Expense> listexpense= Expense.getByYear(byyear);
+            List<Expense> listexpense= Expense.getByYear(byyear,getActivity());
             for(Expense expense:listexpense)
             {
                 expenses.add(expense);

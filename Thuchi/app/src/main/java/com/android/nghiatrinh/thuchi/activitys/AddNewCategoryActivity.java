@@ -61,7 +61,7 @@ public class AddNewCategoryActivity extends ActionBarActivity {
         else
         {
             boolean isIncome = kind.equals("income");
-            Category incomeCategory =new Category(name,isIncome,-1);
+            Category incomeCategory =new Category(name,isIncome,Helper.getUsername(getBaseContext()));
             incomeCategory.save();
             Intent intent=new Intent(this,ListCategoryActivity.class);
             intent.putExtra("income",income);

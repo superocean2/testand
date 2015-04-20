@@ -70,24 +70,24 @@ public class IncomeFragment extends Fragment {
         }
 
         title_list.setText(R.string.today);
-        list = Income.getByDate(Helper.formatDate(Calendar.getInstance(),true));
+        list = Income.getByDate(Helper.formatDate(Calendar.getInstance(),true,getActivity()),getActivity());
         Collections.sort(list, new IncomeComparatorByID());
         if (bydate!=null)
         {
-            title_list.setText(Helper.formatDate(bydate));
-            list = Income.getByDate(bydate);
+            title_list.setText(Helper.formatDate(bydate,getActivity()));
+            list = Income.getByDate(bydate,getActivity());
             Collections.sort(list, new IncomeComparatorByID());
         }
         if (bymonth!=null)
         {
             title_list.setText(bymonth);
-            list = Income.getByMonth(bymonth);
+            list = Income.getByMonth(bymonth,getActivity());
             Collections.sort(list, new IncomeComparatorByDate());
         }
         if (byyear!=null)
         {
             title_list.setText(byyear);
-            list = Income.getByYear(byyear);
+            list = Income.getByYear(byyear,getActivity());
             Collections.sort(list, new IncomeComparatorByDate());
         }
         for (Income income:list)
@@ -115,7 +115,7 @@ public class IncomeFragment extends Fragment {
                     {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setMessage(income.getDescription())
-                                .setTitle(Helper.formatDate(income.getDate()))
+                                .setTitle(Helper.formatDate(income.getDate(),getActivity()))
                                 .setNegativeButton(R.string.close,null)
                                 .show();
                     }

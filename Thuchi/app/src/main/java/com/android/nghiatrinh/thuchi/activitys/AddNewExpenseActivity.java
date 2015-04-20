@@ -34,11 +34,11 @@ public class AddNewExpenseActivity extends ActionBarActivity {
         Intent intent = getIntent();
         String o = intent.getStringExtra("income");
         Calendar now = Calendar.getInstance();
-        String dateNow = Helper.formatDate(now,false);
+        String dateNow = Helper.formatDate(now,false,getBaseContext());
         ((EditText) findViewById(R.id.edittext_income_date)).setText(dateNow);
 
         //autocomplete
-        List<Category> list = Category.find(Category.class,"isincome=?","0");
+        List<Category> list = Category.find(Category.class,"isincome=? and username=?","0",String.valueOf(Helper.getUsername(getBaseContext())));
         ArrayList<Category> listCategory = new ArrayList<>();
         for(Category item:list)
         {
@@ -69,7 +69,7 @@ public class AddNewExpenseActivity extends ActionBarActivity {
             }
             ((EditText)findViewById(R.id.edittext_income_amount)).setText(Helper.formatMoney(income.getAmount()));
             if (income.getDate()!=null) {
-                ((EditText) findViewById(R.id.edittext_income_date)).setText(Helper.formatDate(income.getDate()));
+                ((EditText) findViewById(R.id.edittext_income_date)).setText(Helper.formatDate(income.getDate(),getBaseContext()));
             }
             if (income.getDescription()!=null) {
                 ((EditText) findViewById(R.id.edittext_income_desc)).setText(income.getDescription());
@@ -130,7 +130,7 @@ public class AddNewExpenseActivity extends ActionBarActivity {
     {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            ((EditText)findViewById(R.id.edittext_income_date)).setText(Helper.formatDate(year,monthOfYear,dayOfMonth,false));
+            ((EditText)findViewById(R.id.edittext_income_date)).setText(Helper.formatDate(year,monthOfYear,dayOfMonth,false,getBaseContext()));
         }
     }
     public void openChooseCategory(View view)
@@ -146,7 +146,15 @@ public class AddNewExpenseActivity extends ActionBarActivity {
         if (!date.isEmpty())
         {
             String[] arrDate = date.split("-");
-            String ydate = arrDate[2]+"-"+arrDate[0]+"-"+arrDate[1];
+            String ydate;
+            if (Helper.getlanguageCode(this).equals("vi"))
+            {
+                ydate=arrDate[2]+"-"+arrDate[1]+"-"+arrDate[0];
+            }
+            else
+            {
+                ydate=arrDate[2]+"-"+arrDate[0]+"-"+arrDate[1];
+            }
             income.setDate(ydate);
         }
         if (!desc.isEmpty())
@@ -166,6 +174,10 @@ public class AddNewExpenseActivity extends ActionBarActivity {
         String date=  ((EditText)findViewById(R.id.edittext_income_date)).getText().toString();
         String[] arrDate = date.split("-");
         String ydate = arrDate[2]+"-"+arrDate[0]+"-"+arrDate[1];
+        if (Helper.getlanguageCode(getBaseContext()).equals("vi"))
+        {
+            ydate=arrDate[2]+"-"+arrDate[1]+"-"+arrDate[0];
+        }
         String desc=  ((EditText)findViewById(R.id.edittext_income_desc)).getText().toString();
         String name = ((EditText)findViewById(R.id.autocomplete_income_category)).getText().toString();
         String categoryId = ((TextView)findViewById(R.id.hiddenCategoryID)).getText().toString();
@@ -174,7 +186,7 @@ public class AddNewExpenseActivity extends ActionBarActivity {
 
         if (categoryId.isEmpty()&&!name.trim().isEmpty())
         {
-            Category category = new Category(name,false,-1);
+            Category category = new Category(name,false,Helper.getUsername(getBaseContext()));
             category.save();
             categoryId = Category.findWithQuery(Category.class,"select ID from CATEGORY order by ID desc limit 1").get(0).getId().toString();
         }
@@ -185,7 +197,7 @@ public class AddNewExpenseActivity extends ActionBarActivity {
         income.setDescription(desc);
         income.setCategoryid(Long.parseLong(categoryId));
         income.setHour("00:00:00");
-        income.setUserid(-1);
+        income.setUsername(Helper.getUsername(getBaseContext()));
         income.save();
         Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra("bydate",ydate);

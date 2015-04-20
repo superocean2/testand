@@ -37,7 +37,7 @@ public class IncomeFragmentDetail extends Fragment{
         TextView totalTextview = (TextView)view.findViewById(R.id.textview_total);
         View line_break = view.findViewById(R.id.line_space_break);
         ArrayList<Income> incomes = new ArrayList<>();
-
+        Helper.setActiveFragment(getActivity(),false,true,false);
         Double total =0.0;
         List<Income> list=new ArrayList<>();
         List<Income> listTemp = new ArrayList<>();
@@ -48,15 +48,15 @@ public class IncomeFragmentDetail extends Fragment{
         }
         if (bydate!=null)
         {
-            list = Income.getByDate(bydate);
+            list = Income.getByDate(bydate,getActivity());
         }
         if (bymonth!=null)
         {
-            list = Income.getByMonth(bymonth);
+            list = Income.getByMonth(bymonth,getActivity());
         }
         if (byyear!=null)
         {
-            list = Income.getByYear(byyear);
+            list = Income.getByYear(byyear,getActivity());
         }
 
         for(Income income:list)

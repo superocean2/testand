@@ -1,0 +1,80 @@
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.android.nghiatrinh.thuchi.activitys.SettingsActivity">
+        <TextView android:text="@string/action_settings" android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_centerVertical="true"
+            android:drawableLeft="@drawable/ic_settings"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/settings_image"
+            android:gravity="center_vertical"
+            android:textColor="#ffffff"
+            android:background="@drawable/tab_btn_blue"/>
+        <ScrollView
+            android:layout_width="match_parent" android:layout_height="match_parent"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_below="@+id/settings_image">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:padding="10dp">
+
+                <TextView android:text="@string/language" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:id="@+id/languageTitle"
+                    android:textSize="18sp"/>
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/languageTitle"
+                    android:id="@+id/groupradio_language">
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="English"
+                        android:onClick="onSettingsLanguageChecked"
+                        android:layout_marginLeft="20dp"
+                        android:id="@+id/englishCheckbox"/>
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tiếng Việt"
+                        android:onClick="onSettingsLanguageChecked"
+                        android:layout_marginLeft="20dp"
+                        android:layout_below="@+id/englishCheckbox"
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/vietnameseCheckbox"/>
+                </RadioGroup>
+            </RelativeLayout>
+        </ScrollView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/save_settings"
+                android:background="@drawable/active_tab"
+                android:text="@string/save"
+                android:layout_marginTop="10dp"
+                android:onClick="saveSettings"/>
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/back_settings"
+                android:background="@drawable/active_tab"
+                android:text="@string/cancel"
+                android:layout_marginTop="10dp"
+                android:onClick="cancelSettings"/>
+        </LinearLayout>
+    </RelativeLayout>

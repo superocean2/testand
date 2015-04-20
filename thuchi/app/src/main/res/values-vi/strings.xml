@@ -1,10 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Thuchi</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">Sổ Thu Chi</string>
+    <string name="action_settings">Cài đặt</string>
     <string name="overview">Thống kê</string>
     <string name="income">Thu</string>
     <string name="expense">Chi</string>
+    <string name="by_date">Ngày</string>
+    <string name="by_month">Tháng</string>
+    <string name="by_year">Năm</string>
+    <string name="select_date">Chọn ngày</string>
+    <string name="select_month">chọn tháng</string>
+    <string name="select_year">Chọn năm</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="today">Hôm nay</string>
+    <string name="add_new">Thêm mới</string>
+    <string name="save">Save</string>
+    <string name="category_name">Tên danh mục</string>
+    <string name="title_activity_add_new_income_category">New Income Category</string>
+    <string name="title_activity_edit_new_income_category">Edit Income Category</string>
+    <string name="title_activity_add_new_income">New Income</string>
+
+    <string name="amount">Số tiền</string>
+    <string name="category">Danh mục</string>
+    <string name="date">Ngày</string>
+    <string name="description">Mô tả</string>
+    <string name="title_activity_list_category">Income Category</string>
+
+    <string name="choose">Lựa chọn</string>
+    <string name="create">Tạo mới</string>
+    <string name="edit">Chỉnh Sửa</string>
+    <string name="delete">Xóa</string>
+    <string name="confirm_delete">Bạn có chắc là sẽ xóa?</string>
+    <string name="exist_item_inform">Mục thêm mới đã tồn tại</string>
+    <string name="required">không được để trống</string>
+    <string name="close">Đóng</string>
+    <string name="cannot_delete_category">Không thể xóa danh mục này</string>
+    <string name="remaining">Còn lại</string>
+
+    <string name="detail">Chi tiết</string>
+    <string name="back">Trở về</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="language">Ngôn ngữ</string>
+    <string name="sync">Đồng bộ</string>
+    <string name="complete_sync">Đồng bộ hoàn thành</string>
+    <string name="dont_have_permission">Không có quyền truy cập thiết bị</string>
 </resources>

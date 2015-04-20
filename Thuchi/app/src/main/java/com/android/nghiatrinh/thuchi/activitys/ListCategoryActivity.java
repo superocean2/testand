@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.nghiatrinh.thuchi.R;
+import com.android.nghiatrinh.thuchi.helpers.Helper;
 import com.android.nghiatrinh.thuchi.model.Expense;
 import com.android.nghiatrinh.thuchi.model.Income;
 import com.android.nghiatrinh.thuchi.model.Category;
@@ -55,12 +56,12 @@ public class ListCategoryActivity extends ActionBarActivity {
         ListView listView = (ListView)findViewById(R.id.listview_list_income_category);
         List<Category> list;
         if (kind.equals("income")) {
-            list = Category.find(Category.class,"isincome=?","1");
+            list = Category.find(Category.class,"isincome=? and username=?","1",String.valueOf(Helper.getUsername(getBaseContext())));
         }
         else
         {
             //expense
-            list = Category.find(Category.class,"isincome=?","0");
+            list = Category.find(Category.class,"isincome=? and username=?","0",String.valueOf(Helper.getUsername(getBaseContext())));
         }
         for (Category incomeCategory:list)
         {

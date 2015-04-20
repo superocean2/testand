@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.android.nghiatrinh.thuchi" >
 
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name="com.orm.SugarApp"
         android:allowBackup="true"
@@ -11,13 +16,7 @@
         <activity
             android:name=".activitys.MainActivity"
             android:configChanges="orientation"
-            android:label="@string/app_name"
             android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <meta-data
@@ -25,7 +24,7 @@
             android:value="income_expense.db" />
         <meta-data
             android:name="VERSION"
-            android:value="1" />
+            android:value="2" />
         <meta-data
             android:name="QUERY_LOG"
             android:value="true" />
@@ -73,8 +72,27 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait" >
         </activity>
+        <activity android:name=".activitys.DetailIncomeExpenseActivity" >
+        </activity>
+        <activity android:name=".activitys.SettingsActivity" >
+        </activity>
         <activity
-            android:name=".activitys.DetailIncomeExpenseActivity">
+            android:name=".activitys.Sync"
+            android:label="@string/title_activity_sync" >
+        </activity>
+        <activity android:name=".activitys.DeviceListActivity" >
+        </activity>
+        <activity
+            android:name=".activitys.Login"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activitys.WebSyncActivity">
         </activity>
     </application>
 

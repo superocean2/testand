@@ -18,16 +18,7 @@
             android:textColor="#ffffff"
             android:onClick="goToDetailIncome"
             android:background="@drawable/tab_btn_blue"
-            android:id="@+id/btn_income_detail"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="0.7"
-            android:layout_height="wrap_content"
-            android:text="@string/back"
-            android:textColor="#ffffff"
-            android:onClick="goToBack"
-            android:background="@drawable/tab_btn_blue"
-            android:id="@+id/btn_back_detail"/>
+            android:id="@+id/btn_income"/>
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -36,7 +27,7 @@
             android:textColor="#ffffff"
             android:onClick="goToDetailExpense"
             android:background="@drawable/tab_btn_blue"
-            android:id="@+id/btn_expense_detail"/>
+            android:id="@+id/btn_expense"/>
     </LinearLayout>
     <TextView
         android:layout_width="match_parent"
@@ -53,4 +44,14 @@
         android:layout_below="@+id/title_detail"
         android:layout_margin="10dp">
     </FrameLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/back"
+        android:textColor="#ffffff"
+        android:onClick="goToBack"
+        android:background="@drawable/tab_btn_blue"
+        android:id="@+id/btn_overview"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="40dp"/>
 </RelativeLayout>

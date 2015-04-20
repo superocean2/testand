@@ -46,11 +46,11 @@ public class EditExpenseActivity extends ActionBarActivity {
             startActivity(editintent);
         }
         Calendar now = Calendar.getInstance();
-        String dateNow = Helper.formatDate(now,false);
+        String dateNow = Helper.formatDate(now,false,getBaseContext());
         ((EditText) findViewById(R.id.edittext_income_date)).setText(dateNow);
 
         //autocomplete
-        List<Category> list = Category.find(Category.class,"isincome=?","0");
+        List<Category> list = Category.find(Category.class,"isincome=? and username=?","0",String.valueOf(Helper.getUsername(getBaseContext())));
         ArrayList<Category> listCategory = new ArrayList<>();
         for(Category item:list)
         {
@@ -80,7 +80,7 @@ public class EditExpenseActivity extends ActionBarActivity {
             }
             ((EditText)findViewById(R.id.edittext_income_amount)).setText(Helper.formatMoney(editExpense.getAmount()));
             if (editExpense.getDate()!=null) {
-                ((EditText) findViewById(R.id.edittext_income_date)).setText(Helper.formatDate(editExpense.getDate()));
+                ((EditText) findViewById(R.id.edittext_income_date)).setText(Helper.formatDate(editExpense.getDate(),getBaseContext()));
             }
             if (editExpense.getDescription()!=null) {
                 ((EditText) findViewById(R.id.edittext_income_desc)).setText(editExpense.getDescription());
@@ -95,7 +95,7 @@ public class EditExpenseActivity extends ActionBarActivity {
             }
             ((EditText)findViewById(R.id.edittext_income_amount)).setText(Helper.formatMoney(income.getAmount()));
             if (income.getDate()!=null) {
-                ((EditText) findViewById(R.id.edittext_income_date)).setText(Helper.formatDate(income.getDate()));
+                ((EditText) findViewById(R.id.edittext_income_date)).setText(Helper.formatDate(income.getDate(),getBaseContext()));
             }
             if (income.getDescription()!=null) {
                 ((EditText) findViewById(R.id.edittext_income_desc)).setText(income.getDescription());
@@ -146,7 +146,7 @@ public class EditExpenseActivity extends ActionBarActivity {
     {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            ((EditText)findViewById(R.id.edittext_income_date)).setText(Helper.formatDate(year,monthOfYear,dayOfMonth,false));
+            ((EditText)findViewById(R.id.edittext_income_date)).setText(Helper.formatDate(year,monthOfYear,dayOfMonth,false,getBaseContext()));
         }
     }
     public void openChooseCategory(View view)
@@ -163,7 +163,15 @@ public class EditExpenseActivity extends ActionBarActivity {
         if (!date.isEmpty())
         {
             String[] arrDate = date.split("-");
-            String ydate = arrDate[2]+"-"+arrDate[0]+"-"+arrDate[1];
+            String ydate;
+            if (Helper.getlanguageCode(this).equals("vi"))
+            {
+                ydate=arrDate[2]+"-"+arrDate[1]+"-"+arrDate[0];
+            }
+            else
+            {
+                ydate=arrDate[2]+"-"+arrDate[0]+"-"+arrDate[1];
+            }
             income.setDate(ydate);
         }
         if (!desc.isEmpty())
@@ -184,6 +192,10 @@ public class EditExpenseActivity extends ActionBarActivity {
         String date=  ((EditText)findViewById(R.id.edittext_income_date)).getText().toString();
         String[] arrDate = date.split("-");
         String ydate = arrDate[2]+"-"+arrDate[0]+"-"+arrDate[1];
+        if (Helper.getlanguageCode(getBaseContext()).equals("vi"))
+        {
+            ydate=arrDate[2]+"-"+arrDate[1]+"-"+arrDate[0];
+        }
         String desc=  ((EditText)findViewById(R.id.edittext_income_desc)).getText().toString();
         String name = ((EditText)findViewById(R.id.autocomplete_income_category)).getText().toString();
         String categoryId = ((TextView)findViewById(R.id.hiddenCategoryID)).getText().toString();
@@ -192,7 +204,7 @@ public class EditExpenseActivity extends ActionBarActivity {
 
         if (!name.trim().isEmpty()&&!c.getName().equals(name.trim()))
         {
-            Category category = new Category(name,false,-1);
+            Category category = new Category(name,false,Helper.getUsername(getBaseContext()));
             category.save();
             categoryId = Category.findWithQuery(Category.class,"select ID from CATEGORY order by ID desc limit 1").get(0).getId().toString();
         }
@@ -202,7 +214,7 @@ public class EditExpenseActivity extends ActionBarActivity {
         editExpense.setDescription(desc);
         editExpense.setCategoryid(Long.parseLong(categoryId));
         editExpense.setHour("00:00:00");
-        editExpense.setUserid(-1);
+        editExpense.setUsername(Helper.getUsername(getBaseContext()));
         editExpense.save();
         Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra("display","expense");

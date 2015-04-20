@@ -4,8 +4,10 @@ package com.android.nghiatrinh.thuchi.activitys;
 import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,9 +23,12 @@ import com.android.nghiatrinh.thuchi.fragments.IncomeFragment;
 import com.android.nghiatrinh.thuchi.fragments.OverviewFragment;
 import com.android.nghiatrinh.thuchi.fragments.ExpenseFragment;
 import com.android.nghiatrinh.thuchi.helpers.Helper;
+import com.android.nghiatrinh.thuchi.model.Setting;
+import com.android.nghiatrinh.thuchi.model.User;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends ActionBarActivity{
     String bydate=null;
@@ -32,6 +37,14 @@ public class MainActivity extends ActionBarActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Resources res = getResources();
+        // Change locale settings in the app.
+        DisplayMetrics dm = res.getDisplayMetrics();
+        android.content.res.Configuration conf = res.getConfiguration();
+        conf.locale = new Locale(Helper.getlanguageCode(this));
+        res.updateConfiguration(conf, dm);
+
         setContentView(R.layout.main_layout);
         OverviewFragment overviewFragment = new OverviewFragment();
         IncomeFragment incomeFragment = new IncomeFragment();
@@ -104,6 +117,21 @@ public class MainActivity extends ActionBarActivity{
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(this,SettingsActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        if (id==R.id.action_sync)
+        {
+            Intent intent = new Intent(this,WebSyncActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        if (id==R.id.action_logout)
+        {
+            User.deleteAll(User.class);
+            Intent intent = new Intent(this,Login.class);
+            startActivity(intent);
             return true;
         }
 
@@ -147,7 +175,7 @@ public class MainActivity extends ActionBarActivity{
     {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            String date = Helper.formatDate(year,monthOfYear,dayOfMonth,true);
+            String date = Helper.formatDate(year,monthOfYear,dayOfMonth,true,getBaseContext());
             Fragment fragment = getFragmentManager().findFragmentById(R.id.contents);
             Bundle bundle = new Bundle();
             bundle.putString("bydate",date);

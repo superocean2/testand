@@ -68,24 +68,24 @@ public class ExpenseFragment extends Fragment {
         }
 
         title_list.setText(R.string.today);
-        list = Expense.getByDate(Helper.formatDate(Calendar.getInstance(),true));
+        list = Expense.getByDate(Helper.formatDate(Calendar.getInstance(),true,getActivity()),getActivity());
         Collections.sort(list,new ExpenseComparatorByID());
         if (bydate!=null)
         {
-            title_list.setText(Helper.formatDate(bydate));
-            list = Expense.getByDate(bydate);
+            title_list.setText(Helper.formatDate(bydate,getActivity()));
+            list = Expense.getByDate(bydate,getActivity());
             Collections.sort(list,new ExpenseComparatorByID());
         }
         if (bymonth!=null)
         {
             title_list.setText(bymonth);
-            list = Expense.getByMonth(bymonth);
+            list = Expense.getByMonth(bymonth,getActivity());
             Collections.sort(list,new ExpenseComparatorByDate());
         }
         if (byyear!=null)
         {
             title_list.setText(byyear);
-            list = Expense.getByYear(byyear);
+            list = Expense.getByYear(byyear,getActivity());
             Collections.sort(list,new ExpenseComparatorByDate());
         }
         for (Expense income:list)
@@ -113,7 +113,7 @@ public class ExpenseFragment extends Fragment {
                     {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setMessage(income.getDescription())
-                                .setTitle(Helper.formatDate(income.getDate()))
+                                .setTitle(Helper.formatDate(income.getDate(),getActivity()))
                                 .setNegativeButton(R.string.close,null)
                                 .show();
                     }

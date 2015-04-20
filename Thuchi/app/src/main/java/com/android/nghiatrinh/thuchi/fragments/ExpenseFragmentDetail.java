@@ -34,6 +34,7 @@ public class ExpenseFragmentDetail extends Fragment{
         TextView totalTextview = (TextView)view.findViewById(R.id.textview_total);
         View line_break = view.findViewById(R.id.line_space_break);
         ArrayList<Expense> incomes = new ArrayList<>();
+        Helper.setActiveFragment(getActivity(),false,false,true);
 
         Double total =0.0;
         List<Expense> list=new ArrayList<>();
@@ -45,15 +46,15 @@ public class ExpenseFragmentDetail extends Fragment{
         }
         if (bydate!=null)
         {
-            list = Expense.getByDate(bydate);
+            list = Expense.getByDate(bydate,getActivity());
         }
         if (bymonth!=null)
         {
-            list = Expense.getByMonth(bymonth);
+            list = Expense.getByMonth(bymonth,getActivity());
         }
         if (byyear!=null)
         {
-            list = Expense.getByYear(byyear);
+            list = Expense.getByYear(byyear,getActivity());
         }
 
         for(Expense income:list)

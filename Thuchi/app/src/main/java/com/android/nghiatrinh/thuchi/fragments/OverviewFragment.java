@@ -28,13 +28,13 @@ public class OverviewFragment extends Fragment {
         Calendar today = Calendar.getInstance();
         String thisMonth =Helper.format2digits(today.get(Calendar.MONTH) +1) +"-"+Helper.format4digits(today.get(Calendar.YEAR));
         String thisYear = Helper.format4digits(today.get(Calendar.YEAR));
-        List<Income> incomesBydate = Income.getByDate(Helper.formatDate(today,true));
-        List<Income> incomesBymonth = Income.getByMonth(thisMonth);
-        List<Income> incomesByyear = Income.getByYear(thisYear);
+        List<Income> incomesBydate = Income.getByDate(Helper.formatDate(today,true,getActivity()),getActivity());
+        List<Income> incomesBymonth = Income.getByMonth(thisMonth,getActivity());
+        List<Income> incomesByyear = Income.getByYear(thisYear,getActivity());
 
-        List<Expense> expensesBydate = Expense.getByDate(Helper.formatDate(today,true));
-        List<Expense> expensesBymonth = Expense.getByMonth(thisMonth);
-        List<Expense> expensesByyear = Expense.getByYear(thisYear);
+        List<Expense> expensesBydate = Expense.getByDate(Helper.formatDate(today,true,getActivity()),getActivity());
+        List<Expense> expensesBymonth = Expense.getByMonth(thisMonth,getActivity());
+        List<Expense> expensesByyear = Expense.getByYear(thisYear,getActivity());
 
         Double totalIncomeBydate=0.0;
         Double totalIncomeBymonth=0.0;

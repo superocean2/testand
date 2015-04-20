@@ -9,15 +9,15 @@ import com.orm.SugarRecord;
 public class Category extends SugarRecord<Category> implements Comparable {
     String name;
     boolean isincome;
-    long userid;
+    String username;
 
     public Category(){
     }
 
-    public Category(String name, boolean isincome, long userid) {
+    public Category(String name, boolean isincome, String username) {
         this.name = name;
         this.isincome = isincome;
-        this.userid = userid;
+        this.username = username;
     }
 
     @Override
@@ -49,19 +49,19 @@ public class Category extends SugarRecord<Category> implements Comparable {
         this.name = name;
     }
 
-    public boolean getIsIncome() {
+    public boolean isincome() {
         return isincome;
     }
 
-    public void setIsIncome(boolean isincome) {
+    public void setIsincome(boolean isincome) {
         this.isincome = isincome;
     }
 
-    public long getUserId() {
-        return userid;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserId(long userid) {
-        this.userid = userid;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

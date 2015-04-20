@@ -38,7 +38,7 @@ public class DetailIncomeExpenseActivity extends ActionBarActivity {
 
         if (bydate!=null)
         {
-            title.setText(Helper.formatDate(bydate));
+            title.setText(Helper.formatDate(bydate,getBaseContext()));
             bundle.putString("bydate",bydate);
             incomeFragmentDetail.setArguments(bundle);
             expenseFragmentDetail.setArguments(bundle);

@@ -1,0 +1,47 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.android.nghiatrinh.thuchi.activitys.Login"
+    android:layout_gravity="center_vertical" android:gravity="center_vertical" android:paddingLeft="30dp" android:paddingRight="30dp">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/login_desc"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/login_desc"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edittext_username"
+        android:hint="@string/username"
+        android:layout_below="@+id/login_desc"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edittext_password"
+        android:inputType="textPassword"
+        android:layout_below="@+id/edittext_username"
+        android:layout_marginTop="10dp"
+        android:hint="@string/password"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/active_tab"
+        android:text="@string/login"
+        android:layout_below="@id/edittext_password"
+        android:id="@+id/btn_login"
+        android:layout_marginTop="20dp"
+        android:onClick="doLogin"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/active_tab"
+        android:text="@string/register"
+        android:id="@+id/btn_register"
+        android:layout_toRightOf="@+id/btn_login"
+        android:layout_below="@+id/edittext_password"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:onClick="doRegister"/>
+
+</RelativeLayout>

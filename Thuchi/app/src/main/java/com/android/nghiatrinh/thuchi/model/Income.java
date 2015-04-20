@@ -1,5 +1,8 @@
 package com.android.nghiatrinh.thuchi.model;
 
+import android.content.Context;
+
+import com.android.nghiatrinh.thuchi.helpers.Helper;
 import com.orm.SugarRecord;
 
 import java.util.Date;
@@ -13,18 +16,18 @@ public class Income extends SugarRecord<Income> {
     double amount;
     String date;
     String hour;
-    long userid;
+    String username;
     String description;
 
     public Income(){
     }
 
-    public Income(long categoryid, double amount, String date, String hour, long userid, String description) {
+    public Income(long categoryid, double amount, String date, String hour, String username, String description) {
         this.categoryid = categoryid;
         this.amount = amount;
         this.date = date;
         this.hour = hour;
-        this.userid = userid;
+        this.username = username;
         this.description = description;
     }
 
@@ -60,12 +63,12 @@ public class Income extends SugarRecord<Income> {
         this.hour = hour;
     }
 
-    public long getUserid() {
-        return userid;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserid(long userid) {
-        this.userid = userid;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getDescription() {
@@ -76,16 +79,16 @@ public class Income extends SugarRecord<Income> {
         this.description = description;
     }
 
-    public static List<Income> getByDate(String date)
+    public static List<Income> getByDate(String date,Context context)
     {
-        return Income.find(Income.class,"date=?",date);
+        return Income.find(Income.class,"date=? and username=?",date,String.valueOf(Helper.getUsername(context)));
     }
-    public static List<Income> getByMonth(String month)
+    public static List<Income> getByMonth(String month,Context context)
     {
-        return Income.find(Income.class,"strftime('%m-%Y',date)=?",month);
+        return Income.find(Income.class,"strftime('%m-%Y',date)=? and username=?",month,String.valueOf(Helper.getUsername(context)));
     }
-    public static List<Income> getByYear(String year)
+    public static List<Income> getByYear(String year,Context context)
     {
-        return Income.find(Income.class,"strftime('%Y',date)=?",year);
+        return Income.find(Income.class,"strftime('%Y',date)=? and username=?",year,String.valueOf(Helper.getUsername(context)));
     }
 }

@@ -8,17 +8,13 @@ import com.orm.SugarRecord;
 public class User extends SugarRecord<User>{
     String username;
     String password;
-    String displayname;
-    String hashgroup;
 
     public User() {
     }
 
-    public User(String username, String password, String displayname, String hashgroup) {
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.displayname = displayname;
-        this.hashgroup = hashgroup;
     }
 
     public String getUsername() {
@@ -37,20 +33,5 @@ public class User extends SugarRecord<User>{
         this.password = password;
     }
 
-    public String getDisplayname() {
-        return displayname;
-    }
-
-    public void setDisplayname(String displayname) {
-        this.displayname = displayname;
-    }
-
-    public String getHashgroup() {
-        return hashgroup;
-    }
-
-    public void setHashgroup(String hashgroup) {
-        this.hashgroup = hashgroup;
-    }
 }
 
