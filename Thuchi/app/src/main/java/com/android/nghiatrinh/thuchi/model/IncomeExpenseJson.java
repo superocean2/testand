@@ -9,4 +9,5 @@ public class IncomeExpenseJson {
     public String Response;
     public List<Income> incomes;
     public List<Expense> expenses;
+    public List<Category> categories;
 }

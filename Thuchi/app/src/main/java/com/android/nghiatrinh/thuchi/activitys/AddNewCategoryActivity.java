@@ -14,6 +14,7 @@ import com.android.nghiatrinh.thuchi.model.Category;
 import com.android.nghiatrinh.thuchi.model.Income;
 
 import java.util.List;
+import java.util.UUID;
 
 public class AddNewCategoryActivity extends ActionBarActivity {
     String income = null;
@@ -61,7 +62,7 @@ public class AddNewCategoryActivity extends ActionBarActivity {
         else
         {
             boolean isIncome = kind.equals("income");
-            Category incomeCategory =new Category(name,isIncome,Helper.getUsername(getBaseContext()));
+            Category incomeCategory =new Category(name,isIncome,Helper.getUsername(getBaseContext()),UUID.randomUUID().toString(),false,1);
             incomeCategory.save();
             Intent intent=new Intent(this,ListCategoryActivity.class);
             intent.putExtra("income",income);

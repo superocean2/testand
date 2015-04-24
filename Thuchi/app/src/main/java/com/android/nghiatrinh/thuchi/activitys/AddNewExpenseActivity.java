@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 public class AddNewExpenseActivity extends ActionBarActivity {
 
@@ -38,7 +39,7 @@ public class AddNewExpenseActivity extends ActionBarActivity {
         ((EditText) findViewById(R.id.edittext_income_date)).setText(dateNow);
 
         //autocomplete
-        List<Category> list = Category.find(Category.class,"isincome=? and username=?","0",String.valueOf(Helper.getUsername(getBaseContext())));
+        List<Category> list = Category.find(Category.class,"isincome=? and username=? and isdelete=?","0",Helper.getUsername(getBaseContext()),"0");
         ArrayList<Category> listCategory = new ArrayList<>();
         for(Category item:list)
         {
@@ -62,10 +63,10 @@ public class AddNewExpenseActivity extends ActionBarActivity {
         });
         if (o!=null) {
             Expense income = new Gson().fromJson(o,Expense.class);
-            Category category = Category.findById(Category.class, income.getCategoryid());
+            Category category = Category.find(Category.class,"categoryid=?", income.getCategoryid()).get(0);
             if (category!=null) {
                 ((AutoCompleteTextView) findViewById(R.id.autocomplete_income_category)).setText(category.getName());
-                ((TextView)findViewById(R.id.hiddenCategoryID)).setText(String.valueOf(income.getCategoryid()));
+                ((TextView)findViewById(R.id.hiddenCategoryID)).setText(income.getCategoryid());
             }
             ((EditText)findViewById(R.id.edittext_income_amount)).setText(Helper.formatMoney(income.getAmount()));
             if (income.getDate()!=null) {
@@ -186,18 +187,21 @@ public class AddNewExpenseActivity extends ActionBarActivity {
 
         if (categoryId.isEmpty()&&!name.trim().isEmpty())
         {
-            Category category = new Category(name,false,Helper.getUsername(getBaseContext()));
+            Category category = new Category(name,false,Helper.getUsername(getBaseContext()), UUID.randomUUID().toString(),false,1);
             category.save();
-            categoryId = Category.findWithQuery(Category.class,"select ID from CATEGORY order by ID desc limit 1").get(0).getId().toString();
+            categoryId = Category.findWithQuery(Category.class,"select * from CATEGORY order by ID desc limit 1").get(0).getCategoryid();
         }
 
         Expense income = new Expense();
         income.setAmount(Double.parseDouble(amount));
         income.setDate(ydate);
         income.setDescription(desc);
-        income.setCategoryid(Long.parseLong(categoryId));
+        income.setCategoryid(categoryId);
         income.setHour("00:00:00");
         income.setUsername(Helper.getUsername(getBaseContext()));
+        income.setExpenseid(UUID.randomUUID().toString());
+        income.setIsdelete(false);
+        income.setVersion(1);
         income.save();
         Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra("bydate",ydate);

@@ -44,9 +44,9 @@ namespace API.Models
         private void CheckDB()
         {
 
-            db.UpdateTry("create table if not exists \"Categories\" (\"id\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\"name\"  TEXT,\"isincome\"  INTEGER,\"userid\"  INTEGER);");
-            db.UpdateTry("create table if not exists \"Incomes\" (\"id\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\"categoryid\"  INTEGER,\"amount\"  FLOAT,\"date\"  TEXT,\"hour\"  TEXT,\"userid\"  INTEGER,\"description\"  TEXT);");
-            db.UpdateTry("create table if not exists \"Expenses\" (\"id\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\"categoryid\"  INTEGER,\"amount\"  FLOAT,\"date\"  TEXT,\"hour\"  TEXT,\"userid\"  INTEGER,\"description\"  TEXT);");
+            db.UpdateTry("create table if not exists \"Categories\" (\"id\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\"name\"  TEXT,\"isincome\"  INTEGER,\"username\"  TEXT,\"categoryid\"  TEXT,\"isdelete\"  INTEGER,\"version\"  INTEGER);");
+            db.UpdateTry("create table if not exists \"Incomes\" (\"id\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\"categoryid\"  TEXT,\"amount\"  FLOAT,\"date\"  TEXT,\"hour\"  TEXT,\"username\"  TEXT,\"description\"  TEXT,\"incomeid\"  TEXT,\"isdelete\"  INTEGER,\"version\"  INTEGER);");
+            db.UpdateTry("create table if not exists \"Expenses\" (\"id\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\"categoryid\"  TEXT,\"amount\"  FLOAT,\"date\"  TEXT,\"hour\"  TEXT,\"username\"  TEXT,\"description\"  TEXT,\"expenseid\"  TEXT,\"isdelete\"  INTEGER,\"version\"  INTEGER);");
             db.UpdateTry("create table if not exists \"Users\" (\"id\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\"username\"  TEXT,\"password\"  TEXT);");
 
         }

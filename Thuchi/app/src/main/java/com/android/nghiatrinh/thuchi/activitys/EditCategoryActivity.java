@@ -70,6 +70,7 @@ public class EditCategoryActivity extends ActionBarActivity {
             if (incomeCategory!=null)
             {
                 incomeCategory.setName(editText.getText().toString());
+                incomeCategory.setVersion(incomeCategory.getVersion()+1);
                 incomeCategory.save();
             }
             Intent intent=new Intent(this,ListCategoryActivity.class);

@@ -56,12 +56,12 @@ public class ListCategoryActivity extends ActionBarActivity {
         ListView listView = (ListView)findViewById(R.id.listview_list_income_category);
         List<Category> list;
         if (kind.equals("income")) {
-            list = Category.find(Category.class,"isincome=? and username=?","1",String.valueOf(Helper.getUsername(getBaseContext())));
+            list = Category.find(Category.class,"isincome=? and username=? and isdelete=?","1",Helper.getUsername(getBaseContext()),"0");
         }
         else
         {
             //expense
-            list = Category.find(Category.class,"isincome=? and username=?","0",String.valueOf(Helper.getUsername(getBaseContext())));
+            list = Category.find(Category.class,"isincome=? and username=? and isdelete=?","0",Helper.getUsername(getBaseContext()),"0");
         }
         for (Category incomeCategory:list)
         {
@@ -75,7 +75,7 @@ public class ListCategoryActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView categoryId = (TextView)view.findViewById(R.id.hiddenCategoryID);
-                income.setCategoryid(Long.parseLong(categoryId.getText().toString()));
+                income.setCategoryid(categoryId.getText().toString());
                 String json = new Gson().toJson(income);
                 Intent intent = null;
                 if (type.equals("add"))
@@ -186,10 +186,11 @@ public class ListCategoryActivity extends ActionBarActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //check before delete
-                                List<Income> incomes = Income.find(Income.class, "categoryid=?", category.getId().toString());
-                                List<Expense> expenses = Expense.find(Expense.class, "categoryid=?", category.getId().toString());
+                                List<Income> incomes = Income.find(Income.class, "categoryid=? and isdelete=?", category.getCategoryid(),"0");
+                                List<Expense> expenses = Expense.find(Expense.class, "categoryid=? and isdelete=?", category.getCategoryid(),"0");
                                 if (incomes.isEmpty() && expenses.isEmpty()) {
-                                    category.delete();
+                                    category.setIsdelete(true);
+                                    category.save();
                                 } else {
                                     Toast.makeText(getBaseContext(),R.string.cannot_delete_category,Toast.LENGTH_SHORT).show();
                                 }

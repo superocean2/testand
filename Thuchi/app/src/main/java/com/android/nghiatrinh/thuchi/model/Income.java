@@ -12,30 +12,36 @@ import java.util.List;
  * Created by NghiaTrinh on 3/11/2015.
  */
 public class Income extends SugarRecord<Income> {
-    long categoryid;
+    String categoryid;
     double amount;
     String date;
     String hour;
     String username;
     String description;
+    String incomeid;
+    boolean isdelete;
+    Integer version;
 
     public Income(){
     }
 
-    public Income(long categoryid, double amount, String date, String hour, String username, String description) {
+    public Income(String categoryid, double amount, String date, String hour, String username, String description,String incomeid,boolean isdelete,Integer version) {
         this.categoryid = categoryid;
         this.amount = amount;
         this.date = date;
         this.hour = hour;
         this.username = username;
         this.description = description;
+        this.incomeid=incomeid;
+        this.isdelete=isdelete;
+        this.version=version;
     }
 
-    public long getCategoryid() {
+    public String getCategoryid() {
         return categoryid;
     }
 
-    public void setCategoryid(long categoryid) {
+    public void setCategoryid(String categoryid) {
         this.categoryid = categoryid;
     }
 
@@ -79,16 +85,40 @@ public class Income extends SugarRecord<Income> {
         this.description = description;
     }
 
+    public String getIncomeid() {
+        return incomeid;
+    }
+
+    public void setIncomeid(String incomeid) {
+        this.incomeid = incomeid;
+    }
+
+    public boolean isdelete() {
+        return isdelete;
+    }
+
+    public void setIsdelete(boolean isdelete) {
+        this.isdelete = isdelete;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
     public static List<Income> getByDate(String date,Context context)
     {
-        return Income.find(Income.class,"date=? and username=?",date,String.valueOf(Helper.getUsername(context)));
+        return Income.find(Income.class,"date=? and username=? and isdelete=?",date,Helper.getUsername(context),"0");
     }
     public static List<Income> getByMonth(String month,Context context)
     {
-        return Income.find(Income.class,"strftime('%m-%Y',date)=? and username=?",month,String.valueOf(Helper.getUsername(context)));
+        return Income.find(Income.class,"strftime('%m-%Y',date)=? and username=? and isdelete=?",month,Helper.getUsername(context),"0");
     }
     public static List<Income> getByYear(String year,Context context)
     {
-        return Income.find(Income.class,"strftime('%Y',date)=? and username=?",year,String.valueOf(Helper.getUsername(context)));
+        return Income.find(Income.class,"strftime('%Y',date)=? and username=? and isdelete=?",year,Helper.getUsername(context),"0");
     }
 }

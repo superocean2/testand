@@ -98,7 +98,7 @@ public class Login extends ActionBarActivity {
                 {
                     Helper.setUsername(users.get(0).getUsername(), getBaseContext());
                 }
-                Intent intent = new Intent(getBaseContext(),MainActivity.class);
+                Intent intent = new Intent(getBaseContext(),WebSyncActivity.class);
                 finish();
                 startActivity(intent);
             }
@@ -165,7 +165,7 @@ public class Login extends ActionBarActivity {
                 {
                     Helper.setUsername(usernews.get(0).getUsername(), getBaseContext());
                 }
-                Intent intent = new Intent(getBaseContext(),MainActivity.class);
+                Intent intent = new Intent(getBaseContext(),WebSyncActivity.class);
                 finish();
                 startActivity(intent);
             }

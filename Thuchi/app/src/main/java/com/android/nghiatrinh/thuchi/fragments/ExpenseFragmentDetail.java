@@ -63,7 +63,7 @@ public class ExpenseFragmentDetail extends Fragment{
             long id = 0;
             for (Expense temp:listTemp)
             {
-                if(temp.getCategoryid()==income.getCategoryid())
+                if(temp.getCategoryid().equals(income.getCategoryid()))
                 {
                     checkExist=true;
                     id=temp.getId();

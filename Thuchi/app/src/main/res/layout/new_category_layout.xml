@@ -35,5 +35,6 @@
         android:hint="@string/category_name"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="45dp"/>
+        android:layout_marginTop="45dp"
+        android:imeOptions="actionDone"/>
 </RelativeLayout>

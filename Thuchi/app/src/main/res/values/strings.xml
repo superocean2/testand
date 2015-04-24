@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Income Expense Book</string>
+    <string name="app_name">Money Book</string>
     <string name="action_settings">Settings</string>
     <string name="overview">Overview</string>
     <string name="income">Income</string>
@@ -64,7 +64,7 @@
     <string name="register">Register</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="login_desc">Please login to use Income Expense Book. Do not have account please press Register</string>
+    <string name="login_desc">Please login to use Money Book. Do not have account please press Register</string>
     <string name="error_update">Error in updating</string>
     <string name="posting">Posting data...</string>
     <string name="getting">Getting data...</string>

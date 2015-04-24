@@ -14,7 +14,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/edittext_username"
         android:hint="@string/username"
-        android:layout_below="@+id/login_desc"/>
+        android:inputType="textNoSuggestions"
+        android:layout_below="@+id/login_desc"
+        android:imeOptions="actionDone"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

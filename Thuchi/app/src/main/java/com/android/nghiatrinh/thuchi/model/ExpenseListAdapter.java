@@ -31,7 +31,7 @@ public class ExpenseListAdapter extends ArrayAdapter<Expense>
 
         Expense income = getItem(position);
         stt.setText(Integer.toString(position+1) +". ");
-        Category category = Category.findById( Category.class,income.getCategoryid());
+        Category category = Category.find( Category.class,"categoryid=?",income.getCategoryid()).get(0);
         if (category!=null)
         {
             name.setText(category.getName());

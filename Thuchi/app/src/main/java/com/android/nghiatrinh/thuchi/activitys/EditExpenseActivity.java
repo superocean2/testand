@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 public class EditExpenseActivity extends ActionBarActivity {
     Expense editExpense=null;
@@ -50,7 +51,7 @@ public class EditExpenseActivity extends ActionBarActivity {
         ((EditText) findViewById(R.id.edittext_income_date)).setText(dateNow);
 
         //autocomplete
-        List<Category> list = Category.find(Category.class,"isincome=? and username=?","0",String.valueOf(Helper.getUsername(getBaseContext())));
+        List<Category> list = Category.find(Category.class,"isincome=? and username=? and isdelete=?","0",Helper.getUsername(getBaseContext()),"0");
         ArrayList<Category> listCategory = new ArrayList<>();
         for(Category item:list)
         {
@@ -73,7 +74,7 @@ public class EditExpenseActivity extends ActionBarActivity {
             }
         });
         if (editExpense!=null) {
-            Category category = Category.findById(Category.class, editExpense.getCategoryid());
+            Category category = Category.find(Category.class,"categoryid=?", editExpense.getCategoryid()).get(0);
             if (category!=null) {
                 ((AutoCompleteTextView) findViewById(R.id.autocomplete_income_category)).setText(category.getName());
                 ((TextView)findViewById(R.id.hiddenCategoryID)).setText(String.valueOf(editExpense.getCategoryid()));
@@ -88,10 +89,10 @@ public class EditExpenseActivity extends ActionBarActivity {
         }
         if (o!=null) {
             Expense income = new Gson().fromJson(o,Expense.class);
-            Category category = Category.findById(Category.class, income.getCategoryid());
+            Category category = Category.find(Category.class,"categoryid=?", income.getCategoryid()).get(0);
             if (category!=null) {
                 ((AutoCompleteTextView) findViewById(R.id.autocomplete_income_category)).setText(category.getName());
-                ((TextView)findViewById(R.id.hiddenCategoryID)).setText(String.valueOf(income.getCategoryid()));
+                ((TextView)findViewById(R.id.hiddenCategoryID)).setText(income.getCategoryid());
             }
             ((EditText)findViewById(R.id.edittext_income_amount)).setText(Helper.formatMoney(income.getAmount()));
             if (income.getDate()!=null) {
@@ -199,22 +200,21 @@ public class EditExpenseActivity extends ActionBarActivity {
         String desc=  ((EditText)findViewById(R.id.edittext_income_desc)).getText().toString();
         String name = ((EditText)findViewById(R.id.autocomplete_income_category)).getText().toString();
         String categoryId = ((TextView)findViewById(R.id.hiddenCategoryID)).getText().toString();
-        Category c = Category.findById(Category.class,Long.parseLong(categoryId));
+        Category c = Category.find(Category.class,"categoryid=?",categoryId).get(0);
         if (!validateInput(amount,name))return;
 
         if (!name.trim().isEmpty()&&!c.getName().equals(name.trim()))
         {
-            Category category = new Category(name,false,Helper.getUsername(getBaseContext()));
+            Category category = new Category(name,false,Helper.getUsername(getBaseContext()), UUID.randomUUID().toString(),false,1);
             category.save();
-            categoryId = Category.findWithQuery(Category.class,"select ID from CATEGORY order by ID desc limit 1").get(0).getId().toString();
+            categoryId = Category.findWithQuery(Category.class,"select * from CATEGORY order by ID desc limit 1").get(0).getCategoryid();
         }
 
         editExpense.setAmount(Double.parseDouble(amount));
         editExpense.setDate(ydate);
         editExpense.setDescription(desc);
-        editExpense.setCategoryid(Long.parseLong(categoryId));
-        editExpense.setHour("00:00:00");
-        editExpense.setUsername(Helper.getUsername(getBaseContext()));
+        editExpense.setCategoryid(categoryId);
+        editExpense.setVersion(editExpense.getVersion()+1);
         editExpense.save();
         Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra("display","expense");

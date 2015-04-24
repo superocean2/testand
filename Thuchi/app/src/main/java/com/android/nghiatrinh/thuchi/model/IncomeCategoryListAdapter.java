@@ -27,7 +27,7 @@ public class IncomeCategoryListAdapter extends ArrayAdapter<Category>
         TextView categoryId = (TextView)convertView.findViewById(R.id.hiddenCategoryID);
         Category category = getItem(position);
         name.setText(category.getName());
-        categoryId.setText(category.getId().toString());
+        categoryId.setText(category.getCategoryid());
         return convertView;
     }
 }

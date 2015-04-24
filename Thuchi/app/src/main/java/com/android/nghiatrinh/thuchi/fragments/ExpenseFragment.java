@@ -150,7 +150,8 @@ public class ExpenseFragment extends Fragment {
                         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                income.delete();
+                                income.setIsdelete(true);
+                                income.save();
                                 dialog.dismiss();
                                 Intent intent = new Intent(getActivity(),MainActivity.class);
                                 intent.putExtra("display","expense");

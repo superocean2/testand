@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">Sổ Thu Chi</string>
     <string name="action_settings">Cài đặt</string>
     <string name="overview">Thống kê</string>
     <string name="income">Thu</string>
@@ -47,4 +45,17 @@
     <string name="sync">Đồng bộ</string>
     <string name="complete_sync">Đồng bộ hoàn thành</string>
     <string name="dont_have_permission">Không có quyền truy cập thiết bị</string>
+
+
+    <string name="waiting">đang xử lý...</string>
+    <string name="login">Đăng nhập</string>
+    <string name="logout">Đăng xuất</string>
+    <string name="register">Đăng ký</string>
+    <string name="username">Tài khoản</string>
+    <string name="password">Mật khẩu</string>
+    <string name="login_desc">Xin đăng nhập để sử dụng Money Book. Không có tài khoản xin vui lòng Đăng ký</string>
+    <string name="error_update">Lỗi, khổng thể cập nhật dữ liệu</string>
+    <string name="posting">Đang gửi dữ liệu...</string>
+    <string name="getting">Đang nhận dữ liệu...</string>
+    <string name="done">Hoàn thành</string>
 </resources>

@@ -23,12 +23,15 @@ import com.android.nghiatrinh.thuchi.fragments.IncomeFragment;
 import com.android.nghiatrinh.thuchi.fragments.OverviewFragment;
 import com.android.nghiatrinh.thuchi.fragments.ExpenseFragment;
 import com.android.nghiatrinh.thuchi.helpers.Helper;
+import com.android.nghiatrinh.thuchi.model.Category;
 import com.android.nghiatrinh.thuchi.model.Setting;
 import com.android.nghiatrinh.thuchi.model.User;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 public class MainActivity extends ActionBarActivity{
     String bydate=null;
@@ -38,6 +41,14 @@ public class MainActivity extends ActionBarActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Boolean isFirstTime = Category.listAll(Category.class).isEmpty();
+        if (isFirstTime) {
+            //initialize default categories
+            initializeCategories();
+            Intent intent = new Intent(getBaseContext(),WebSyncActivity.class);
+            finish();
+            startActivity(intent);
+        }
         Resources res = getResources();
         // Change locale settings in the app.
         DisplayMetrics dm = res.getDisplayMetrics();
@@ -101,6 +112,35 @@ public class MainActivity extends ActionBarActivity{
         }
     }
 
+    private void initializeCategories()
+    {
+        String[] incomeCategories = getListCategoriesIncome();
+        String[] expenseCategories = getListCategoriesExpense();
+        for (int i=0;i<incomeCategories.length;i++)
+        {
+            Category category=new Category(incomeCategories[i],true,Helper.getUsername(this), UUID.randomUUID().toString(),false,1);
+            category.save();
+        }
+        for (int i=0;i<expenseCategories.length;i++)
+        {
+            Category category=new Category(expenseCategories[i],false,Helper.getUsername(this), UUID.randomUUID().toString(),false,1);
+            category.save();
+        }
+    }
+    private String[] getListCategoriesIncome()
+    {
+        String[] categoriesName = {"Luong","Thuong","Lam them"};
+
+        return  categoriesName;
+    }
+    private String[] getListCategoriesExpense()
+    {
+        String[] categoriesName = {"Di cho","Sieu thi","An sang/trua/chieu","Uong nuoc/cafe","Dien","Nuoc","Internet","Nap DTDD","Gas","Xang xe","Sua xe","Gui xe","Rua xe","Taxi/Thue xe","Quan ao"
+                                    ,"Giay dep","Phu kien thoi trang","Giai tri","Du lich","Lam dep","Xem phim","Sua cho con","Ta cho con","Hoc phi","Sach vo","Do choi","Tieu vat"
+                                    ,"Dam cuoi","Bieu/Tang/cho","Kham benh","Thuoc men","The thao","Mua sam do dac","Sua nha","Thue nha"};
+
+        return  categoriesName;
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

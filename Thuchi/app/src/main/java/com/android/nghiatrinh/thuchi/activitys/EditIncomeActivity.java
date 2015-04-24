@@ -26,6 +26,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 public class EditIncomeActivity extends ActionBarActivity {
     Income editIncome=null;
@@ -76,10 +77,10 @@ public class EditIncomeActivity extends ActionBarActivity {
             }
         });
         if (editIncome!=null) {
-            Category category = Category.findById(Category.class, editIncome.getCategoryid());
+            Category category = Category.find(Category.class,"categoryid=?", editIncome.getCategoryid()).get(0);
             if (category!=null) {
                 ((AutoCompleteTextView) findViewById(R.id.autocomplete_income_category)).setText(category.getName());
-                ((TextView)findViewById(R.id.hiddenCategoryID)).setText(String.valueOf(editIncome.getCategoryid()));
+                ((TextView)findViewById(R.id.hiddenCategoryID)).setText(editIncome.getCategoryid());
             }
             ((EditText)findViewById(R.id.edittext_income_amount)).setText(Helper.formatMoney(editIncome.getAmount()));
             if (editIncome.getDate()!=null) {
@@ -91,10 +92,10 @@ public class EditIncomeActivity extends ActionBarActivity {
         }
         if (o!=null) {
             Income income = new Gson().fromJson(o,Income.class);
-            Category category = Category.findById(Category.class, income.getCategoryid());
+            Category category = Category.find(Category.class,"categoryid=?", income.getCategoryid()).get(0);
             if (category!=null) {
                 ((AutoCompleteTextView) findViewById(R.id.autocomplete_income_category)).setText(category.getName());
-                ((TextView)findViewById(R.id.hiddenCategoryID)).setText(String.valueOf(income.getCategoryid()));
+                ((TextView)findViewById(R.id.hiddenCategoryID)).setText(income.getCategoryid());
             }
             ((EditText)findViewById(R.id.edittext_income_amount)).setText(Helper.formatMoney(income.getAmount()));
             if (income.getDate()!=null) {
@@ -202,22 +203,21 @@ public class EditIncomeActivity extends ActionBarActivity {
         String desc=  ((EditText)findViewById(R.id.edittext_income_desc)).getText().toString();
         String name = ((EditText)findViewById(R.id.autocomplete_income_category)).getText().toString();
         String categoryId = ((TextView)findViewById(R.id.hiddenCategoryID)).getText().toString();
-        Category c = Category.findById(Category.class,Long.parseLong(categoryId));
+        Category c = Category.find(Category.class,"categoryid=?",categoryId).get(0);
         if (!validateInput(amount,name))return;
 
         if (!name.trim().isEmpty()&&!c.getName().equals(name.trim()))
         {
-            Category category = new Category(name,true,Helper.getUsername(getBaseContext()));
+            Category category = new Category(name,true,Helper.getUsername(getBaseContext()), UUID.randomUUID().toString(),false,1);
             category.save();
-            categoryId = Category.findWithQuery(Category.class,"select ID from CATEGORY order by ID desc limit 1").get(0).getId().toString();
+            categoryId = Category.findWithQuery(Category.class,"select * from CATEGORY order by ID desc limit 1").get(0).getCategoryid();
         }
 
         editIncome.setAmount(Double.parseDouble(amount));
         editIncome.setDate(ydate);
         editIncome.setDescription(desc);
-        editIncome.setCategoryid(Long.parseLong(categoryId));
-        editIncome.setHour("00:00:00");
-        editIncome.setUsername(Helper.getUsername(getBaseContext()));
+        editIncome.setCategoryid(categoryId);
+        editIncome.setVersion(editIncome.getVersion()+1);
         editIncome.save();
         Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra("display","income");
