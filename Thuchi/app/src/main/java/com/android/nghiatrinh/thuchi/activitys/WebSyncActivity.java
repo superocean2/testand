@@ -35,7 +35,8 @@ public class WebSyncActivity extends ActionBarActivity {
 
     TextView waiting;
     boolean isPostingDone=false;
-    final static String url="http://api.192.168.1.95.xip.io";
+    //final static String url="http://api.192.168.1.95.xip.io";
+    final static String url="http://www.nghia.somee.com";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,36 +105,37 @@ public class WebSyncActivity extends ActionBarActivity {
                     HttpEntity resEntityGet = response.getEntity();
                     if (resEntityGet != null) {
                         String responseText = EntityUtils.toString(resEntityGet);
-                        IncomeExpenseJson incomeExpenseJson = new Gson().fromJson(responseText,IncomeExpenseJson.class);
-                        if (incomeExpenseJson.Response.equals("ok"))
-                        {
-                            //update database;
-                            Income.deleteAll(Income.class);
-                            Expense.deleteAll(Expense.class);
-                            Category.deleteAll(Category.class);
 
-                            for (Category category:incomeExpenseJson.categories)
-                            {
-                                Category category1 = new Category(category.getName(),category.isincome(),category.getUsername(),category.getCategoryid(),category.isdelete(),category.getVersion());
-                                category1.save();
-                            }
-                            for(Income income:incomeExpenseJson.incomes)
-                            {
-                                Income income1 = new Income(income.getCategoryid(),income.getAmount(),income.getDate(),income.getHour(),income.getUsername(),income.getDescription(),income.getIncomeid(),income.isdelete(),income.getVersion());
-                                income1.save();
-                            }
-                            for(Expense expense:incomeExpenseJson.expenses)
-                            {
-                                Expense expense1 = new Expense(expense.getCategoryid(),expense.getAmount(),expense.getDate(),expense.getHour(),expense.getUsername(),expense.getDescription(),expense.getExpenseid(),expense.isdelete(),expense.getVersion());
-                                expense1.save();
-                            }
-
-                            success=true;
-                        }
-                        else
-                        {
-                            success=false;
-                        }
+//                        IncomeExpenseJson incomeExpenseJson = new Gson().fromJson(responseText,IncomeExpenseJson.class);
+//                        if (incomeExpenseJson.Response.equals("ok"))
+//                        {
+//                            //update database;
+//                            Income.deleteAll(Income.class);
+//                            Expense.deleteAll(Expense.class);
+//                            Category.deleteAll(Category.class);
+//
+//                            for (Category category:incomeExpenseJson.categories)
+//                            {
+//                                Category category1 = new Category(category.getName(),category.isincome(),category.getUsername(),category.getCategoryid(),category.isdelete(),category.getVersion());
+//                                category1.save();
+//                            }
+//                            for(Income income:incomeExpenseJson.incomes)
+//                            {
+//                                Income income1 = new Income(income.getCategoryid(),income.getAmount(),income.getDate(),income.getHour(),income.getUsername(),income.getDescription(),income.getIncomeid(),income.isdelete(),income.getVersion());
+//                                income1.save();
+//                            }
+//                            for(Expense expense:incomeExpenseJson.expenses)
+//                            {
+//                                Expense expense1 = new Expense(expense.getCategoryid(),expense.getAmount(),expense.getDate(),expense.getHour(),expense.getUsername(),expense.getDescription(),expense.getExpenseid(),expense.isdelete(),expense.getVersion());
+//                                expense1.save();
+//                            }
+//
+//                            success=true;
+//                        }
+//                        else
+//                        {
+//                            success=false;
+//                        }
                     }
                 }
                 catch (IOException e){}

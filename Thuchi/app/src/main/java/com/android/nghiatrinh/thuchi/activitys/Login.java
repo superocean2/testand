@@ -34,7 +34,8 @@ public class Login extends ActionBarActivity {
 
     String username;
     String password;
-    final static String url="http://api.192.168.1.95.xip.io";
+    final static String url="http://www.nghia.somee.com";
+    //final static String url="http://api.192.168.1.95.xip.io";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,6 +123,7 @@ public class Login extends ActionBarActivity {
                     HttpEntity resEntityGet = response.getEntity();
                     if (resEntityGet != null) {
                         String responseText = EntityUtils.toString(resEntityGet);
+                        responseText=
                         if (responseText.equals("ok"))
                         {
                             success=true;

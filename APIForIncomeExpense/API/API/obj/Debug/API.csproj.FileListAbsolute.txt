@@ -21,6 +21,5 @@ D:\AndroidTest\TestAndroid\APIForIncomeExpense\API\API\bin\System.Web.Webpages.D
 D:\AndroidTest\TestAndroid\APIForIncomeExpense\API\API\bin\System.Web.Webpages.Razor.xml
 D:\AndroidTest\TestAndroid\APIForIncomeExpense\API\API\bin\System.Web.Helpers.xml
 D:\AndroidTest\TestAndroid\APIForIncomeExpense\API\API\bin\System.Web.Mvc.xml
-D:\AndroidTest\TestAndroid\APIForIncomeExpense\API\API\obj\Debug\API.csprojResolveAssemblyReference.cache
 D:\AndroidTest\TestAndroid\APIForIncomeExpense\API\API\obj\Debug\API.dll
 D:\AndroidTest\TestAndroid\APIForIncomeExpense\API\API\obj\Debug\API.pdb
