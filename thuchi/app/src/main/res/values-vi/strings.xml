@@ -58,4 +58,5 @@
     <string name="posting">Đang gửi dữ liệu...</string>
     <string name="getting">Đang nhận dữ liệu...</string>
     <string name="done">Hoàn thành</string>
+    <string name="no_desc">Không có ghi chú</string>
 </resources>

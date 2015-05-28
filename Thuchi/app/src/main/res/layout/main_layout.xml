@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent" android:id="@+id/main">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" android:id="@+id/menu_top">
+        android:orientation="horizontal" android:id="@+id/menu_top"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true">
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -33,6 +35,15 @@
             android:onClick="goToSpend"
             android:background="@drawable/tab_btn_blue"
             android:id="@+id/btn_expense"/>
+        <ImageButton
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:textColor="#ffffff"
+            android:onClick="openOptionMenu"
+            android:background="@drawable/tab_btn_blue"
+            android:contentDescription="S"
+            android:src="@drawable/ic_action_navigation_more_vert"
+            />
     </LinearLayout>
     <FrameLayout
         android:layout_width="match_parent"

@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.android.nghiatrinh.thuchi.R;
 import com.android.nghiatrinh.thuchi.activitys.MainActivity;
+import com.android.nghiatrinh.thuchi.fragments.MenuFragment;
 import com.android.nghiatrinh.thuchi.model.Income;
 
 import org.apache.http.HttpEntity;
@@ -303,4 +304,21 @@ public final class Helper {
         return  response;
     }
 
+    public static void showMenu(Activity context)
+    {
+        context.openOptionsMenu();
+    }
+
+    public static void initShowMenu(final Activity context,View view)
+    {
+        new SwipeHelper(view).setOnSwipeListener(new SwipeHelper.onSwipeEvent() {
+            @Override
+            public void SwipeEventDetected(View v, SwipeHelper.SwipeTypeEnum SwipeType) {
+                if (SwipeType== SwipeHelper.SwipeTypeEnum.LEFT_TO_RIGHT)
+                {
+                    Helper.showMenu(context);
+                }
+            }
+        });
+    }
 }

@@ -1,13 +1,17 @@
 package com.android.nghiatrinh.thuchi.model;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.nghiatrinh.thuchi.R;
+import com.android.nghiatrinh.thuchi.helpers.Helper;
+import com.android.nghiatrinh.thuchi.helpers.SwipeHelper;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;

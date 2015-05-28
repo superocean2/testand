@@ -69,5 +69,6 @@
     <string name="posting">Posting data...</string>
     <string name="getting">Getting data...</string>
     <string name="done">Done</string>
+    <string name="no_desc">No description</string>
 
 </resources>

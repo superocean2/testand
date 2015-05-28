@@ -111,14 +111,17 @@ public class IncomeFragment extends Fragment {
                 Income income = Income.findById(Income.class,Long.parseLong(incomeId.getText().toString()));
                 if (income !=null)
                 {
-                    if (!income.getDescription().isEmpty())
+                    String decs = income.getDescription();
+                    if (decs.isEmpty())
                     {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setMessage(income.getDescription())
-                                .setTitle(Helper.formatDate(income.getDate(),getActivity()))
-                                .setNegativeButton(R.string.close,null)
-                                .show();
+                        decs=getString(R.string.no_desc);
                     }
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage(decs)
+                            .setTitle(Helper.formatDate(income.getDate(),getActivity()))
+                            .setNegativeButton(R.string.close,null)
+                            .show();
+
                 }
             }
         });

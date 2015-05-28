@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.nghiatrinh.thuchi.R;
 import com.android.nghiatrinh.thuchi.helpers.Helper;
+import com.android.nghiatrinh.thuchi.helpers.SwipeHelper;
 import com.android.nghiatrinh.thuchi.model.Expense;
 import com.android.nghiatrinh.thuchi.model.Income;
 
@@ -24,6 +26,7 @@ public class OverviewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.overview_fragment_layout,container,false);
+
         Helper.setActiveFragment(getActivity(), true, false, false);
         Calendar today = Calendar.getInstance();
         String thisMonth =Helper.format2digits(today.get(Calendar.MONTH) +1) +"-"+Helper.format4digits(today.get(Calendar.YEAR));

@@ -1,6 +1,7 @@
 package com.android.nghiatrinh.thuchi.activitys;
 
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +25,7 @@ import com.android.nghiatrinh.thuchi.fragments.IncomeFragment;
 import com.android.nghiatrinh.thuchi.fragments.OverviewFragment;
 import com.android.nghiatrinh.thuchi.fragments.ExpenseFragment;
 import com.android.nghiatrinh.thuchi.helpers.Helper;
+import com.android.nghiatrinh.thuchi.helpers.SwipeHelper;
 import com.android.nghiatrinh.thuchi.model.Category;
 import com.android.nghiatrinh.thuchi.model.Setting;
 import com.android.nghiatrinh.thuchi.model.User;
@@ -57,6 +60,8 @@ public class MainActivity extends ActionBarActivity{
         res.updateConfiguration(conf, dm);
 
         setContentView(R.layout.main_layout);
+        RelativeLayout main = (RelativeLayout)findViewById(R.id.main);
+
         OverviewFragment overviewFragment = new OverviewFragment();
         IncomeFragment incomeFragment = new IncomeFragment();
         ExpenseFragment expenseFragment = new ExpenseFragment();
@@ -210,6 +215,11 @@ public class MainActivity extends ActionBarActivity{
     {
         YearPickerDialog dialog = new YearPickerDialog();
         dialog.show(getSupportFragmentManager(),"YearPicker");
+    }
+
+    public void openOptionMenu(View view)
+    {
+        Helper.showMenu(this);
     }
     private class SetDate implements DatePickerDialog.OnDateSetListener
     {
