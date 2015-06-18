@@ -1,7 +1,6 @@
 package samsam.nghia;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -10,8 +9,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by NghiaTrinh on 6/17/2015.
@@ -24,7 +27,8 @@ public class RainDrop extends ApplicationAdapter {
     Texture bucketImage;
     Texture rainDropImage;
     Rectangle bucketRec;
-    ArrayList<Rectangle> rainDrops;
+    Array<Rectangle> rainDrops;
+    float lastDropTime;
 
     @Override
     public void create() {
@@ -39,7 +43,8 @@ public class RainDrop extends ApplicationAdapter {
         rainDropImage = new Texture("droplet.png");
         camera=new OrthographicCamera();
         camera.setToOrtho(false,800,480);
-        rainDrops=new ArrayList<Rectangle>();
+        rainDrops=new Array<Rectangle>();
+        initRainDrop();
     }
 
     @Override
@@ -48,9 +53,44 @@ public class RainDrop extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
+
         batch.begin();
         batch.draw(background, 0, 0);
         batch.draw(bucketImage,bucketRec.x,bucketRec.y);
+        batch.end();
+        if (Gdx.input.isTouched())
+        {
+            Vector3 touchPosition = new Vector3();
+            touchPosition.set(Gdx.input.getX(),Gdx.input.getY(),0);
+            camera.unproject(touchPosition);
+            bucketRec.x=Gdx.input.getX()-64/2;
+            if (bucketRec.x>800-64)
+            {
+                bucketRec.x=800-64;
+            }
+            if (bucketRec.x<0) bucketRec.x=0;
+        }
+
+        if (TimeUtils.nanoTime()-lastDropTime>1000000000)
+        {
+            initRainDrop();
+        }
+        Iterator<Rectangle>iter = rainDrops.iterator();
+        while (iter.hasNext())
+        {
+            Rectangle rect = iter.next();
+            if (rect.y<-64) iter.remove();
+        }
+        batch.begin();
+        for (Rectangle raindrop:rainDrops)
+        {
+            raindrop.y-=1;
+            batch.draw(rainDropImage,raindrop.x,raindrop.y);
+            if (raindrop.overlaps(bucketRec))
+            {
+                iter.remove();
+            }
+        }
         batch.end();
     }
 
@@ -84,5 +124,6 @@ public class RainDrop extends ApplicationAdapter {
         raindrop.width=64;
         raindrop.height=64;
         rainDrops.add(raindrop);
+        lastDropTime=TimeUtils.nanoTime();
     }
 }
