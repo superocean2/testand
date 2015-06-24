@@ -2,12 +2,14 @@ package samsam.nghia;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -16,7 +18,6 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.Iterator;
 
-import sun.font.TrueTypeFont;
 
 /**
  * Created by NghiaTrinh on 6/17/2015.
@@ -38,6 +39,11 @@ public class RainDrop extends ApplicationAdapter {
     int score;
     int life;
     float baseline;
+    Music music;
+    Sound hitsound;
+    Sound gameoverSound;
+    Sound lifeRainSound;
+    int level;
 
     @Override
     public void create() {
@@ -46,9 +52,11 @@ public class RainDrop extends ApplicationAdapter {
         bucketImage = new Texture("bucket.png");
         readyImage=new Texture("ready.png");
         gameOverImage=new Texture("gameover.png");
+        music=Gdx.audio.newMusic(Gdx.files.internal("sound/rain.mp3"));
+        hitsound= Gdx.audio.newSound(Gdx.files.internal("sound/hit.mp3"));
+        gameoverSound= Gdx.audio.newSound(Gdx.files.internal("sound/gameover.mp3"));
+        lifeRainSound= Gdx.audio.newSound(Gdx.files.internal("sound/explode.wav"));
         bucketRec=new Rectangle();
-        bucketRec.x=800/2-bucketImage.getWidth()/2;
-        bucketRec.y=10;
         bucketRec.width=64;
         bucketRec.height=64;
         rainDropImage = new Texture("droplet.png");
@@ -57,9 +65,17 @@ public class RainDrop extends ApplicationAdapter {
         rainDrops=new Array<Rectangle>();
         initRainDrop();
         gameState=GameState.Start;
-        font =  new BitmapFont(Gdx.files.internal("arial.fnt"));
-        font.setColor(0,0,1,1);
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/droid-i.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 40;
+        font = generator.generateFont(parameter); // font size 12 pixels
+        generator.dispose();
+
+        font.setColor(1, 0, 0, 1);
         baseline=480-30;
+        music.setLooping(true);
+        music.setVolume((float)0.5);
+        music.play();
         resetGame();
     }
 
@@ -67,6 +83,46 @@ public class RainDrop extends ApplicationAdapter {
     public void render() {
         Gdx.gl.glClearColor(1,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        updateWorld();
+        drawworld();
+    }
+
+    private  void updateWorld()
+    {
+        if (Gdx.input.isTouched())
+        {
+            if (Gdx.input.justTouched()) {
+                if (gameState == GameState.Start) {
+                    gameState = GameState.Running;
+                }
+                if (gameState == GameState.GameOver) {
+                    resetGame();
+                }
+            }
+            if (gameState==GameState.Running) {
+                Vector3 touchPosition = new Vector3();
+                touchPosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+                camera.unproject(touchPosition);
+                bucketRec.x = touchPosition.x - 64 / 2;
+                if (bucketRec.x > 800 - 64) {
+                    bucketRec.x = 800 - 64;
+                }
+                if (bucketRec.x < 0) bucketRec.x = 0;
+            }
+        }
+
+        if (gameState==GameState.Running) {
+            level=(int)Math.ceil((double)score/10)+1;
+            if (score>level*10) level++;
+            if (TimeUtils.nanoTime() - lastDropTime > 1000000000*1.2) {
+                initRainDrop();
+            }
+        }
+
+    }
+    private  void drawworld()
+    {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
@@ -80,52 +136,33 @@ public class RainDrop extends ApplicationAdapter {
             batch.draw(gameOverImage, 800 / 2 - gameOverImage.getWidth() / 2, 480 / 2 - gameOverImage.getHeight() / 2);
         }
         font.draw(batch,"Life: ",20,baseline);
-        font.draw(batch,String.valueOf(life),120,baseline);
-        font.draw(batch,"Score: ",800-350,baseline);
+        font.draw(batch,String.valueOf(life),110,baseline);
+        font.draw(batch,"Score: ",800-320,baseline);
         font.draw(batch,String.valueOf(score),800-200,baseline);
         batch.end();
-        if (Gdx.input.isTouched())
-        {
-            if (gameState==GameState.Start) {
-                gameState = GameState.Running;
-            }
-            if (gameState==GameState.GameOver)
-            {
-                gameState=GameState.Start;
-                resetGame();
-            }
-            Vector3 touchPosition = new Vector3();
-            touchPosition.set(Gdx.input.getX(),Gdx.input.getY(),0);
-            camera.unproject(touchPosition);
-            bucketRec.x=touchPosition.x-64/2;
-            if (bucketRec.x>800-64)
-            {
-                bucketRec.x=800-64;
-            }
-            if (bucketRec.x<0) bucketRec.x=0;
-        }
+
 
         if (gameState==GameState.Running) {
-            if (TimeUtils.nanoTime() - lastDropTime > 1000000000 * 1.20) {
-                initRainDrop();
-            }
             Iterator<Rectangle> iter = rainDrops.iterator();
 
             while (iter.hasNext()) {
                 Rectangle rect = iter.next();
-                rect.y -= 4;
+                rect.y -= 100*level*Gdx.graphics.getDeltaTime();
                 batch.begin();
                 batch.draw(rainDropImage, rect.x, rect.y);
                 if (rect.overlaps(bucketRec)) {
+                    hitsound.play();
                     score++;
                     iter.remove();
                 }
                 batch.end();
                 if (rect.y < -64)
                 {
+                    lifeRainSound.play();
                     life--;
                     if (life==0)
                     {
+                        gameoverSound.play();
                         gameState=GameState.GameOver;
                     }
                     iter.remove();
@@ -134,12 +171,14 @@ public class RainDrop extends ApplicationAdapter {
             }
         }
     }
-
     private  void resetGame()
     {
         life=3;
         score=0;
+        level=1;
         gameState=GameState.Start;
+        bucketRec.x=800/2-bucketImage.getWidth()/2;
+        bucketRec.y=10;
     }
 
     @Override
@@ -164,6 +203,10 @@ public class RainDrop extends ApplicationAdapter {
         bucketImage.dispose();
         gameOverImage.dispose();
         readyImage.dispose();
+        music.dispose();
+        hitsound.dispose();
+        gameoverSound.dispose();
+        lifeRainSound.dispose();
     }
 
     private void initRainDrop()
