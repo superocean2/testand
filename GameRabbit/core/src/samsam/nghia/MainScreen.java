@@ -42,6 +42,7 @@ public class MainScreen implements Screen{
             //game.setScreen(new GameScreen(game));
             dispose();
         }
+
     }
 
     @Override

@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
@@ -22,10 +23,11 @@ public class EggDropGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture background;
 	OrthographicCamera camera;
-	Texture bucketImage;
-	Texture rainDropImage;
-	Rectangle bucketRec;
-	Array<Rectangle> rainDrops;
+	Texture cartImage;
+	Texture eggImage;
+	Texture eggDrop;
+	Rectangle cartRec;
+	Array<Rectangle> eggs;
 	float lastDropTime;
 	GameState gameState;
 	Texture readyImage;
@@ -44,20 +46,21 @@ public class EggDropGame extends ApplicationAdapter {
 	public void create() {
 		batch= new SpriteBatch();
 		background = new Texture("background.png");
-		bucketImage = new Texture("cart.png");
+		cartImage = new Texture("cart.png");
 		readyImage=new Texture("ready.png");
 		gameOverImage=new Texture("gameover.png");
 		music=Gdx.audio.newMusic(Gdx.files.internal("sound/rain.mp3"));
 		hitsound= Gdx.audio.newSound(Gdx.files.internal("sound/hit.mp3"));
 		gameoverSound= Gdx.audio.newSound(Gdx.files.internal("sound/gameover.mp3"));
 		lifeRainSound= Gdx.audio.newSound(Gdx.files.internal("sound/explode.wav"));
-		bucketRec=new Rectangle();
-		bucketRec.width=85;
-		bucketRec.height=41;
-		rainDropImage = new Texture("egg.png");
+		cartRec =new Rectangle();
+		cartRec.width=85;
+		cartRec.height=41;
+		eggImage = new Texture("egg.png");
+		eggDrop = new Texture("egg_drop.png");
 		camera=new OrthographicCamera();
 		camera.setToOrtho(false,800,480);
-		rainDrops=new Array<Rectangle>();
+		eggs =new Array<Rectangle>();
 		initRainDrop();
 		gameState=GameState.Start;
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/new.ttf"));
@@ -69,7 +72,7 @@ public class EggDropGame extends ApplicationAdapter {
 		font.setColor(1, 0, 0, 1);
 		baseline=480-30;
 		music.setLooping(true);
-		music.setVolume((float)0.5);
+		music.setVolume((float) 0.5);
 		music.play();
 		resetGame();
 	}
@@ -85,26 +88,26 @@ public class EggDropGame extends ApplicationAdapter {
 
 	private  void updateWorld()
 	{
+		if (Gdx.input.justTouched()) {
+			if (gameState == GameState.Start) {
+				gameState = GameState.Running;
+			}
+			if (gameState == GameState.GameOver) {
+				resetGame();
+			}
+		}
 		if (Gdx.input.isTouched())
 		{
-			if (Gdx.input.justTouched()) {
-				if (gameState == GameState.Start) {
-					gameState = GameState.Running;
+				if (gameState == GameState.Running) {
+					Vector3 touchPosition = new Vector3();
+					touchPosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+					camera.unproject(touchPosition);
+					cartRec.x = touchPosition.x - 85 / 2;
+					if (cartRec.x > 800 - 85) {
+						cartRec.x = 800 - 85;
+					}
+					if (cartRec.x < 0) cartRec.x = 0;
 				}
-				if (gameState == GameState.GameOver) {
-					resetGame();
-				}
-			}
-			if (gameState==GameState.Running) {
-				Vector3 touchPosition = new Vector3();
-				touchPosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-				camera.unproject(touchPosition);
-				bucketRec.x = touchPosition.x - 85 / 2;
-				if (bucketRec.x > 800 - 85) {
-					bucketRec.x = 800 - 85;
-				}
-				if (bucketRec.x < 0) bucketRec.x = 0;
-			}
 		}
 
 		if (gameState==GameState.Running) {
@@ -123,7 +126,7 @@ public class EggDropGame extends ApplicationAdapter {
 
 		batch.begin();
 		batch.draw(background, 0, 0);
-		batch.draw(bucketImage,bucketRec.x,bucketRec.y);
+		batch.draw(cartImage, cartRec.x, cartRec.y);
 		if (gameState==GameState.Start) {
 			batch.draw(readyImage, 800 / 2 - readyImage.getWidth() / 2, 480 / 2 - readyImage.getHeight() / 2);
 		}
@@ -138,21 +141,22 @@ public class EggDropGame extends ApplicationAdapter {
 
 
 		if (gameState==GameState.Running) {
-			Iterator<Rectangle> iter = rainDrops.iterator();
+			Iterator<Rectangle> iter = eggs.iterator();
 
 			while (iter.hasNext()) {
 				Rectangle rect = iter.next();
 				rect.y -= 100*level*Gdx.graphics.getDeltaTime();
 				batch.begin();
-				batch.draw(rainDropImage, rect.x, rect.y);
-				if (rect.overlaps(bucketRec)) {
+				batch.draw(eggImage, rect.x, rect.y);
+				if (rect.overlaps(cartRec)) {
 					hitsound.play();
 					score++;
 					iter.remove();
 				}
 				batch.end();
-				if (rect.y < -42)
+				if (rect.y < 42)
 				{
+					iter.remove();
 					lifeRainSound.play();
 					life--;
 					if (life==0)
@@ -160,7 +164,6 @@ public class EggDropGame extends ApplicationAdapter {
 						gameoverSound.play();
 						gameState=GameState.GameOver;
 					}
-					iter.remove();
 				}
 
 			}
@@ -172,8 +175,8 @@ public class EggDropGame extends ApplicationAdapter {
 		score=0;
 		level=1;
 		gameState=GameState.Start;
-		bucketRec.x=800/2-bucketImage.getWidth()/2;
-		bucketRec.y=10;
+		cartRec.x=800/2- cartImage.getWidth()/2;
+		cartRec.y=10;
 	}
 	@Override
 	public void resize(int width, int height) {
@@ -194,7 +197,7 @@ public class EggDropGame extends ApplicationAdapter {
 	public void dispose() {
 		background.dispose();
 		batch.dispose();
-		bucketImage.dispose();
+		cartImage.dispose();
 		gameOverImage.dispose();
 		readyImage.dispose();
 		music.dispose();
@@ -210,7 +213,7 @@ public class EggDropGame extends ApplicationAdapter {
 		raindrop.y=480;
 		raindrop.width=30;
 		raindrop.height=42;
-		rainDrops.add(raindrop);
+		eggs.add(raindrop);
 		lastDropTime=TimeUtils.nanoTime();
 	}
 	enum GameState {
