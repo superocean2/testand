@@ -44,8 +44,10 @@ public class ColorTest extends Game {
 
 	@Override
 	public void dispose() {
-
 		batch.dispose();
 		font.dispose();
+		fontScore.dispose();
+		background.dispose();
+		button.dispose();
 	}
 }

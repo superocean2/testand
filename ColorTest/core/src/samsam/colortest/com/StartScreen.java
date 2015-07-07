@@ -17,8 +17,8 @@ public class StartScreen implements Screen {
     public StartScreen(final ColorTest test) {
         game=test;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false,400,800);
-        rectStart = new Rectangle(78,230,game.button.getWidth(),game.button.getHeight());
+        camera.setToOrtho(false,480,800);
+        rectStart = new Rectangle(120,250,game.button.getWidth(),game.button.getHeight());
     }
 
     @Override
@@ -39,7 +39,7 @@ public class StartScreen implements Screen {
         game.batch.draw(game.button,rectStart.getX(),rectStart.getY());
         game.font.draw(game.batch, "See different", 50, 600);
 
-        game.fontScore.draw(game.batch,"Start",160,260);
+        game.fontScore.draw(game.batch,"Start",200,280);
         game.batch.end();
 
         if (Gdx.input.isTouched())
