@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Color</string>
+    <string name="start">Start</string>
+    <string name="start_description1">Which one of the boxes has an irregular color?</string>
+    <string name="start_description2">Choose it</string>
+    <string name="your_score">YOUR SCORE: </string>
+    <string name="bat">BAT</string>
+    <string name="mole">MOLE</string>
+    <string name="dog">DOG</string>
+    <string name="cat">CAT</string>
+    <string name="tiger">TIGER</string>
+    <string name="hawk">HAWK</string>
+    <string name="alien">ALIEN</string>
+    <string name="bat_desc_1">You can\'t see anything in dark</string>
+    <string name="bat_desc_2">Be careful!!!</string>
+    <string name="mole_desc_1">You can see the closest things</string>
+    <string name="mole_desc_2">Start</string>
+    <string name="dog_desc_1">Start</string>
+    <string name="dog_desc_2">Start</string>
+    <string name="cat_desc_1">Start</string>
+    <string name="cat_desc_2">Start</string>
+    <string name="tiger_desc_1">Start</string>
+    <string name="tiger_desc_2">Start</string>
+    <string name="hawk_desc_1">Start</string>
+    <string name="hawk_desc_2">Start</string>
+    <string name="alien_desc_1">Start</string>
+    <string name="alien_desc_2">Start</string>
+    <string name="facebook_share_1">Start</string>
+    <string name="facebook_share_2">Start</string>
 
 </resources>

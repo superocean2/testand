@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<languages>
+<!-- English -->
+<language name="en_US" >
+    <string key="start" value="Start" />
+    <string key="gameDescription" value="Which one of the boxes has an irregular color?" />
+    <string key="gameDescription1" value="Choose it!" />
+    <string key="yourScore" value="Your score: " />
+    <string key="shareFacebook" value="Share on Facebook" />
+    <string key="bat" value="BAT" />
+    <string key="bat1" value="You cant see anything in dark" />
+    <string key="bat2" value="Be careful!!!" />
+    <string key="mole" value="MOLE" />
+    <string key="mole1" value="You can see closest things" />
+    <string key="mole2" value="Don't go far away!" />
+    <string key="dog" value="DOG" />
+    <string key="dog1" value="You can see almost food in dark" />
+    <string key="dog2" value="But sometimes not lucky!" />
+    <string key="cat" value="CAT" />
+    <string key="cat1" value="You see very good in dark" />
+    <string key="cat2" value="But the mouse can hide from you!" />
+    <string key="tiger" value="TIGER" />
+    <string key="tiger1" value="You can see through the forest" />
+    <string key="tiger2" value="Excellent!" />
+    <string key="hawk" value="HAWK" />
+    <string key="hawk1" value="You can see very far" />
+    <string key="hawk2" value="Even the worm can't escape!" />
+    <string key="alien" value="ALIEN" />
+    <string key="alien1" value="You can see the mosquito from a kilometer" />
+    <string key="alien2" value="That's incredible!!!" />
+</language>
+
+<!-- Spanish -->
+<language name="vi_VN" >
+    <string key="start" value="Bắt đầu" />
+    <string key="gameDescription" value="Hình nào có màu sắc khác so với những hình khác?" />
+    <string key="gameDescription1" value="Hãy chọn nó!" />
+    <string key="yourScore" value="Điểm của bạn: " />
+    <string key="shareFacebook" value="Chia sẽ trên Facebook" />
+    <string key="bat" value="CON DƠI" />
+    <string key="bat1" value="Bạn không thể thấy gì về đêm" />
+    <string key="bat2" value="Hãy cẩn thận!!!" />
+    <string key="mole" value="CHUỘT CHŨI" />
+    <string key="mole1" value="Bạn chỉ thấy những vật gần nhất" />
+    <string key="mole2" value="Đừng đi xa nhé!" />
+    <string key="dog" value="CON CHÓ" />
+    <string key="dog1" value="Bạn có thể thấy hầu như mọi thức ăn" />
+    <string key="dog2" value="Nhưng đôi khi cũng bỏ sót!" />
+    <string key="cat" value="CON MÈO" />
+    <string key="cat1" value="Bạn có thể thấy rất tốt trong đêm" />
+    <string key="cat2" value="Nhưng con chuột có thể trốn bạn đấy!" />
+    <string key="tiger" value="CON HỔ" />
+    <string key="tiger1" value="Bạn có thể nhìn xuyên qua cánh rừng" />
+    <string key="tiger2" value="Thật tuyệt vời!" />
+    <string key="hawk" value="CHIM ƯNG" />
+    <string key="hawk1" value="Bạn có thể nhìn thấy rất xa" />
+    <string key="hawk2" value="Con giun cũng không thể thoát khỏi bạn!" />
+    <string key="alien" value="NGƯỜI NGOÀI HÀNH TINH" />
+    <string key="alien1" value="Bạn có thể nhìn thấy con muỗi cách xa hàng km" />
+    <string key="alien2" value="Thật không thể tin được!!!" />
+</language>
+</languages>

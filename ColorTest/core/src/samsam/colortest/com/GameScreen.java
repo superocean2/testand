@@ -1,13 +1,17 @@
 package samsam.colortest.com;
 
+import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +23,9 @@ public class GameScreen implements Screen{
     final ColorTest game;
     ShapeRenderer shapeRenderer;
     OrthographicCamera camera;
+    Texture bgScore;
+    Texture bgTimeleft;
+    Music tiktok;
 
     int score;
     int level;
@@ -40,6 +47,10 @@ public class GameScreen implements Screen{
         shapeRenderer = new ShapeRenderer();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 480, 800);
+        bgScore=new Texture("score_bg.png");
+        bgTimeleft=new Texture("timeleft_bg.png");
+        tiktok = Gdx.audio.newMusic(Gdx.files.internal("sound/ticking.mp3"));
+
         resetGame();
     }
 
@@ -68,7 +79,7 @@ public class GameScreen implements Screen{
     private int colorDiff(int l)
     {
         if (l<44) {
-            int[] col = {75, 60, 45, 15, 15, 10, 10, 9, 9, 9, 8, 8, 8, 8, 7, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 2, 2, 2, 2};
+            int[] col = {75, 60, 45, 30, 20, 18, 16, 15, 14, 13, 12, 11, 11, 11, 10, 10, 9, 9, 8, 8, 7, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 5, 4, 4, 4, 4, 3, 3, 3, 3, 2, 2, 2, 2};
             return col[l];
         }
         return 1;
@@ -85,7 +96,7 @@ public class GameScreen implements Screen{
     }
     private void updateScore()
     {
-        score=level;
+        score=level-1;
 
     }
     @Override
@@ -95,10 +106,50 @@ public class GameScreen implements Screen{
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
 
+        //update timeleft
+        if (startTime>0)
+        {
+            if (TimeUtils.timeSinceNanos(startTime)>1000000000)
+            {
+                timeLeft--;
+                if (timeLeft<0) timeLeft=0;
+                startTime=TimeUtils.nanoTime();
+            }
+        }
+        if (timeLeft==0&&tiktok.isPlaying())
+        {
+            tiktok.stop();
+            game.setScreen(new Result(game,score));
+        }
+        if (timeLeft==5)
+        {
+            if (!tiktok.isPlaying()) {
+                tiktok.play();
+            }
+            game.fontTimeleft.setColor(250/255f,230/255f,45/255f,1);
+        }
+        else
+        {
+            game.fontTimeleft.setColor(255,255,255,1);
+        }
         game.batch.begin();
         game.batch.draw(game.background, 0, 0);
-        game.fontScore.draw(game.batch, String.valueOf(score), 50, 800 - 50);
-        game.fontScore.draw(game.batch, String.valueOf(timeLeft), 400 - 100, 800 - 50);
+        game.batch.draw(bgScore,50,800-bgScore.getHeight()-20);
+        game.batch.draw(bgTimeleft,400-100,800-bgScore.getHeight()-20);
+        if (score>9) {
+            game.fontScore.draw(game.batch, String.valueOf(score), 100, 800 - 75);
+        }
+        else
+        {
+            game.fontScore.draw(game.batch, String.valueOf(score), 110, 800 - 75);
+        }
+        if (timeLeft>9) {
+            game.fontTimeleft.draw(game.batch, String.valueOf(timeLeft), 400 - 70, 800 - 75);
+        }
+        else
+        {
+            game.fontTimeleft.draw(game.batch, String.valueOf(timeLeft), 400 - 57, 800 - 75);
+        }
         game.batch.end();
 
 
@@ -135,9 +186,15 @@ public class GameScreen implements Screen{
             v.set(Gdx.input.getX(),Gdx.input.getY(),0);
             camera.unproject(v);
             if (Helpers.isTouchedInRect(theChoice,v.x,v.y)) {
+                startTime= TimeUtils.nanoTime();
+                timeLeft=15;
                 level++;
                 nextLevel();
                 updateScore();
+            }
+            else
+            {
+                game.setScreen(new Result(game,score));
             }
         }
     }
@@ -190,5 +247,8 @@ public class GameScreen implements Screen{
     public void dispose() {
         game.dispose();
         shapeRenderer.dispose();
+        bgScore.dispose();
+        bgTimeleft.dispose();
+        tiktok.dispose();
     }
 }
