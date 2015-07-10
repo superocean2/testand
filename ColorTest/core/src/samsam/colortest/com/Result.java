@@ -27,6 +27,8 @@ public class Result implements Screen{
     Texture bgFacebook;
     Texture bgRestart;
     LanguagesManager languagesManager;
+    Rectangle fbRect;
+    Rectangle restartRect;
 
     int score;
 
@@ -41,6 +43,8 @@ public class Result implements Screen{
         resultPicture=new Texture(getResultInfo().get_picture());
         bgFacebook= new Texture("facebook.png");
         bgRestart = new Texture("play-again.png");
+        fbRect=new Rectangle();
+        restartRect=new Rectangle();
     }
 
     private ResultInfo getResultInfo()
@@ -93,10 +97,28 @@ public class Result implements Screen{
         layout3.setText(game.fontResultText, getResultInfo().get_description2());
         game.fontResultText.draw(game.batch, layout3, camera.viewportWidth / 2 - layout3.width / 2, 460);
 
-        game.batch.draw(bgFacebook,camera.viewportWidth/2-bgFacebook.getWidth()/2,330);
-        game.batch.draw(bgRestart,camera.viewportWidth/2-bgRestart.getWidth()/2,270);
+        fbRect.set(camera.viewportWidth / 2 - bgFacebook.getWidth() / 2, 330, bgFacebook.getWidth(), bgFacebook.getHeight());
+        restartRect.set(camera.viewportWidth/2-bgRestart.getWidth()/2,270,bgRestart.getWidth(),bgRestart.getHeight());
+        game.batch.draw(bgFacebook,fbRect.x,fbRect.y);
+        game.batch.draw(bgRestart,restartRect.x,restartRect.y);
+        game.fontResultText.draw(game.batch,languagesManager.getString("shareFacebook"),camera.viewportWidth/2-bgFacebook.getWidth()/2+33,374);
         game.batch.end();
 
+        if (Gdx.input.justTouched())
+        {
+            Vector3 v = new Vector3();
+            v.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(v);
+            if (Helpers.isTouchedInRect(fbRect,v.x,v.y))
+            {
+                //fb tap
+            }
+            if (Helpers.isTouchedInRect(restartRect,v.x,v.y))
+            {
+                //restart tap
+                game.setScreen(new GameScreen(game));
+            }
+        }
     }
 
     @Override
