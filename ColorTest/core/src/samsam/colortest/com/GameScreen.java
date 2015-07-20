@@ -26,6 +26,8 @@ public class GameScreen implements Screen{
     Texture bgScore;
     Texture bgTimeleft;
     Music tiktok;
+    Sound gameOver;
+    Sound hit;
 
     int score;
     int level;
@@ -50,7 +52,8 @@ public class GameScreen implements Screen{
         bgScore=new Texture("score_bg.png");
         bgTimeleft=new Texture("timeleft_bg.png");
         tiktok = Gdx.audio.newMusic(Gdx.files.internal("sound/ticking.mp3"));
-
+        gameOver = Gdx.audio.newSound(Gdx.files.internal("sound/gameover.mp3"));
+        hit = Gdx.audio.newSound(Gdx.files.internal("sound/hit.mp3"));
         resetGame();
     }
 
@@ -186,15 +189,23 @@ public class GameScreen implements Screen{
             v.set(Gdx.input.getX(),Gdx.input.getY(),0);
             camera.unproject(v);
             if (Helpers.isTouchedInRect(theChoice,v.x,v.y)) {
+                hit.play();
                 startTime= TimeUtils.nanoTime();
                 timeLeft=15;
                 level++;
                 nextLevel();
                 updateScore();
+                if (tiktok.isPlaying())
+                {
+                    tiktok.stop();
+                }
             }
             else
             {
-                game.setScreen(new Result(game,score));
+                if (startTime>0) {
+                    gameOver.play();
+                    game.setScreen(new Result(game, score));
+                }
             }
         }
     }
@@ -250,5 +261,7 @@ public class GameScreen implements Screen{
         bgScore.dispose();
         bgTimeleft.dispose();
         tiktok.dispose();
+        gameOver.dispose();
+        hit.dispose();
     }
 }

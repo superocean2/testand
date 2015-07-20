@@ -42,7 +42,7 @@ public class Result implements Screen{
         bgResult=new Texture("bg_result.png");
         resultPicture=new Texture(getResultInfo().get_picture());
         bgFacebook= new Texture("facebook.png");
-        bgRestart = new Texture("play-again.png");
+        bgRestart = new Texture("play-again-3.png");
         fbRect=new Rectangle();
         restartRect=new Rectangle();
     }
@@ -98,7 +98,7 @@ public class Result implements Screen{
         game.fontResultText.draw(game.batch, layout3, camera.viewportWidth / 2 - layout3.width / 2, 460);
 
         fbRect.set(camera.viewportWidth / 2 - bgFacebook.getWidth() / 2, 330, bgFacebook.getWidth(), bgFacebook.getHeight());
-        restartRect.set(camera.viewportWidth/2-bgRestart.getWidth()/2,270,bgRestart.getWidth(),bgRestart.getHeight());
+        restartRect.set(camera.viewportWidth/2-bgRestart.getWidth()/2,240,bgRestart.getWidth(),bgRestart.getHeight());
         game.batch.draw(bgFacebook,fbRect.x,fbRect.y);
         game.batch.draw(bgRestart,restartRect.x,restartRect.y);
         game.fontResultText.draw(game.batch,languagesManager.getString("shareFacebook"),camera.viewportWidth/2-bgFacebook.getWidth()/2+33,374);

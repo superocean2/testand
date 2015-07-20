@@ -44,7 +44,7 @@ public class StartScreen implements Screen {
         game.fontStart.draw(game.batch,languagesManager.getString("start"),200,285);
         game.batch.end();
 
-        if (Gdx.input.isTouched())
+        if (Gdx.input.justTouched())
         {
             Vector3 v = new Vector3();
             v.set(Gdx.input.getX(),Gdx.input.getY(),0);
