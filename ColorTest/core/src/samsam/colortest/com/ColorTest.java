@@ -2,14 +2,10 @@ package samsam.colortest.com;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.utils.I18NBundle;
-
-import java.util.Locale;
 
 public class ColorTest extends Game {
 	SpriteBatch batch;
@@ -22,7 +18,12 @@ public class ColorTest extends Game {
 	BitmapFont fontResultTitle;
 	Texture background;
 	Texture button;
-//	I18NBundle languageBundle;
+	ActionResolver actionResolver;
+
+	public ColorTest(ActionResolver actionResolver) {
+		this.actionResolver = actionResolver;
+	}
+
 	@Override
 	public void create () {
 //		FileHandle baseFileHandle = Gdx.files.internal("Languages/Bundle");

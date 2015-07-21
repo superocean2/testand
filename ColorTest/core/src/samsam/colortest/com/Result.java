@@ -6,13 +6,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.TimeUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import samsam.colortest.com.Model.ResultInfo;
 
@@ -45,30 +40,31 @@ public class Result implements Screen{
         bgRestart = new Texture("play-again-3.png");
         fbRect=new Rectangle();
         restartRect=new Rectangle();
+        //game.actionResolver.showSmallGoogleAds();
     }
 
     private ResultInfo getResultInfo()
     {
         if (1 <= score && score < 4) {
-            return  new ResultInfo("1.png",languagesManager.getString("bat"),languagesManager.getString("bat1"),languagesManager.getString("bat2"));
+            return  new ResultInfo("1.png",languagesManager.getString("bat"),languagesManager.getString("bat1"),languagesManager.getString("bat2"),"http://2.bp.blogspot.com/-RnaNyl1SvKs/Vay7PcKeM_I/AAAAAAAAPPQ/Ds5wYd4AOAE/s1600/1.png");
         }
         if (4 <= score && score < 8) {
-            return  new ResultInfo("2.png",languagesManager.getString("mole"),languagesManager.getString("mole1"),languagesManager.getString("mole2"));
+            return  new ResultInfo("2.png",languagesManager.getString("mole"),languagesManager.getString("mole1"),languagesManager.getString("mole2"),"http://4.bp.blogspot.com/-yr-U5oS-CHQ/Vay7PZHNpKI/AAAAAAAAPPU/MPJUlVdmYSo/s1600/2.png");
         }
         if (8 <= score && score < 11) {
-            return  new ResultInfo("3.png",languagesManager.getString("dog"),languagesManager.getString("dog1"),languagesManager.getString("dog2"));
+            return  new ResultInfo("3.png",languagesManager.getString("dog"),languagesManager.getString("dog1"),languagesManager.getString("dog2"),"http://1.bp.blogspot.com/--lyzNm309yw/Vay7Pa74NbI/AAAAAAAAPPY/JuhWecGvfqQ/s1600/3.png");
         }
         if (11 <= score && score < 15) {
-            return  new ResultInfo("4.png",languagesManager.getString("cat"),languagesManager.getString("cat1"),languagesManager.getString("cat2"));
+            return  new ResultInfo("4.png",languagesManager.getString("cat"),languagesManager.getString("cat1"),languagesManager.getString("cat2"),"http://4.bp.blogspot.com/-38ilNrJqEXI/Vay7P3FQh9I/AAAAAAAAPPs/S9KcFO5Uc5Y/s1600/4.png");
         }
         if (15 <= score && score < 20) {
-            return  new ResultInfo("5.png",languagesManager.getString("tiger"),languagesManager.getString("tiger1"),languagesManager.getString("tiger2"));
+            return  new ResultInfo("5.png",languagesManager.getString("tiger"),languagesManager.getString("tiger1"),languagesManager.getString("tiger2"),"http://1.bp.blogspot.com/-ITNVA8QNEAQ/Vay7PzNzjaI/AAAAAAAAPPw/IqJ3Zj1QGPM/s1600/5.png");
         }
         if (20 <= score && score < 30) {
-            return  new ResultInfo("6.png",languagesManager.getString("hawk"),languagesManager.getString("hawk1"),languagesManager.getString("hawk2"));
+            return  new ResultInfo("6.png",languagesManager.getString("hawk"),languagesManager.getString("hawk1"),languagesManager.getString("hawk2"),"http://1.bp.blogspot.com/-GMUaSuh2KFk/Vay7QNwp8fI/AAAAAAAAPPo/kHARlq1dIV0/s1600/6.png");
         }
 
-        return  new ResultInfo("7.png",languagesManager.getString("alien"),languagesManager.getString("alien1"),languagesManager.getString("alien2"));
+        return  new ResultInfo("7.png",languagesManager.getString("alien"),languagesManager.getString("alien1"),languagesManager.getString("alien2"),"http://3.bp.blogspot.com/-GcgIHlVrhGI/Vay7Q81vuAI/AAAAAAAAPQA/TPX0NcqFAUU/s1600/7.png");
     }
 
     @Override
@@ -112,6 +108,11 @@ public class Result implements Screen{
             if (Helpers.isTouchedInRect(fbRect,v.x,v.y))
             {
                 //fb tap
+                game.actionResolver.showFbShare(
+                        getResultInfo().get_name(),
+                        languagesManager.getString("yourScore")+" "+String.valueOf(score) +". "+getResultInfo().get_description1()+". "+getResultInfo().get_description2(),
+                        "http://funnynet.net",getResultInfo().get_picture_fb()
+                );
             }
             if (Helpers.isTouchedInRect(restartRect,v.x,v.y))
             {
