@@ -3,8 +3,8 @@
 <!-- English -->
 <language name="en_US" >
     <string key="start" value="Start" />
-    <string key="gameDescription" value="Which one of the boxes has an irregular color?" />
-    <string key="gameDescription1" value="Choose it!" />
+    <string key="gameDescription" value="Which one of the boxes has " />
+    <string key="gameDescription1" value="an irregular color? Choose it!" />
     <string key="yourScore" value="Your score: " />
     <string key="shareFacebook" value="Share on Facebook" />
     <string key="bat" value="BAT" />
@@ -28,13 +28,14 @@
     <string key="alien" value="ALIEN" />
     <string key="alien1" value="You can see the mosquito from a kilometer" />
     <string key="alien2" value="That's incredible!!!" />
+    <string key="trythis" value="Try to see how you can do?!!!" />
 </language>
 
 <!-- Spanish -->
 <language name="vi_VN" >
     <string key="start" value="Bắt đầu" />
-    <string key="gameDescription" value="Hình nào có màu sắc khác so với những hình khác?" />
-    <string key="gameDescription1" value="Hãy chọn nó!" />
+    <string key="gameDescription" value="Hình nào có màu sắc khác so" />
+    <string key="gameDescription1" value="với những hình khác? Hãy chọn nó!" />
     <string key="yourScore" value="Điểm của bạn: " />
     <string key="shareFacebook" value="Chia sẽ trên Facebook" />
     <string key="bat" value="CON DƠI" />
@@ -58,5 +59,6 @@
     <string key="alien" value="NGƯỜI NGOÀI HÀNH TINH" />
     <string key="alien1" value="Bạn nhìn thấy con muỗi cách xa hàng km" />
     <string key="alien2" value="Thật không thể tin được!!!" />
+    <string key="trythis" value="Hãy thử xem khả năng của bạn?!!!" />
 </language>
 </languages>
