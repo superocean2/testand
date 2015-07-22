@@ -34,6 +34,7 @@ public class GameScreen implements Screen{
     long startTime;
     int timeLeft;
     Rectangle theChoice;
+    Rectangle rectGame;
     int space=5;
 
     int sizes;
@@ -51,9 +52,10 @@ public class GameScreen implements Screen{
         camera.setToOrtho(false, 480, 800);
         bgScore=new Texture("score_bg.png");
         bgTimeleft=new Texture("timeleft_bg.png");
-        tiktok = Gdx.audio.newMusic(Gdx.files.internal("sound/ticking.mp3"));
-        gameOver = Gdx.audio.newSound(Gdx.files.internal("sound/gameover.mp3"));
-        hit = Gdx.audio.newSound(Gdx.files.internal("sound/hit.mp3"));
+        tiktok = Gdx.audio.newMusic(Gdx.files.internal("sound/tiktok.mp3"));
+        gameOver = Gdx.audio.newSound(Gdx.files.internal("sound/wrong.mp3"));
+        hit = Gdx.audio.newSound(Gdx.files.internal("sound/correct.mp3"));
+        rectGame = new Rectangle(40, 200, 400, 400);
         resetGame();
     }
 
@@ -160,7 +162,7 @@ public class GameScreen implements Screen{
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(255, 255, 255, 1);
-        shapeRenderer.rect(40, 200, 400, 400);
+        shapeRenderer.rect(rectGame.x, rectGame.y,rectGame.width, rectGame.height);
         //render cols
         List<Rectangle> list = getColsPosition();
 
@@ -186,25 +188,24 @@ public class GameScreen implements Screen{
         if (Gdx.input.justTouched())
         {
             Vector3 v = new Vector3();
-            v.set(Gdx.input.getX(),Gdx.input.getY(),0);
+            v.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(v);
-            if (Helpers.isTouchedInRect(theChoice,v.x,v.y)) {
-                hit.play();
-                startTime= TimeUtils.nanoTime();
-                timeLeft=15;
-                level++;
-                nextLevel();
-                updateScore();
-                if (tiktok.isPlaying())
-                {
-                    tiktok.stop();
-                }
-            }
-            else
-            {
-                if (startTime>0) {
-                    gameOver.play();
-                    game.setScreen(new Result(game, score));
+            if (Helpers.isTouchedInRect(rectGame,v.x,v.y)) {
+                if (Helpers.isTouchedInRect(theChoice, v.x, v.y)) {
+                    hit.play();
+                    startTime = TimeUtils.nanoTime();
+                    timeLeft = 15;
+                    level++;
+                    nextLevel();
+                    updateScore();
+                    if (tiktok.isPlaying()) {
+                        tiktok.stop();
+                    }
+                } else {
+                    if (startTime > 0) {
+                        gameOver.play(0.5f);
+                        game.setScreen(new Result(game, score));
+                    }
                 }
             }
         }

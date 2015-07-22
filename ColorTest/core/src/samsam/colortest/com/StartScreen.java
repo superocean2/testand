@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
@@ -19,7 +20,7 @@ public class StartScreen implements Screen {
         game=test;
         camera = new OrthographicCamera();
         camera.setToOrtho(false,480,800);
-        rectStart = new Rectangle(120,250,game.button.getWidth(),game.button.getHeight());
+        rectStart = new Rectangle(camera.viewportWidth/2- game.button.getWidth()/2,250,game.button.getWidth(),game.button.getHeight());
         languagesManager=LanguagesManager.getInstance();
     }
 
@@ -39,9 +40,17 @@ public class StartScreen implements Screen {
         game.batch.begin();
         game.batch.draw(game.background, 0, 0);
         game.batch.draw(game.button,rectStart.getX(),rectStart.getY());
-        game.font.draw(game.batch, languagesManager.getString("gameDescription"), 30, 700);
-        game.font.draw(game.batch, languagesManager.getString("gameDescription1"), 180, 650);
-        game.fontStart.draw(game.batch,languagesManager.getString("start"),200,285);
+        GlyphLayout layout = new GlyphLayout();
+        layout.setText(game.font, languagesManager.getString("gameDescription"));
+        game.font.draw(game.batch, layout, camera.viewportWidth / 2 - layout.width / 2, 700);
+
+        GlyphLayout layout1 = new GlyphLayout();
+        layout1.setText(game.font, languagesManager.getString("gameDescription1"));
+        game.font.draw(game.batch, layout1, camera.viewportWidth / 2 - layout1.width / 2, 650);
+
+        GlyphLayout layout2 = new GlyphLayout();
+        layout2.setText(game.fontStart, languagesManager.getString("start"));
+        game.fontStart.draw(game.batch,layout2,camera.viewportWidth/2-layout2.width/2,285);
         game.batch.end();
 
         if (Gdx.input.justTouched())

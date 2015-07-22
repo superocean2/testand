@@ -34,12 +34,12 @@ public class AndroidLauncher extends AndroidApplication {
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
 		layout.setLayoutParams(params);
 
+		gameView = createGameView(config);
+		layout.addView(gameView);
+
 		//---create google ads----
 		adView = createAdView();
 		layout.addView(adView);
-
-		gameView = createGameView(config);
-		layout.addView(gameView);
 
 		setContentView(layout);
 
@@ -51,10 +51,9 @@ public class AndroidLauncher extends AndroidApplication {
 		adView = new AdView(this);
 		adView.setAdSize(AdSize.SMART_BANNER);
 		adView.setAdUnitId(getString(R.string.banner_ad_unit_id));
-		adView.setId(R.id.bottom); // this is an arbitrary id, allows for relative positioning in createGameView()
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-		params.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
 		params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+		params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
 		//adView.setVisibility(View.GONE);
 		adView.setLayoutParams(params);
 		adView.setBackgroundColor(Color.BLACK);
@@ -64,9 +63,8 @@ public class AndroidLauncher extends AndroidApplication {
 	protected View createGameView(AndroidApplicationConfiguration cfg) {
 		gameView = initializeForView(new ColorTest(showDialogAndroid), cfg);
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-		params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+		params.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
 		params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
-		params.addRule(RelativeLayout.BELOW, adView.getId());
 		gameView.setLayoutParams(params);
 		return gameView;
 	}
