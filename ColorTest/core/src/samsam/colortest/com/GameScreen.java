@@ -204,6 +204,9 @@ public class GameScreen implements Screen{
                 } else {
                     if (startTime > 0) {
                         gameOver.play(0.5f);
+                        if (tiktok.isPlaying()) {
+                            tiktok.stop();
+                        }
                         game.setScreen(new Result(game, score));
                     }
                 }

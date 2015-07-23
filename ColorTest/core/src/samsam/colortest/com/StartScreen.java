@@ -40,17 +40,20 @@ public class StartScreen implements Screen {
         game.batch.begin();
         game.batch.draw(game.background, 0, 0);
         game.batch.draw(game.button,rectStart.getX(),rectStart.getY());
+
+        game.fontResultTitle.setColor(1,0,0,1);
         GlyphLayout layout = new GlyphLayout();
-        layout.setText(game.font, languagesManager.getString("gameDescription"));
-        game.font.draw(game.batch, layout, camera.viewportWidth / 2 - layout.width / 2, 700);
+        layout.setText(game.fontResultTitle, languagesManager.getString("gameDescription"));
+        game.fontResultTitle.draw(game.batch, layout, camera.viewportWidth / 2 - layout.width / 2, 700);
 
         GlyphLayout layout1 = new GlyphLayout();
-        layout1.setText(game.font, languagesManager.getString("gameDescription1"));
-        game.font.draw(game.batch, layout1, camera.viewportWidth / 2 - layout1.width / 2, 650);
+        layout1.setText(game.fontResultTitle, languagesManager.getString("gameDescription1"));
+        game.fontResultTitle.draw(game.batch, layout1, camera.viewportWidth / 2 - layout1.width / 2, 650);
 
+        game.fontResultTitle.setColor(1,1,1,1);
         GlyphLayout layout2 = new GlyphLayout();
-        layout2.setText(game.fontStart, languagesManager.getString("start"));
-        game.fontStart.draw(game.batch,layout2,camera.viewportWidth/2-layout2.width/2,285);
+        layout2.setText(game.fontResultTitle, languagesManager.getString("start"));
+        game.fontResultTitle.draw(game.batch,layout2,camera.viewportWidth/2-layout2.width/2,292);
         game.batch.end();
 
         if (Gdx.input.justTouched())

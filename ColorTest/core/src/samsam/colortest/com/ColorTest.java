@@ -9,8 +9,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 public class ColorTest extends Game {
 	SpriteBatch batch;
-	BitmapFont font;
-	BitmapFont fontStart;
 	BitmapFont fontScore;
 	BitmapFont fontTimeleft;
 	BitmapFont fontResultScore;
@@ -30,21 +28,6 @@ public class ColorTest extends Game {
 //		languageBundle = I18NBundle.createBundle(baseFileHandle);
 
 		batch = new SpriteBatch();
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/result_score.ttf"));
-		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		parameter.size = 20;
-		parameter.characters="aẤểlơÚữáẦÊLớÙỮàẬẾmờỤõạẨỀMợỦÕảbỆnởưỗABỂNƠứỖÁcfoỚừỡÀCFóỜựỠẠdgòỢửĩẢDGọỞƯĨăđhỏpỨỵắĐH​OPỪýằeiÓqỰỳặéíÒQỬỷẳèìỌrvãỹĂẹịỎRVÃỴẮẻỉôswẵÝẰEIốSWẴỲẶÉÍồtxẫỶẲÈÌộTXẪỸâẸỊổuyẽấẺỈÔúYẼ​ầêjỐùzễậếJỒụZỄẩềkỘủũÂệKỔUŨ0123456789][_!$%#@|\\/?-+=:'\".,";
-		font = generator.generateFont(parameter); // font size 12 pixels
-		generator.dispose();
-		font.setColor(1, 0, 0, 1);
-
-		FreeTypeFontGenerator generator1 = new FreeTypeFontGenerator(Gdx.files.internal("font/result_score.ttf"));
-		FreeTypeFontGenerator.FreeTypeFontParameter parameter1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		parameter1.size = 30;
-		parameter1.characters="aẤểlơÚữáẦÊLớÙỮàẬẾmờỤõạẨỀMợỦÕảbỆnởưỗABỂNƠứỖÁcfoỚừỡÀCFóỜựỠẠdgòỢửĩẢDGọỞƯĨăđhỏpỨỵắĐH​OPỪýằeiÓqỰỳặéíÒQỬỷẳèìỌrvãỹĂẹịỎRVÃỴẮẻỉôswẵÝẰEIốSWẴỲẶÉÍồtxẫỶẲÈÌộTXẪỸâẸỊổuyẽấẺỈÔúYẼ​ầêjỐùzễậếJỒụZỄẩềkỘủũÂệKỔUŨ0123456789][_!$%#@|\\/?-+=:'\".,";
-		fontStart = generator1.generateFont(parameter1); // font size 12 pixels
-		fontStart.setColor(255, 255, 255, 1);
-		generator1.dispose();
 
 		FreeTypeFontGenerator generator2 = new FreeTypeFontGenerator(Gdx.files.internal("font/classic.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -98,8 +81,6 @@ public class ColorTest extends Game {
 	@Override
 	public void dispose() {
 		batch.dispose();
-		font.dispose();
-		fontStart.dispose();
 		fontScore.dispose();
 		fontTimeleft.dispose();
 		fontResultScore.dispose();
