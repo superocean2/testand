@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Rectangle;
 import com.samsam.snake.Model.Snake;
 import com.samsam.snake.Model.SnakePart;
 import com.samsam.snake.Model.Stain;
@@ -18,12 +19,21 @@ public class GameScreen implements Screen{
     OrthographicCamera camera;
     GameState state = GameState.Ready;
     World world;
+    Rectangle rectPause;
+    Rectangle rectLoudSpeaker;
+    Rectangle rectMuteSpeaker;
+    Rectangle rectLeft;
+    Rectangle rectRight;
+    Rectangle rectUp;
+    Rectangle rectDown;
 
     public GameScreen(final SnakeGame game) {
         this.game=game;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 420, 800);
         world=new World();
+        rectPause = new Rectangle(53,643,game.pause.getWidth(),game.pause.getHeight());
+
     }
 
     @Override
@@ -52,15 +62,17 @@ public class GameScreen implements Screen{
         Stain stain = world.stain;
 
         float headX = camera.viewportWidth/2-game.snakeHead.getWidth()/2;
-        float headY= head.y*10+20 + game.GAME_SCREEN_PADDING_BOTTOM;
+        float headY= head.y*10 + game.GAME_SCREEN_PADDING_BOTTOM;
 
         game.batch.begin();
-        game.batch.draw(game.background,0,0);
+        game.batch.draw(game.background, 0, 0);
+        game.batch.draw(game.pause,rectPause.x,rectPause.y);
+
         game.batch.draw(game.snakeHead,headX,headY);
-        for (int i=0;i<snake.parts.size()-2;i++)
+        for (int i=0;i<snake.parts.size()-1;i++)
         {
             float x = camera.viewportWidth/2-game.snakeHead.getWidth()/2;
-            float y = snake.parts.get(i).y*10+20+game.GAME_SCREEN_PADDING_BOTTOM;
+            float y = snake.parts.get(i).y*10+game.GAME_SCREEN_PADDING_BOTTOM;
             game.batch.draw(game.snakeTail,x,y);
         }
         game.batch.end();
@@ -71,6 +83,10 @@ public class GameScreen implements Screen{
         {
             state=GameState.Running;
         }
+        game.batch.begin();
+        game.batch.draw(game.getReady,camera.viewportWidth/2-game.getReady.getWidth()/2,
+                        camera.viewportHeight/2-game.getReady.getHeight()/2 + game.GAME_SCREEN_PADDING_BOTTOM/2);
+        game.batch.end();
     }
     private void updateRunning()
     {

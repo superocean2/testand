@@ -19,10 +19,12 @@ public class SnakeGame extends Game {
 	Texture turnUp;
 	Texture turnDown;
 	Texture pause;
-	Texture resumse;
+	Texture resume;
+	Texture quit;
+	Texture getReady;
 	Texture loudSpeaker;
 	Texture muteSpeaker;
-	Texture getReady;
+
 	int GAME_SCREEN_PADDING_BOTTOM=250;
 
 	
@@ -32,6 +34,19 @@ public class SnakeGame extends Game {
 		background = new Texture("snake-bg.png");
 		snakeHead = new Texture("snake-head.png");
 		snakeTail = new Texture("snake-tail.png");
+		food = new Texture("food.png");
+		exTraFood = new Texture("extra-food.png");
+		turnLeft = new Texture("left.png");
+		turnRight = new Texture("right.png");
+		turnUp = new Texture("up.png");
+		turnDown = new Texture("down.png");
+		pause = new Texture("pause.png");
+		resume = new Texture("resume.png");
+		quit = new Texture("quit.png");
+		getReady = new Texture("ready.png");
+		loudSpeaker = new Texture("loud-speaker.png");
+		muteSpeaker = new Texture("mute-speaker.png");
+
 		setScreen(new GameScreen(this));
 	}
 
@@ -46,5 +61,17 @@ public class SnakeGame extends Game {
 		background.dispose();
 		snakeHead.dispose();
 		snakeTail.dispose();
+		food.dispose();
+		exTraFood.dispose();
+		turnLeft.dispose();
+		turnRight.dispose();
+		turnUp.dispose();
+		turnDown.dispose();
+		pause.dispose();
+		resume.dispose();
+		quit.dispose();
+		getReady.dispose();
+		loudSpeaker.dispose();
+		muteSpeaker.dispose();
 	}
 }
