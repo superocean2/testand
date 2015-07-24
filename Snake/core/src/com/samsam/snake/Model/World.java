@@ -3,10 +3,11 @@ package com.samsam.snake.Model;
 import java.util.Random;
 
 public class World {
-    static final int WORLD_WIDTH = 10;
-    static final int WORLD_HEIGHT = 13;
+    static final int WORLD_WIDTH = 33;
+    static final int WORLD_HEIGHT = 39;
     static final int SCORE_INCREMENT = 10;
-    static final float TICK_INITIAL = 0.5f;
+    static final int SCORE_INCREMENT_EXTRA = 30;
+    static final float TICK_INITIAL = 0.2f;
     static final float TICK_DECREMENT = 0.05f;
 
     public Snake snake;
@@ -51,38 +52,89 @@ public class World {
                 }
             }
         }
-        stain = new Stain(stainX, stainY, random.nextInt(3));
+        stain = new Stain(stainX, stainY, random.nextInt(2));
     }
 
-    public void update(float deltaTime) {
+    public void update(float deltaTime)
+    {
         if (gameOver)
             return;
-
-        tickTime += deltaTime;
-
-        while (tickTime > tick) {
-            tickTime -= tick;
-            snake.advance();
-            if (snake.checkBitten()) {
-                gameOver = true;
-                return;
+        tickTime+=deltaTime;
+        if (tickTime>tick) {
+            tickTime=0;
+            gameOver = !snake.advance();
+            if (gameOver)
+            {
+                snake.reverse();
             }
-
-            SnakePart head = snake.parts.get(0);
-            if (head.x == stain.x && head.y == stain.y) {
-                score += SCORE_INCREMENT;
+            if (snake.checkBitten())
+            {
+                gameOver=true;
+            }
+        }
+        SnakePart head = snake.parts.get(0);
+        if (stain.type==0)
+        {
+            //food
+            if (head.x==stain.x&&head.y==stain.y)
+            {
+                score+=SCORE_INCREMENT;
                 snake.eat();
-                if (snake.parts.size() == WORLD_WIDTH * WORLD_HEIGHT) {
-                    gameOver = true;
-                    return;
-                } else {
-                    placeStain();
+                if (snake.parts.size()==WORLD_WIDTH*WORLD_HEIGHT)
+                {
+                    gameOver=true;
                 }
-
-                if (score % 100 == 0 && tick - TICK_DECREMENT > 0) {
-                    tick -= TICK_DECREMENT;
+                else
+                {
+                    placeStain();
                 }
             }
         }
+        else
+        {
+            //extra food
+            if (head.x==stain.x&&head.y==stain.y||head.x==stain.x+1&&head.y==stain.y||head.x==stain.x&&head.y==stain.y+1||head.x==stain.x+1&&head.y==stain.y+1)
+            {
+                score+=SCORE_INCREMENT_EXTRA;
+                snake.eat();
+                if (snake.parts.size()==WORLD_WIDTH*WORLD_HEIGHT)
+                {
+                    gameOver=true;
+                }
+                else
+                {
+                    placeStain();
+                }
+            }
+        }
+
+
+
+//        tickTime += deltaTime;
+//
+//        while (tickTime > tick) {
+//            tickTime -= tick;
+//            snake.advance();
+//            if (snake.checkBitten()) {
+//                gameOver = true;
+//                return;
+//            }
+//
+//            SnakePart head = snake.parts.get(0);
+//            if (head.x == stain.x && head.y == stain.y) {
+//                score += SCORE_INCREMENT;
+//                snake.eat();
+//                if (snake.parts.size() == WORLD_WIDTH * WORLD_HEIGHT) {
+//                    gameOver = true;
+//                    return;
+//                } else {
+//                    placeStain();
+//                }
+//
+//                if (score % 100 == 0 && tick - TICK_DECREMENT > 0) {
+//                    tick -= TICK_DECREMENT;
+//                }
+//            }
+//        }
     }
 }

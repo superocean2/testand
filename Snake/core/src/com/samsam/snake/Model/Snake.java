@@ -14,22 +14,35 @@ public class Snake {
 
     public Snake() {        
         direction = UP;
-        parts.add(new SnakePart(5, 6));
-        parts.add(new SnakePart(5, 7));
-        parts.add(new SnakePart(5, 8));
-        parts.add(new SnakePart(5, 9));
+        int x = (330/2)/10;
+        parts.add(new SnakePart(x, 9));
+        parts.add(new SnakePart(x, 8));
+        parts.add(new SnakePart(x, 7));
+        parts.add(new SnakePart(x, 6));
     }
 
     public void turnLeft() {
-        direction += 1;
-        if(direction > RIGHT)
-            direction = UP;
+        if (direction==UP||direction==DOWN) {
+            direction = LEFT;
+        }
     }
     
     public void turnRight() {
-        direction -= 1;
-        if(direction < UP)
+        if (direction==UP||direction==DOWN) {
             direction = RIGHT;
+        }
+    }
+
+    public void turnUp() {
+        if (direction==LEFT||direction==RIGHT) {
+            direction = UP;
+        }
+    }
+
+    public void turnDown() {
+        if (direction==LEFT||direction==RIGHT) {
+            direction = DOWN;
+        }
     }
 
     public void eat() {
@@ -37,7 +50,38 @@ public class Snake {
         parts.add(new SnakePart(end.x, end.y));
     }
 
-    public void advance() {
+    public void reverse()
+    {
+        for (int i=parts.size()-1;i>-1;i--)
+        {
+            SnakePart part = parts.get(i);
+            if (direction==UP)
+            {
+                SnakePart after = new SnakePart(part.x,part.y-1);
+                part.x = after.x;
+                part.y = after.y;
+            }
+            if (direction==DOWN)
+            {
+                SnakePart after = new SnakePart(part.x,part.y+1);
+                part.x = after.x;
+                part.y = after.y;
+            }
+            if (direction==LEFT)
+            {
+                SnakePart after = new SnakePart(part.x+1,part.y);
+                part.x = after.x;
+                part.y = after.y;
+            }
+            if (direction==RIGHT)
+            {
+                SnakePart after = new SnakePart(part.x-1,part.y);
+                part.x = after.x;
+                part.y = after.y;
+            }
+        }
+    }
+    public boolean advance() {
         SnakePart head = parts.get(0);               
         
         int len = parts.size() - 1;
@@ -49,22 +93,24 @@ public class Snake {
         }
         
         if(direction == UP)
-            head.y -= 1;
+            head.y += 1;
         if(direction == LEFT)
             head.x -= 1;
         if(direction == DOWN)
-            head.y += 1;
+            head.y -= 1;
         if(direction == RIGHT)
             head.x += 1;
         
         if(head.x < 0)
-            head.x = 9;
-        if(head.x > 9)
-            head.x = 0;
+            return false;
+        if(head.x > 32)
+            return false;
         if(head.y < 0)
-            head.y = 12;
-        if(head.y > 12)
-            head.y = 0;
+            return false;
+        if(head.y > 38)
+            return false;
+
+        return true;
     }
 
     public boolean checkBitten() {

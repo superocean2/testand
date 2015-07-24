@@ -5,7 +5,10 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.math.Rectangle;
 
 public class SnakeGame extends Game {
 	SpriteBatch batch;
@@ -24,10 +27,12 @@ public class SnakeGame extends Game {
 	Texture getReady;
 	Texture loudSpeaker;
 	Texture muteSpeaker;
+	Texture newgame;
+	Texture gameover;
+	Texture highscore;
+	Rectangle worldScreen;
+	BitmapFont font;
 
-	int GAME_SCREEN_PADDING_BOTTOM=250;
-
-	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -46,6 +51,18 @@ public class SnakeGame extends Game {
 		getReady = new Texture("ready.png");
 		loudSpeaker = new Texture("loud-speaker.png");
 		muteSpeaker = new Texture("mute-speaker.png");
+		newgame = new Texture("newgame.png");
+		gameover = new Texture("gameover.png");
+		highscore=new Texture("highscore.png");
+		worldScreen = new Rectangle(45,250,330,390);
+
+		FreeTypeFontGenerator generator6 = new FreeTypeFontGenerator(Gdx.files.internal("font/chuviet1.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter6 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter6.size = 40;
+		//parameter6.characters="123456789";
+		font = generator6.generateFont(parameter6);
+		font.setColor(255, 255, 255, 1);
+		generator6.dispose();
 
 		setScreen(new GameScreen(this));
 	}
@@ -73,5 +90,6 @@ public class SnakeGame extends Game {
 		getReady.dispose();
 		loudSpeaker.dispose();
 		muteSpeaker.dispose();
+		font.dispose();
 	}
 }
