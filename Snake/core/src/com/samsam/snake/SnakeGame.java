@@ -3,6 +3,7 @@ package com.samsam.snake;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -32,6 +33,10 @@ public class SnakeGame extends Game {
 	Texture highscore;
 	Rectangle worldScreen;
 	BitmapFont font;
+	Sound click;
+	Sound eat;
+	Sound hit;
+	Sound extraFoodSound;
 
 	@Override
 	public void create () {
@@ -55,6 +60,10 @@ public class SnakeGame extends Game {
 		gameover = new Texture("gameover.png");
 		highscore=new Texture("highscore.png");
 		worldScreen = new Rectangle(45,250,330,390);
+		click = Gdx.audio.newSound(Gdx.files.internal("sound/click.wav"));
+		eat = Gdx.audio.newSound(Gdx.files.internal("sound/eat.wav"));
+		hit = Gdx.audio.newSound(Gdx.files.internal("sound/hit.wav"));
+		extraFoodSound = Gdx.audio.newSound(Gdx.files.internal("sound/extrafood.wav"));
 
 		FreeTypeFontGenerator generator6 = new FreeTypeFontGenerator(Gdx.files.internal("font/chuviet1.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter6 = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -91,5 +100,9 @@ public class SnakeGame extends Game {
 		loudSpeaker.dispose();
 		muteSpeaker.dispose();
 		font.dispose();
+		click.dispose();
+		hit.dispose();
+		eat.dispose();
+		extraFoodSound.dispose();
 	}
 }

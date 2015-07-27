@@ -34,7 +34,9 @@ public class GameScreen implements Screen{
     Rectangle rectResume;
     Rectangle rectQuit;
     boolean isMute;
-    String score;
+    int score;
+    int oldscore;
+
 
     public GameScreen(final SnakeGame game) {
         this.game=game;
@@ -60,7 +62,9 @@ public class GameScreen implements Screen{
         rectQuit = new Rectangle(camera.viewportWidth/2-game.quit.getWidth()/2,
                 rectResume.y-(30+game.quit.getHeight()),
                 game.quit.getWidth(),game.quit.getHeight());
-        score="0";
+        score=0;
+        oldscore=0;
+        isMute=false;
     }
 
     @Override
@@ -81,6 +85,16 @@ public class GameScreen implements Screen{
             updatePaused();
         if(state == GameState.GameOver)
             updateGameOver();
+
+        if (Gdx.input.justTouched()) {
+            Vector3 v = new Vector3();
+            v.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(v);
+            if (Helpers.isTouchedInRect(rectLoudSpeaker, v.x, v.y)) {
+                if (isMute) isMute=false;
+                else isMute=true;
+            }
+        }
     }
     private void drawWorld()
     {
@@ -94,13 +108,13 @@ public class GameScreen implements Screen{
         game.batch.begin();
         game.batch.draw(game.background, 0, 0);
         game.batch.draw(game.pause,rectPause.x,rectPause.y);
-        game.batch.draw(game.loudSpeaker,rectLoudSpeaker.x,rectLoudSpeaker.y);
+        game.batch.draw(isMute?game.muteSpeaker:game.loudSpeaker,rectLoudSpeaker.x,rectLoudSpeaker.y);
         game.batch.draw(game.turnLeft, rectLeft.x, rectLeft.y);
         game.batch.draw(game.turnRight, rectRight.x, rectRight.y);
         game.batch.draw(game.turnUp, rectUp.x, rectUp.y);
         game.batch.draw(game.turnDown, rectDown.x, rectDown.y);
         game.font.setColor(1, 1, 1, 1);
-        game.font.draw(game.batch, score, 320, 685);
+        game.font.draw(game.batch,String.valueOf(score), 320, 685);
 
         game.batch.draw(game.snakeHead,headX,headY);
         for (int i=1;i<snake.parts.size();i++)
@@ -115,7 +129,11 @@ public class GameScreen implements Screen{
         }
         else
         {
-            game.batch.draw(game.exTraFood,stain.x*10+game.worldScreen.x,stain.y*10+game.worldScreen.y);
+            if (world.newStain) {
+                game.extraFoodSound.play();
+                world.newStain=false;
+            }
+            game.batch.draw(game.exTraFood, stain.x * 10 + game.worldScreen.x, stain.y * 10 + game.worldScreen.y);
         }
 
         game.batch.end();
@@ -123,14 +141,22 @@ public class GameScreen implements Screen{
     private void restartGame()
     {
         world=new World();
-        score="0";
+        score=0;
+        oldscore=0;
     }
 
     private void updateReady()
     {
         if (Gdx.input.justTouched())
         {
-            state=GameState.Running;
+            if (Gdx.input.justTouched()) {
+                Vector3 v = new Vector3();
+                v.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+                camera.unproject(v);
+                if (Helpers.isTouchedInRect(game.worldScreen, v.x, v.y)) {
+                    state=GameState.Running;
+                }
+            }
         }
 
         game.batch.begin();
@@ -160,13 +186,24 @@ public class GameScreen implements Screen{
 
             if (Helpers.isTouchedInRect(rectPause,v.x,v.y))
             {
+                if (!isMute)
+                game.click.play();
                 state=GameState.Paused;
             }
         }
         world.update(Gdx.graphics.getDeltaTime());
-        score=String.valueOf(world.score);
+        oldscore=score;
+        score=world.score;
+
+        if (oldscore!=score)
+        {
+            if (!isMute)
+            game.eat.play();
+        }
         if (world.gameOver)
         {
+            if (!isMute)
+            game.hit.play();
             state=GameState.GameOver;
         }
     }
@@ -183,10 +220,14 @@ public class GameScreen implements Screen{
             camera.unproject(v);
             if (Helpers.isTouchedInRect(rectResume,v.x,v.y))
             {
+                if (!isMute)
+                game.click.play();
                 state = GameState.Running;
             }
             if (Helpers.isTouchedInRect(rectQuit,v.x,v.y))
             {
+                if (!isMute)
+                game.click.play();
                 state=GameState.GameOver;
             }
         }
@@ -198,7 +239,7 @@ public class GameScreen implements Screen{
         game.batch.draw(game.newgame, rectNewGame.x, rectNewGame.y);
         game.batch.draw(game.highscore, rectHighScore.x, rectHighScore.y);
         game.font.setColor(1, 0, 0, 1);
-        GlyphLayout layout = new GlyphLayout(game.font,score);
+        GlyphLayout layout = new GlyphLayout(game.font,String.valueOf(score));
         game.font.draw(game.batch,layout,camera.viewportWidth/2-layout.width/2,rectHighScore.y+67);
         game.batch.end();
         if (Gdx.input.justTouched())
@@ -208,6 +249,8 @@ public class GameScreen implements Screen{
             camera.unproject(v);
             if (Helpers.isTouchedInRect(rectNewGame,v.x,v.y))
             {
+                if (!isMute)
+                game.click.play();
                 state=GameState.Ready;
                 restartGame();
             }

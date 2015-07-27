@@ -12,8 +12,9 @@ public class World {
 
     public Snake snake;
     public Stain stain;
-    public boolean gameOver = false;
-    public int score = 0;
+    public boolean gameOver;
+    public int score;
+    public boolean newStain;
 
     boolean fields[][] = new boolean[WORLD_WIDTH][WORLD_HEIGHT];
     Random random = new Random();
@@ -21,11 +22,15 @@ public class World {
     float tick = TICK_INITIAL;
 
     public World() {
+        gameOver=false;
+        score=0;
+        newStain=false;
         snake = new Snake();
         placeStain();
     }
 
     private void placeStain() {
+        newStain=true;
         for (int x = 0; x < WORLD_WIDTH; x++) {
             for (int y = 0; y < WORLD_HEIGHT; y++) {
                 fields[x][y] = false;
@@ -37,22 +42,35 @@ public class World {
             SnakePart part = snake.parts.get(i);
             fields[part.x][part.y] = true;
         }
+        int type = random.nextInt(2);
+        int stainX = random.nextInt(type==0?WORLD_WIDTH:WORLD_WIDTH-1);
+        int stainY = random.nextInt(type==0?WORLD_HEIGHT:WORLD_HEIGHT-1);
 
-        int stainX = random.nextInt(WORLD_WIDTH);
-        int stainY = random.nextInt(WORLD_HEIGHT);
         while (true) {
             if (fields[stainX][stainY] == false)
                 break;
             stainX += 1;
-            if (stainX >= WORLD_WIDTH) {
-                stainX = 0;
-                stainY += 1;
-                if (stainY >= WORLD_HEIGHT) {
-                    stainY = 0;
+            if (type==0) {
+                if (stainX >= WORLD_WIDTH) {
+                    stainX = 0;
+                    stainY += 1;
+                    if (stainY >= WORLD_HEIGHT) {
+                        stainY = 0;
+                    }
+                }
+            }
+            else
+            {
+                if (stainX >= WORLD_WIDTH-1) {
+                    stainX = 0;
+                    stainY += 1;
+                    if (stainY >= WORLD_HEIGHT-1) {
+                        stainY = 0;
+                    }
                 }
             }
         }
-        stain = new Stain(stainX, stainY, random.nextInt(2));
+        stain = new Stain(stainX, stainY, type);
     }
 
     public void update(float deltaTime)
