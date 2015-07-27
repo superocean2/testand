@@ -1,0 +1,5 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/new_game" android:title="Новая игра"></item>
+    <item android:id="@+id/pause" android:title="Пауза/Восстановить"></item>
+    <item android:id="@+id/settings" android:title="Настройки"></item>
+</menu><!-- From: file:/D:/AndroidTest/TestAndroid/tetris/app/src/main/res/menu/activity_main.xml -->
