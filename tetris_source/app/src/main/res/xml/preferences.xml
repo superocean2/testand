@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:key="vibration"
+        android:title="Включить вибрацию"
+        android:defaultValue="true"
+        />
+    <CheckBoxPreference
+        android:key="scaling"
+        android:title="Мштбрвн, т упрлс?"
+        android:defaultValue="false"
+            />
+    <CheckBoxPreference
+            android:key="autorotate"
+            android:title="Включить поворот"
+            android:defaultValue="true"
+            />
+</PreferenceScreen>
