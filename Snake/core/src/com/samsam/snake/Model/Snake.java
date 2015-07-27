@@ -14,7 +14,7 @@ public class Snake {
 
     public Snake() {        
         direction = UP;
-        int x = (330/2)/10;
+        int x = (320/2)/20;
         parts.add(new SnakePart(x, 9));
         parts.add(new SnakePart(x, 8));
         parts.add(new SnakePart(x, 7));
@@ -103,11 +103,11 @@ public class Snake {
         
         if(head.x < 0)
             return false;
-        if(head.x > 32)
+        if(head.x > 15)
             return false;
         if(head.y < 0)
             return false;
-        if(head.y > 38)
+        if(head.y > 18)
             return false;
 
         return true;

@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -43,16 +42,16 @@ public class GameScreen implements Screen{
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 420, 800);
         world=new World();
-        rectPause = new Rectangle(53,643,game.pause.getWidth(),game.pause.getHeight());
-        rectLoudSpeaker=new Rectangle(53+game.pause.getWidth()+10,643,game.loudSpeaker.getWidth(),game.loudSpeaker.getHeight());
-        rectLeft = new Rectangle(128,110,game.turnLeft.getWidth(),game.turnLeft.getHeight());
-        rectRight= new Rectangle(242,110,game.turnRight.getWidth(),game.turnRight.getHeight());
-        rectUp = new Rectangle(181,170,game.turnUp.getWidth(),game.turnUp.getHeight());
-        rectDown = new Rectangle(181,60,game.turnDown.getWidth(),game.turnDown.getHeight());
+        rectPause = new Rectangle(60,643,game.pause.getWidth(),game.pause.getHeight());
+        rectLoudSpeaker=new Rectangle(60+game.pause.getWidth()+10,643,game.loudSpeaker.getWidth(),game.loudSpeaker.getHeight());
+        rectLeft = new Rectangle(36,75,game.turnLeft.getWidth(),game.turnLeft.getHeight());
+        rectRight= new Rectangle(265,75,game.turnRight.getWidth(),game.turnRight.getHeight());
+        rectUp = new Rectangle(160,140,game.turnUp.getWidth(),game.turnUp.getHeight());
+        rectDown = new Rectangle(160,35,game.turnDown.getWidth(),game.turnDown.getHeight());
         rectGameOver = new Rectangle(camera.viewportWidth/2-game.gameover.getWidth()/2,
-                camera.viewportHeight/2-game.gameover.getHeight()/2 + game.worldScreen.y/2+50,game.gameover.getWidth(),game.gameover.getHeight());
+                camera.viewportHeight/2-game.gameover.getHeight()/2 + game.worldScreen.y/2+45,game.gameover.getWidth(),game.gameover.getHeight());
         rectNewGame = new Rectangle(camera.viewportWidth/2-game.newgame.getWidth()/2,
-                 rectGameOver.y-(30+game.newgame.getHeight()),game.newgame.getWidth(),game.newgame.getHeight());
+                 rectGameOver.y-(25+game.newgame.getHeight()),game.newgame.getWidth(),game.newgame.getHeight());
         rectHighScore = new Rectangle(camera.viewportWidth/2-game.newgame.getWidth()/2,
                 rectNewGame.y-(30+game.highscore.getHeight()),game.highscore.getWidth(),game.highscore.getHeight());
 
@@ -102,8 +101,8 @@ public class GameScreen implements Screen{
         SnakePart head = snake.parts.get(0);
         Stain stain = world.stain;
 
-        float headX = head.x*10+game.worldScreen.x;
-        float headY= head.y*10 + game.worldScreen.y;
+        float headX = head.x*20+game.worldScreen.x;
+        float headY= head.y*20 + game.worldScreen.y;
 
         game.batch.begin();
         game.batch.draw(game.background, 0, 0);
@@ -114,26 +113,41 @@ public class GameScreen implements Screen{
         game.batch.draw(game.turnUp, rectUp.x, rectUp.y);
         game.batch.draw(game.turnDown, rectDown.x, rectDown.y);
         game.font.setColor(1, 1, 1, 1);
-        game.font.draw(game.batch,String.valueOf(score), 320, 685);
+        GlyphLayout layout = new GlyphLayout(game.font, String.valueOf(score));
+        game.font.draw(game.batch,layout, 200+(360-200)/2 - layout.width/2, 685);
 
-        game.batch.draw(game.snakeHead,headX,headY);
+        if (world.snake.direction==0) {
+            game.batch.draw(game.snakeHeadUp, headX, headY);
+        }
+        if (world.snake.direction==1) {
+            game.batch.draw(game.snakeHeadLeft, headX, headY);
+        }
+        if (world.snake.direction==2) {
+            game.batch.draw(game.snakeHeadDown, headX, headY);
+        }
+        if (world.snake.direction==3) {
+            game.batch.draw(game.snakeHeadRight, headX, headY);
+        }
+
         for (int i=1;i<snake.parts.size();i++)
         {
-            float x = snake.parts.get(i).x*10 + game.worldScreen.x;
-            float y = snake.parts.get(i).y*10 + game.worldScreen.y;
+            float x = snake.parts.get(i).x*20 + game.worldScreen.x;
+            float y = snake.parts.get(i).y*20 + game.worldScreen.y;
             game.batch.draw(game.snakeTail,x,y);
         }
         if (stain.type==0)
         {
-            game.batch.draw(game.food,stain.x*10+game.worldScreen.x,stain.y*10+game.worldScreen.y);
+            game.batch.draw(game.food,stain.x*20+game.worldScreen.x,stain.y*20+game.worldScreen.y);
         }
         else
         {
             if (world.newStain) {
-                game.extraFoodSound.play();
-                world.newStain=false;
+                if(!isMute) {
+                    game.extraFoodSound.play();
+                    world.newStain = false;
+                }
             }
-            game.batch.draw(game.exTraFood, stain.x * 10 + game.worldScreen.x, stain.y * 10 + game.worldScreen.y);
+            game.batch.draw(game.exTraFood, stain.x * 20 + game.worldScreen.x, stain.y * 20 + game.worldScreen.y);
         }
 
         game.batch.end();
@@ -159,6 +173,7 @@ public class GameScreen implements Screen{
             }
         }
 
+        drawWhiteRectangle();
         game.batch.begin();
         game.batch.draw(game.getReady, camera.viewportWidth / 2 - game.getReady.getWidth() / 2,
                 camera.viewportHeight / 2 - game.getReady.getHeight() / 2 + game.worldScreen.y / 2);
@@ -209,6 +224,7 @@ public class GameScreen implements Screen{
     }
     private void updatePaused()
     {
+        drawWhiteRectangle();
         game.batch.begin();
         game.batch.draw(game.resume,rectResume.x,rectResume.y);
         game.batch.draw(game.quit,rectQuit.x,rectQuit.y);
@@ -234,6 +250,7 @@ public class GameScreen implements Screen{
     }
     private void updateGameOver()
     {
+        drawWhiteRectangle();
         game.batch.begin();
         game.batch.draw(game.gameover, rectGameOver.x, rectGameOver.y);
         game.batch.draw(game.newgame, rectNewGame.x, rectNewGame.y);
@@ -256,7 +273,11 @@ public class GameScreen implements Screen{
             }
         }
     }
-
+    private void drawWhiteRectangle() {
+        game.batch.begin();
+        game.batch.draw(game.overlay,camera.viewportWidth/2-game.overlay.getWidth()/2,300);
+        game.batch.end();
+    }
 
     @Override
     public void show() {
@@ -285,7 +306,6 @@ public class GameScreen implements Screen{
 
     @Override
     public void dispose() {
-
     }
 
     enum GameState {

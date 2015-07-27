@@ -1,10 +1,8 @@
 package com.samsam.snake;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -14,7 +12,10 @@ import com.badlogic.gdx.math.Rectangle;
 public class SnakeGame extends Game {
 	SpriteBatch batch;
 	Texture background;
-	Texture snakeHead;
+	Texture snakeHeadUp;
+	Texture snakeHeadRight;
+	Texture snakeHeadLeft;
+	Texture snakeHeadDown;
 	Texture snakeTail;
 	Texture food;
 	Texture exTraFood;
@@ -31,6 +32,7 @@ public class SnakeGame extends Game {
 	Texture newgame;
 	Texture gameover;
 	Texture highscore;
+	Texture overlay;
 	Rectangle worldScreen;
 	BitmapFont font;
 	Sound click;
@@ -42,7 +44,10 @@ public class SnakeGame extends Game {
 	public void create () {
 		batch = new SpriteBatch();
 		background = new Texture("snake-bg.png");
-		snakeHead = new Texture("snake-head.png");
+		snakeHeadUp = new Texture("snake-head-up.png");
+		snakeHeadRight = new Texture("snake-head-right.png");
+		snakeHeadDown = new Texture("snake-head-down.png");
+		snakeHeadLeft = new Texture("snake-head-left.png");
 		snakeTail = new Texture("snake-tail.png");
 		food = new Texture("food.png");
 		exTraFood = new Texture("extra-food.png");
@@ -59,7 +64,8 @@ public class SnakeGame extends Game {
 		newgame = new Texture("newgame.png");
 		gameover = new Texture("gameover.png");
 		highscore=new Texture("highscore.png");
-		worldScreen = new Rectangle(45,250,330,390);
+		overlay = new Texture("overlay.png");
+		worldScreen = new Rectangle(48,258,320,380);
 		click = Gdx.audio.newSound(Gdx.files.internal("sound/click.wav"));
 		eat = Gdx.audio.newSound(Gdx.files.internal("sound/eat.wav"));
 		hit = Gdx.audio.newSound(Gdx.files.internal("sound/hit.wav"));
@@ -85,7 +91,10 @@ public class SnakeGame extends Game {
 	public void dispose() {
 		batch.dispose();
 		background.dispose();
-		snakeHead.dispose();
+		snakeHeadUp.dispose();
+		snakeHeadRight.dispose();
+		snakeHeadLeft.dispose();
+		snakeHeadDown.dispose();
 		snakeTail.dispose();
 		food.dispose();
 		exTraFood.dispose();
@@ -99,6 +108,7 @@ public class SnakeGame extends Game {
 		getReady.dispose();
 		loudSpeaker.dispose();
 		muteSpeaker.dispose();
+		overlay.dispose();
 		font.dispose();
 		click.dispose();
 		hit.dispose();
