@@ -43,6 +43,10 @@ public class World {
             fields[part.x][part.y] = true;
         }
         int type = random.nextInt(2);
+        if(type==1)
+        {
+            type = random.nextInt(2);
+        }
         int stainX = random.nextInt(type==0?WORLD_WIDTH:WORLD_WIDTH-1);
         int stainY = random.nextInt(type==0?WORLD_HEIGHT:WORLD_HEIGHT-1);
 

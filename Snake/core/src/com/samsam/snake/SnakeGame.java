@@ -39,6 +39,11 @@ public class SnakeGame extends Game {
 	Sound eat;
 	Sound hit;
 	Sound extraFoodSound;
+	ActionResolver actionResolver;
+
+	public SnakeGame(ActionResolver actionResolver) {
+		this.actionResolver = actionResolver;
+	}
 
 	@Override
 	public void create () {
@@ -63,7 +68,7 @@ public class SnakeGame extends Game {
 		muteSpeaker = new Texture("mute-speaker.png");
 		newgame = new Texture("newgame.png");
 		gameover = new Texture("gameover.png");
-		highscore=new Texture("highscore.png");
+		highscore=new Texture("highscore1.png");
 		overlay = new Texture("overlay.png");
 		worldScreen = new Rectangle(48,258,320,380);
 		click = Gdx.audio.newSound(Gdx.files.internal("sound/click.wav"));

@@ -7,10 +7,16 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.async.AsyncTask;
 import com.samsam.snake.Model.Snake;
 import com.samsam.snake.Model.SnakePart;
 import com.samsam.snake.Model.Stain;
 import com.samsam.snake.Model.World;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by NghiaTrinh on 7/23/2015.
@@ -35,6 +41,9 @@ public class GameScreen implements Screen{
     boolean isMute;
     int score;
     int oldscore;
+    String worldScore;
+    String apiUrl="http://webtest.192.168.1.95.xip.io";
+
 
 
     public GameScreen(final SnakeGame game) {
@@ -51,9 +60,9 @@ public class GameScreen implements Screen{
         rectGameOver = new Rectangle(camera.viewportWidth/2-game.gameover.getWidth()/2,
                 camera.viewportHeight/2-game.gameover.getHeight()/2 + game.worldScreen.y/2+45,game.gameover.getWidth(),game.gameover.getHeight());
         rectNewGame = new Rectangle(camera.viewportWidth/2-game.newgame.getWidth()/2,
-                 rectGameOver.y-(25+game.newgame.getHeight()),game.newgame.getWidth(),game.newgame.getHeight());
+                 rectGameOver.y-(22+game.newgame.getHeight()),game.newgame.getWidth(),game.newgame.getHeight());
         rectHighScore = new Rectangle(camera.viewportWidth/2-game.newgame.getWidth()/2,
-                rectNewGame.y-(30+game.highscore.getHeight()),game.highscore.getWidth(),game.highscore.getHeight());
+                rectNewGame.y-(22+game.highscore.getHeight()),game.highscore.getWidth(),game.highscore.getHeight());
 
         rectResume = new Rectangle(camera.viewportWidth/2-game.resume.getWidth()/2,
                 camera.viewportHeight/2-game.gameover.getHeight()/2 + game.worldScreen.y/2,
@@ -64,8 +73,15 @@ public class GameScreen implements Screen{
         score=0;
         oldscore=0;
         isMute=false;
-    }
 
+        //get world score
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                worldScore = getWorldScore();
+            }
+        },0,10);
+    }
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(255, 255, 255, 1);
@@ -199,7 +215,7 @@ public class GameScreen implements Screen{
                 world.snake.turnDown();
             }
 
-            if (Helpers.isTouchedInRect(rectPause,v.x,v.y))
+            if (Helpers.isTouchedInRect(rectPause, v.x, v.y))
             {
                 if (!isMute)
                 game.click.play();
@@ -226,8 +242,8 @@ public class GameScreen implements Screen{
     {
         drawWhiteRectangle();
         game.batch.begin();
-        game.batch.draw(game.resume,rectResume.x,rectResume.y);
-        game.batch.draw(game.quit,rectQuit.x,rectQuit.y);
+        game.batch.draw(game.resume, rectResume.x, rectResume.y);
+        game.batch.draw(game.quit, rectQuit.x, rectQuit.y);
         game.batch.end();
         if (Gdx.input.justTouched())
         {
@@ -250,6 +266,13 @@ public class GameScreen implements Screen{
     }
     private void updateGameOver()
     {
+        //save score
+        int highscore = Helpers.getHighScore();
+        if (highscore<score)
+        {
+            Helpers.saveHighScore(score);
+        }
+
         drawWhiteRectangle();
         game.batch.begin();
         game.batch.draw(game.gameover, rectGameOver.x, rectGameOver.y);
@@ -257,7 +280,14 @@ public class GameScreen implements Screen{
         game.batch.draw(game.highscore, rectHighScore.x, rectHighScore.y);
         game.font.setColor(1, 0, 0, 1);
         GlyphLayout layout = new GlyphLayout(game.font,String.valueOf(score));
-        game.font.draw(game.batch,layout,camera.viewportWidth/2-layout.width/2,rectHighScore.y+67);
+        game.font.draw(game.batch, layout, camera.viewportWidth / 2 - layout.width / 2, rectHighScore.y + 131);
+
+        GlyphLayout layout1 = new GlyphLayout(game.font,String.valueOf(Helpers.getHighScore()));
+        game.font.draw(game.batch,layout1,camera.viewportWidth/2-layout1.width/2,rectHighScore.y+83);
+
+        GlyphLayout layout2 = new GlyphLayout(game.font,String.valueOf(worldScore));
+        game.font.draw(game.batch,layout2,camera.viewportWidth/2-layout2.width/2,rectHighScore.y+29);
+
         game.batch.end();
         if (Gdx.input.justTouched())
         {
@@ -279,6 +309,12 @@ public class GameScreen implements Screen{
         game.batch.end();
     }
 
+    private String getWorldScore()
+    {
+        String url = apiUrl+"/app/GetSnakeHighScore?key=dfamd175azxhm5900075ips1a82";
+        String json = Helpers.get(url);
+        return json;
+    }
     @Override
     public void show() {
 
@@ -314,4 +350,5 @@ public class GameScreen implements Screen{
         Paused,
         GameOver
     }
+
 }
