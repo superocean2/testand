@@ -27,6 +27,7 @@ public class GameScreen implements Screen{
     OrthographicCamera camera;
     GameState state = GameState.Ready;
     World world;
+    Rectangle rectPause;
     Rectangle rectLoudSpeaker;
     Rectangle rectLeft;
     Rectangle rectRight;
@@ -49,7 +50,8 @@ public class GameScreen implements Screen{
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 420, 800);
         world=new World();
-        rectLoudSpeaker=new Rectangle(60,643,game.loudSpeaker.getWidth(),game.loudSpeaker.getHeight());
+        rectLoudSpeaker=new Rectangle(45,640,game.loudSpeaker.getWidth(),game.loudSpeaker.getHeight());
+        rectPause = new Rectangle(45+60,636,game.pause.getWidth(),game.pause.getHeight());
         rectLeft = new Rectangle(36,75,game.turnLeft.getWidth(),game.turnLeft.getHeight());
         rectRight= new Rectangle(265,75,game.turnRight.getWidth(),game.turnRight.getHeight());
         rectUp = new Rectangle(160,140,game.turnUp.getWidth(),game.turnUp.getHeight());
@@ -116,6 +118,7 @@ public class GameScreen implements Screen{
 
         game.batch.begin();
         game.batch.draw(game.background, 0, 0);
+        game.batch.draw(game.pause,rectPause.x,rectPause.y);
         game.batch.draw(isMute?game.muteSpeaker:game.loudSpeaker,rectLoudSpeaker.x,rectLoudSpeaker.y);
         game.batch.draw(game.turnLeft, rectLeft.x, rectLeft.y);
         game.batch.draw(game.turnRight, rectRight.x, rectRight.y);
@@ -209,7 +212,7 @@ public class GameScreen implements Screen{
                 world.snake.turnDown();
             }
 
-            if (Helpers.isTouchedInRect(game.worldScreen, v.x, v.y))
+            if (Helpers.isTouchedInRect(rectPause, v.x, v.y))
             {
                 if (!isMute)
                 game.click.play();

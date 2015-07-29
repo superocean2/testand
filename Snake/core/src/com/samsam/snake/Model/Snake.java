@@ -10,7 +10,9 @@ public class Snake {
     public static final int RIGHT = 3;
     
     public List<SnakePart> parts = new ArrayList<SnakePart>();
-    public int direction;    
+    public int direction;
+    public SnakePart lastSnakePart;
+    public int lastDirection;
 
     public Snake() {        
         direction = UP;
@@ -19,6 +21,7 @@ public class Snake {
         parts.add(new SnakePart(x, 8));
         parts.add(new SnakePart(x, 7));
         parts.add(new SnakePart(x, 6));
+        lastSnakePart=parts.get(3);
     }
 
     public void turnLeft() {
@@ -52,38 +55,26 @@ public class Snake {
 
     public void reverse()
     {
-        for (int i=parts.size()-1;i>-1;i--)
+        for (int i=0;i<parts.size();i++)
         {
             SnakePart part = parts.get(i);
-            if (direction==UP)
+            SnakePart after;
+            if (i==parts.size()-1)
             {
-                SnakePart after = new SnakePart(part.x,part.y-1);
-                part.x = after.x;
-                part.y = after.y;
+                after=lastSnakePart;
             }
-            if (direction==DOWN)
+            else
             {
-                SnakePart after = new SnakePart(part.x,part.y+1);
-                part.x = after.x;
-                part.y = after.y;
+                after = parts.get(i+1);
             }
-            if (direction==LEFT)
-            {
-                SnakePart after = new SnakePart(part.x+1,part.y);
-                part.x = after.x;
-                part.y = after.y;
-            }
-            if (direction==RIGHT)
-            {
-                SnakePart after = new SnakePart(part.x-1,part.y);
-                part.x = after.x;
-                part.y = after.y;
-            }
+            part.x=after.x;
+            part.y=after.y;
         }
     }
     public boolean advance() {
-        SnakePart head = parts.get(0);               
-        
+        SnakePart head = parts.get(0);
+        SnakePart last = parts.get(parts.size()-1);
+        lastSnakePart = new SnakePart(last.x,last.y);
         int len = parts.size() - 1;
         for(int i = len; i > 0; i--) {
             SnakePart before = parts.get(i-1);

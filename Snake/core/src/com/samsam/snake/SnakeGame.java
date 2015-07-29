@@ -26,6 +26,7 @@ public class SnakeGame extends Game {
 	Texture resume;
 	Texture quit;
 	Texture getReady;
+	Texture pause;
 	Texture loudSpeaker;
 	Texture muteSpeaker;
 	Texture newgame;
@@ -65,6 +66,7 @@ public class SnakeGame extends Game {
 		resume = new Texture("resume.png");
 		quit = new Texture("quit.png");
 		getReady = new Texture("ready.png");
+		pause = new Texture("pause1.png");
 		loudSpeaker = new Texture("loud-speaker.png");
 		muteSpeaker = new Texture("mute-speaker.png");
 		newgame = new Texture("newgame.png");
@@ -114,6 +116,7 @@ public class SnakeGame extends Game {
 		resume.dispose();
 		quit.dispose();
 		getReady.dispose();
+		pause.dispose();
 		loudSpeaker.dispose();
 		muteSpeaker.dispose();
 		overlay.dispose();
