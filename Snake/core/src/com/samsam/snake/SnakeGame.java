@@ -23,7 +23,6 @@ public class SnakeGame extends Game {
 	Texture turnRight;
 	Texture turnUp;
 	Texture turnDown;
-	Texture pause;
 	Texture resume;
 	Texture quit;
 	Texture getReady;
@@ -33,6 +32,9 @@ public class SnakeGame extends Game {
 	Texture gameover;
 	Texture highscore;
 	Texture overlay;
+	Texture worldScoreSubmit;
+	Texture cancel;
+	Texture sharefb;
 	Rectangle worldScreen;
 	BitmapFont font;
 	Sound click;
@@ -60,7 +62,6 @@ public class SnakeGame extends Game {
 		turnRight = new Texture("right.png");
 		turnUp = new Texture("up.png");
 		turnDown = new Texture("down.png");
-		pause = new Texture("pause.png");
 		resume = new Texture("resume.png");
 		quit = new Texture("quit.png");
 		getReady = new Texture("ready.png");
@@ -68,8 +69,11 @@ public class SnakeGame extends Game {
 		muteSpeaker = new Texture("mute-speaker.png");
 		newgame = new Texture("newgame.png");
 		gameover = new Texture("gameover.png");
-		highscore=new Texture("highscore1.png");
+		highscore=new Texture("highscore.png");
 		overlay = new Texture("overlay.png");
+		worldScoreSubmit = new Texture("worldscoresubmit.png");
+		cancel = new Texture("cancel.png");
+		sharefb=new Texture("sharefb.png");
 		worldScreen = new Rectangle(48,258,320,380);
 		click = Gdx.audio.newSound(Gdx.files.internal("sound/click.wav"));
 		eat = Gdx.audio.newSound(Gdx.files.internal("sound/eat.wav"));
@@ -107,13 +111,15 @@ public class SnakeGame extends Game {
 		turnRight.dispose();
 		turnUp.dispose();
 		turnDown.dispose();
-		pause.dispose();
 		resume.dispose();
 		quit.dispose();
 		getReady.dispose();
 		loudSpeaker.dispose();
 		muteSpeaker.dispose();
 		overlay.dispose();
+		worldScoreSubmit.dispose();
+		cancel.dispose();
+		sharefb.dispose();
 		font.dispose();
 		click.dispose();
 		hit.dispose();

@@ -7,6 +7,6 @@ public interface ActionResolver {
      void showToast(CharSequence text);
      void showFbShare(String title, String desc, String url, String imageUrl);
      void showOrLoadInterstital();
-     String getWorldScore(String url);
      boolean postWorldScore(String url,int score,String key);
+     void showWaitingDialog();
 }

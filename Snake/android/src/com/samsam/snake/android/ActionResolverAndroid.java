@@ -1,8 +1,11 @@
 package com.samsam.snake.android;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Toast;
@@ -22,6 +25,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +40,10 @@ public class ActionResolverAndroid implements ActionResolver {
     private ShareDialog shareDialog;
     private boolean canPresentShareDialog;
     private InterstitialAd interstitialAd;
+    public  int score;
+    public  String postUrl;
+    public  String postKey;
+    public  boolean isSuccess;
 
     public ActionResolverAndroid(Context context) {
         handler = new Handler();
@@ -47,8 +55,8 @@ public class ActionResolverAndroid implements ActionResolver {
 
 
         //google ads
-        interstitialAd = new InterstitialAd(context);
-        interstitialAd.setAdUnitId(context.getString(R.string.banner_ad_unit_id));
+        //interstitialAd = new InterstitialAd(context);
+        //interstitialAd.setAdUnitId(context.getString(R.string.banner_ad_unit_id));
     }
 
     @Override
@@ -97,33 +105,11 @@ public class ActionResolverAndroid implements ActionResolver {
         }
     }
 
-    @Override
-    public String getWorldScore(String url) {
-        String urlGet=url+"/home/GetData";
-        String key = "dfamd175azxhm5900075ips1a82";
-        List<NameValuePair> pairs = new ArrayList<>();
-
-        pairs.add(new BasicNameValuePair("key",key));
-        HttpResponse response= Helpers.getData(urlGet,pairs);
-        if (response.getStatusLine().getStatusCode()==200) {
-            try {
-                HttpEntity resEntityGet = response.getEntity();
-                if (resEntityGet != null) {
-                    return EntityUtils.toString(resEntityGet);
-                }
-            }
-            catch (Exception e)
-            {
-
-            }
-        }
-
-        return "0";
-    }
 
     @Override
     public boolean postWorldScore(String url,int score,String key) {
-        String urlPost=url+"/home/PostData";
+
+        String urlPost=url;
         List<NameValuePair> pairs = new ArrayList<>();
 
         pairs.add(new BasicNameValuePair("score",String.valueOf(score)));
@@ -138,5 +124,12 @@ public class ActionResolverAndroid implements ActionResolver {
         {
             return false;
         }
+    }
+
+    @Override
+    public void showWaitingDialog() {
+        ProgressDialog dialog = new ProgressDialog(context);
+        dialog.setMessage("Waiting...");
+        dialog.show();
     }
 }

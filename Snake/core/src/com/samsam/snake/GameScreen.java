@@ -27,7 +27,6 @@ public class GameScreen implements Screen{
     OrthographicCamera camera;
     GameState state = GameState.Ready;
     World world;
-    Rectangle rectPause;
     Rectangle rectLoudSpeaker;
     Rectangle rectLeft;
     Rectangle rectRight;
@@ -38,21 +37,19 @@ public class GameScreen implements Screen{
     Rectangle rectHighScore;
     Rectangle rectResume;
     Rectangle rectQuit;
+    Rectangle rectCancel;
+    Rectangle rectSharefb;
     boolean isMute;
     int score;
     int oldscore;
-    String worldScore;
-    String apiUrl="http://webtest.192.168.1.95.xip.io";
-
-
+    boolean isSubmit;
 
     public GameScreen(final SnakeGame game) {
         this.game=game;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 420, 800);
         world=new World();
-        rectPause = new Rectangle(60,643,game.pause.getWidth(),game.pause.getHeight());
-        rectLoudSpeaker=new Rectangle(60+game.pause.getWidth()+10,643,game.loudSpeaker.getWidth(),game.loudSpeaker.getHeight());
+        rectLoudSpeaker=new Rectangle(60,643,game.loudSpeaker.getWidth(),game.loudSpeaker.getHeight());
         rectLeft = new Rectangle(36,75,game.turnLeft.getWidth(),game.turnLeft.getHeight());
         rectRight= new Rectangle(265,75,game.turnRight.getWidth(),game.turnRight.getHeight());
         rectUp = new Rectangle(160,140,game.turnUp.getWidth(),game.turnUp.getHeight());
@@ -70,17 +67,12 @@ public class GameScreen implements Screen{
         rectQuit = new Rectangle(camera.viewportWidth/2-game.quit.getWidth()/2,
                 rectResume.y-(30+game.quit.getHeight()),
                 game.quit.getWidth(),game.quit.getHeight());
+        rectCancel = new Rectangle(155,80,game.cancel.getWidth(),game.cancel.getHeight());
+        rectSharefb = new Rectangle(camera.viewportWidth/2 - game.sharefb.getWidth()/2,156,game.sharefb.getWidth(),game.sharefb.getHeight());
         score=0;
         oldscore=0;
         isMute=false;
-
-        //get world score
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                worldScore = getWorldScore();
-            }
-        },0,10);
+        isSubmit=false;
     }
     @Override
     public void render(float delta) {
@@ -100,6 +92,8 @@ public class GameScreen implements Screen{
             updatePaused();
         if(state == GameState.GameOver)
             updateGameOver();
+        if(state == GameState.SubmitWorldScore)
+            updateWorldScore();
 
         if (Gdx.input.justTouched()) {
             Vector3 v = new Vector3();
@@ -122,7 +116,6 @@ public class GameScreen implements Screen{
 
         game.batch.begin();
         game.batch.draw(game.background, 0, 0);
-        game.batch.draw(game.pause,rectPause.x,rectPause.y);
         game.batch.draw(isMute?game.muteSpeaker:game.loudSpeaker,rectLoudSpeaker.x,rectLoudSpeaker.y);
         game.batch.draw(game.turnLeft, rectLeft.x, rectLeft.y);
         game.batch.draw(game.turnRight, rectRight.x, rectRight.y);
@@ -173,6 +166,7 @@ public class GameScreen implements Screen{
         world=new World();
         score=0;
         oldscore=0;
+        isSubmit=false;
     }
 
     private void updateReady()
@@ -215,7 +209,7 @@ public class GameScreen implements Screen{
                 world.snake.turnDown();
             }
 
-            if (Helpers.isTouchedInRect(rectPause, v.x, v.y))
+            if (Helpers.isTouchedInRect(game.worldScreen, v.x, v.y))
             {
                 if (!isMute)
                 game.click.play();
@@ -271,6 +265,9 @@ public class GameScreen implements Screen{
         if (highscore<score)
         {
             Helpers.saveHighScore(score);
+            if (!isSubmit) {
+                state = GameState.SubmitWorldScore;
+            }
         }
 
         drawWhiteRectangle();
@@ -280,26 +277,54 @@ public class GameScreen implements Screen{
         game.batch.draw(game.highscore, rectHighScore.x, rectHighScore.y);
         game.font.setColor(1, 0, 0, 1);
         GlyphLayout layout = new GlyphLayout(game.font,String.valueOf(score));
-        game.font.draw(game.batch, layout, camera.viewportWidth / 2 - layout.width / 2, rectHighScore.y + 131);
+        game.font.draw(game.batch, layout, camera.viewportWidth / 2 - layout.width / 2, rectHighScore.y + 65);
 
         GlyphLayout layout1 = new GlyphLayout(game.font,String.valueOf(Helpers.getHighScore()));
-        game.font.draw(game.batch,layout1,camera.viewportWidth/2-layout1.width/2,rectHighScore.y+83);
-
-        GlyphLayout layout2 = new GlyphLayout(game.font,String.valueOf(worldScore));
-        game.font.draw(game.batch,layout2,camera.viewportWidth/2-layout2.width/2,rectHighScore.y+29);
-
+        game.font.draw(game.batch,layout1,camera.viewportWidth/2-layout1.width/2,rectHighScore.y);
         game.batch.end();
         if (Gdx.input.justTouched())
         {
             Vector3 v=new Vector3();
             v.set(Gdx.input.getX(),Gdx.input.getY(),0);
             camera.unproject(v);
-            if (Helpers.isTouchedInRect(rectNewGame,v.x,v.y))
+            if (Helpers.isTouchedInRect(rectNewGame, v.x, v.y))
             {
                 if (!isMute)
                 game.click.play();
                 state=GameState.Ready;
                 restartGame();
+            }
+        }
+    }
+    private  void updateWorldScore()
+    {
+        game.batch.begin();
+        game.batch.draw(game.worldScoreSubmit, 0, 0);
+        game.batch.draw(game.cancel, rectCancel.x, rectCancel.y);
+        game.batch.draw(game.sharefb,rectSharefb.x,rectSharefb.y);
+        game.font.setColor(1, 0, 0, 1);
+        GlyphLayout layout = new GlyphLayout(game.font,String.valueOf(score));
+        game.font.draw(game.batch, layout, camera.viewportWidth / 2 - layout.width / 2, rectSharefb.y + 160);
+        game.batch.end();
+        if (Gdx.input.justTouched())
+        {
+            Vector3 v=new Vector3();
+            v.set(Gdx.input.getX(),Gdx.input.getY(),0);
+            camera.unproject(v);
+            if (Helpers.isTouchedInRect(rectCancel,v.x,v.y))
+            {
+                isSubmit=true;
+                state=GameState.GameOver;
+            }
+            if (Helpers.isTouchedInRect(rectSharefb,v.x,v.y))
+            {
+                String title = "New high score in HISS SNAKE";
+                String decs = "Your score: "+score +" . You are pro snake";
+                String imageUrl = "http://2.bp.blogspot.com/-MLQhvppSUkk/VbhYYoW8FuI/AAAAAAAAPRY/V5fTFiIRQ2A/s1600/fbImage.png";
+                String url = "https://play.google.com/store/apps/details?id=com.wegoone.followway";
+                game.actionResolver.showFbShare(title,decs,url,imageUrl);
+                isSubmit=true;
+                state=GameState.GameOver;
             }
         }
     }
@@ -309,12 +334,6 @@ public class GameScreen implements Screen{
         game.batch.end();
     }
 
-    private String getWorldScore()
-    {
-        String url = apiUrl+"/app/GetSnakeHighScore?key=dfamd175azxhm5900075ips1a82";
-        String json = Helpers.get(url);
-        return json;
-    }
     @Override
     public void show() {
 
@@ -327,7 +346,6 @@ public class GameScreen implements Screen{
 
     @Override
     public void resume() {
-
     }
 
     @Override
@@ -348,7 +366,8 @@ public class GameScreen implements Screen{
         Ready,
         Running,
         Paused,
-        GameOver
+        GameOver,
+        SubmitWorldScore
     }
 
 }
