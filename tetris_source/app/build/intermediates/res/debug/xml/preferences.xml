@@ -16,4 +16,4 @@
             android:title="Включить поворот"
             android:defaultValue="true"
             />
-</PreferenceScreen><!-- From: file:/D:/AndroidTest/TestAndroid/tetris/app/src/main/res/xml/preferences.xml -->
+</PreferenceScreen><!-- From: file:/D:/AndroidTest/TestAndroid/tetris_source/app/src/main/res/xml/preferences.xml -->

@@ -6,21 +6,21 @@
         jumboMode="false"
         revision="21.1.2"
         sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="D:\AndroidTest\TestAndroid\tetris\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-34a57f82165fcc191123ae4d70b3d0379c72c265.jar" />
+        <dex dex="D:\AndroidTest\TestAndroid\tetris_source\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-34a57f82165fcc191123ae4d70b3d0379c72c265.jar" />
     </item>
     <item
-        jar="D:\AndroidTest\TestAndroid\tetris\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\jars\libs\internal_impl-21.0.3.jar"
+        jar="D:\AndroidTest\TestAndroid\tetris_source\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\jars\libs\internal_impl-21.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="D:\AndroidTest\TestAndroid\tetris\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-3eec73d2d86571472be8fb247af3ce628d66ee1c.jar" />
+        <dex dex="D:\AndroidTest\TestAndroid\tetris_source\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-e9b49f3c6847f981aedfe2440a4f4f3c10d0307c.jar" />
     </item>
     <item
-        jar="D:\AndroidTest\TestAndroid\tetris\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\jars\classes.jar"
+        jar="D:\AndroidTest\TestAndroid\tetris_source\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\jars\classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="D:\AndroidTest\TestAndroid\tetris\app\build\intermediates\pre-dexed\debug\classes-3b048c907330b49e5073b062eafff2b67d6b122a.jar" />
+        <dex dex="D:\AndroidTest\TestAndroid\tetris_source\app\build\intermediates\pre-dexed\debug\classes-199cc878f87d9a77168517043b7d513e99d4c7cd.jar" />
     </item>
 
 </items>
