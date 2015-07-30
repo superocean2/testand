@@ -84,11 +84,11 @@ public class World {
         if (tickTime > tick) {
             tickTime = 0;
             gameOver = !snake.advance();
-            if (gameOver) {
-                snake.reverse();
-            }
             if (snake.checkBitten()) {
                 gameOver = true;
+            }
+            if (gameOver) {
+                snake.reverse();
             }
         }
         SnakePart head = snake.parts.get(0);
