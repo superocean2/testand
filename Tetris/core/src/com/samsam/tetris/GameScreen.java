@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.samsam.tetris.Model.World;
 
 /**
  * Created by NghiaTrinh on 7/30/2015.
@@ -21,6 +22,7 @@ public class GameScreen implements Screen {
     Rectangle rectDown;
     Rectangle rectRotate;
     boolean isMute;
+    World world;
 
 
     public GameScreen(TetrisGame game) {
@@ -35,6 +37,7 @@ public class GameScreen implements Screen {
         rectRight = new Rectangle(rectLeft.x+ game.left.getWidth()-3,0,game.right.getWidth(),game.right.getHeight());
         rectRotate = new Rectangle(rectRight.x+ game.right.getWidth()-3,0,game.rotate.getWidth(),game.rotate.getHeight());
         isMute=false;
+        world=new World();
     }
 
     @Override
@@ -79,6 +82,7 @@ public class GameScreen implements Screen {
         game.batch.draw(game.left, rectLeft.x, rectLeft.y);
         game.batch.draw(game.right, rectRight.x, rectRight.y);
         game.batch.draw(game.rotate,rectRotate.x,rectRotate.y);
+
         game.batch.end();
     }
 
