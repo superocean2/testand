@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 
 public class TetrisGame extends Game {
 	SpriteBatch batch;
@@ -18,6 +19,10 @@ public class TetrisGame extends Game {
 	Texture loudSpeaker;
 	Texture muteSpeaker;
 	Texture pause;
+	Rectangle rectScreen;
+	int mainBlockWidth;
+	int mainBlockHeight;
+
 	
 	@Override
 	public void create () {
@@ -31,6 +36,9 @@ public class TetrisGame extends Game {
 		loudSpeaker = new Texture("lound.png");
 		muteSpeaker = new Texture("mute.png");
 		pause = new Texture("pause.png");
+		rectScreen = new Rectangle(6,154,300,570);
+		mainBlockWidth=30;
+		mainBlockHeight=30;
 		setScreen(new GameScreen(this));
 	}
 	@Override

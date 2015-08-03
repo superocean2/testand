@@ -76,18 +76,17 @@ public class Figure {
     }
     public boolean move_down(int[][] pool)
     {
-        Figure figure = new Figure(x,y);
-        figure.y--;
-        if (figure.crossing(pool))
+        y--;
+        if (this.crossing(pool))
         {
-            if (!figure.move_left(pool))
-            {
-                if (!figure.move_right(pool))
-                {
-                    isNewFigure=true;
-                    return true;
-                }
-            }
+//            if (!this.move_left(pool))
+//            {
+//                if (!this.move_right(pool))
+//                {
+//                    isNewFigure=true;
+//                    return true;
+//                }
+//            }
             return false;
         }
         else y--;
