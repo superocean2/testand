@@ -24,8 +24,8 @@ public class Tetris_view extends View {
 
 	public Vibrator vibrator;
 	private Rect bounds;
-	private final int rows = 12;
-	private final int columns = 20;
+	private final int gridcols = 12;
+	private final int gridrows = 20;
 	private int score;
 	private Timer timer = null;
 	private MoveTask strafetask;
@@ -65,19 +65,19 @@ public class Tetris_view extends View {
 		bitmaps = loadBitmaps();
 		timer  = new Timer();
 		MoveTask task = new MoveTask(MoveTask.MOVE_DOWN);
-		pool = new int[rows+8][columns+8];
+		pool = new int[gridcols +8][gridrows +8];
 		game_is_over = false;
 		new_figure = 0;
 		score = 0;
-		for (int i=4;i<rows+4;i++)
-			for (int j=4;j<columns+4;j++)
+		for (int i=4;i< gridcols +4;i++)
+			for (int j=4;j< gridrows +4;j++)
 				pool[i][j] = 0;
-		for (int j=4;j<columns+6;j++)
+		for (int j=4;j< gridrows +6;j++)
 			{
 				pool[3][j] = 1;
-				pool[rows+4][j] = 1; 
+				pool[gridcols +4][j] = 1;
 			}
-		for (int i=0;i<rows+4;i++)
+		for (int i=0;i< gridcols +4;i++)
 				pool[i][3] = 1;
 		next_figure = new Figure();
 		main_figure = new Figure();
@@ -97,12 +97,12 @@ public class Tetris_view extends View {
 	public void onDraw(Canvas canvas)
 	{
         canvas.getClipBounds(bounds);
-		block_height = bounds.height()/columns;
-		block_width = bounds.width()/(rows+4);
+		block_height = bounds.height()/ gridrows;
+		block_width = bounds.width()/(gridcols +4);
 		paint.setColor(Color.BLACK);
 		canvas.drawColor(Color.rgb(53, 53, 67));
-		for (int i=4;i<rows+4;i++)
-			for (int j=4;j<columns+4;j++)			
+		for (int i=4;i< gridcols +4;i++)
+			for (int j=4;j< gridrows +4;j++)
 				if (pool[i][j]!=0) 
 				{
 					dst.set((i-4)*block_width+1, bounds.height()-(j-3)*block_height+1, 
@@ -118,18 +118,18 @@ public class Tetris_view extends View {
 					canvas.drawBitmap(bitmaps[main_figure.colors[i]-1], src, dst, paint);
 			}
 		paint.setColor(Color.GRAY);
-		canvas.drawRect(block_width*rows, 0, bounds.width(), bounds.height(), paint);
+		canvas.drawRect(block_width* gridcols, 0, bounds.width(), bounds.height(), paint);
 		paint.setColor(Color.BLACK);
 		for (int i=0;i<4;i++)
-				canvas.drawRect((rows+next_figure.data[i][0])*block_width+1, 
-						bounds.height()-(columns+next_figure.data[i][1]-4)*block_height+1, 
-						(rows+1+next_figure.data[i][0])*block_width-1, 
-						bounds.height()-(columns-5+next_figure.data[i][1])*block_height-1, paint);
+				canvas.drawRect((gridcols +next_figure.data[i][0])*block_width+1,
+						bounds.height()-(gridrows +next_figure.data[i][1]-4)*block_height+1,
+						(gridcols +1+next_figure.data[i][0])*block_width-1,
+						bounds.height()-(gridrows -5+next_figure.data[i][1])*block_height-1, paint);
 		paint.setColor(Color.GREEN);
 		paint.setTextSize(block_height);
-		canvas.drawText(Integer.toString(score), rows*block_width, 7*block_height, paint);
-        canvas.drawText("HS:", rows*block_width, 8*block_height, paint);
-        canvas.drawText(Integer.toString(hightscore), rows*block_width, 9*block_height, paint);
+		canvas.drawText(Integer.toString(score), gridcols *block_width, 7*block_height, paint);
+        canvas.drawText("HS:", gridcols *block_width, 8*block_height, paint);
+        canvas.drawText(Integer.toString(hightscore), gridcols *block_width, 9*block_height, paint);
 		if (game_is_over)	canvas.drawText("Game Over", 10, bounds.height()/2, paint);
 		if (pause)	canvas.drawText("Pause", 10, bounds.height()/2, paint);
 	}
@@ -237,15 +237,15 @@ public class Tetris_view extends View {
 			action = true;
 			int x = 0;
 			boolean combo; 
-			for (int j=4;j<columns+4;j++)
+			for (int j=4;j< gridrows +4;j++)
 			{
 				combo = true;
-				for (int i=4;i<rows+4;i++)
+				for (int i=4;i< gridcols +4;i++)
 					if (pool[i][j] == 0) combo = false;
 				if (combo)
 				{
-					for (int k=j;k<columns+4;k++)
-						for (int l=4;l<rows+4;l++)
+					for (int k=j;k< gridrows +4;k++)
+						for (int l=4;l< gridcols +4;l++)
 							pool[l][k] = pool[l][k+1];
 					x++;
 					j--;
@@ -360,8 +360,8 @@ public class Tetris_view extends View {
 		private int x,y;
 		public Figure()
 		{
-			x = rows/2+2;
-			y = columns+3;
+			x = gridcols /2+2;
+			y = gridrows +3;
 			Random r = new Random();
 			int type = (int)r.nextInt(7);
 			switch (type)

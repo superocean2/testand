@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.samsam.tetris.Model.World;
+
+import java.util.Timer;
 
 /**
  * Created by NghiaTrinh on 7/30/2015.
@@ -21,6 +24,7 @@ public class GameScreen implements Screen {
     Rectangle rectDown;
     Rectangle rectRotate;
     boolean isMute;
+    World world;
 
 
     public GameScreen(TetrisGame game) {
@@ -35,6 +39,8 @@ public class GameScreen implements Screen {
         rectRight = new Rectangle(rectLeft.x+ game.left.getWidth()-3,0,game.right.getWidth(),game.right.getHeight());
         rectRotate = new Rectangle(rectRight.x+ game.right.getWidth()-3,0,game.rotate.getWidth(),game.rotate.getHeight());
         isMute=false;
+        world=new World();
+        world.update();
     }
 
     @Override
@@ -79,6 +85,21 @@ public class GameScreen implements Screen {
         game.batch.draw(game.left, rectLeft.x, rectLeft.y);
         game.batch.draw(game.right, rectRight.x, rectRight.y);
         game.batch.draw(game.rotate,rectRotate.x,rectRotate.y);
+        for (int i=4;i< world.gridcols +4;i++)
+            for (int j=4;j< world.gridrows +4;j++)
+                if (world.pool[i][j]!=0)
+                {
+                    game.batch.draw(game.block,(i-4)*game.mainBlockWidth+game.rectScreen.x+game.rectScreen.width/2, game.rectScreen.y+ game.rectScreen.getHeight()-(j-3)*game.mainBlockHeight);
+                }
+            for (int i=0;i<4;i++)
+            {
+                float x = game.rectScreen.x  + (world.main_figure.data[i][0] + world.main_figure.x - 4) * game.mainBlockWidth;
+                float y = game.rectScreen.y +(world.main_figure.data[i][1] - 3 + world.main_figure.y) * game.mainBlockHeight-80;
+                if (game.rectScreen.x<x&&x<game.rectScreen.x+game.rectScreen.width
+                        &&game.rectScreen.y<y&&y<game.rectScreen.y+game.rectScreen.height) {
+                    game.batch.draw(game.block, x, y, game.block.getWidth(), game.block.getHeight());
+                }
+            }
         game.batch.end();
     }
 
