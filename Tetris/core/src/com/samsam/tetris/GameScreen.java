@@ -23,8 +23,15 @@ public class GameScreen implements Screen {
     Rectangle rectRight;
     Rectangle rectDown;
     Rectangle rectRotate;
+    Rectangle rectResume;
+    Rectangle rectQuit;
+    Rectangle rectNewgame;
+    Rectangle rectGameover;
+    Rectangle rectHighscore;
     boolean isMute;
     World world;
+    int score;
+    boolean gameIsStart=false;
 
 
     public GameScreen(TetrisGame game) {
@@ -38,9 +45,14 @@ public class GameScreen implements Screen {
         rectLeft = new Rectangle(game.down.getWidth()-5,0,game.left.getWidth(),game.left.getHeight());
         rectRight = new Rectangle(rectLeft.x+ game.left.getWidth()-3,0,game.right.getWidth(),game.right.getHeight());
         rectRotate = new Rectangle(rectRight.x+ game.right.getWidth()-3,0,game.rotate.getWidth(),game.rotate.getHeight());
+        rectResume = new Rectangle(game.rectScreen.width / 2 - game.resume.getWidth() / 2 + 7,450,game.resume.getWidth(),game.resume.getHeight());
+        rectQuit = new Rectangle(game.rectScreen.width / 2 - game.quit.getWidth() / 2 + 7,rectResume.y-60,game.quit.getWidth(),game.quit.getHeight());
+        rectGameover =new Rectangle(game.rectScreen.width / 2 - game.gameOver.getWidth() / 2 + 7,540,game.gameOver.getWidth(),game.gameOver.getHeight());
+        rectNewgame = new Rectangle(game.rectScreen.width / 2 - game.newGame.getWidth() / 2 + 7,rectGameover.y-game.newGame.getHeight()-20,game.newGame.getWidth(),game.newGame.getHeight());
+        rectHighscore = new Rectangle(game.rectScreen.width / 2 - game.highScore.getWidth() / 2 + 7,rectNewgame.y-game.highScore.getHeight()-20,game.highScore.getWidth(),game.highScore.getHeight());
         isMute=false;
         world=new World();
-        world.update();
+        score=0;
     }
 
     @Override
@@ -77,50 +89,145 @@ public class GameScreen implements Screen {
 
     private void drawWorld()
     {
+        Vector3 v= new Vector3();
+        v.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+        camera.unproject(v);
+        if (Gdx.input.justTouched()) {
+            if (Helpers.isTouchedInRect(rectLoudSpeaker, v.x, v.y)) {
+                if (isMute)
+                {
+                    isMute=false;
+                }
+                else
+                {
+                    isMute=true;
+                }
+            }
+        }
+
         game.batch.begin();
         game.batch.draw(game.background, 0, 0);
-        game.batch.draw(game.loudSpeaker, rectLoudSpeaker.x, rectLoudSpeaker.y);
+        game.batch.draw(isMute?game.muteSpeaker:game.loudSpeaker, rectLoudSpeaker.x, rectLoudSpeaker.y);
         game.batch.draw(game.pause, rectPause.x, rectPause.y);
         game.batch.draw(game.down, rectDown.x, rectDown.y);
         game.batch.draw(game.left, rectLeft.x, rectLeft.y);
         game.batch.draw(game.right, rectRight.x, rectRight.y);
-        game.batch.draw(game.rotate,rectRotate.x,rectRotate.y);
-        for (int i=4;i< world.gridcols +4;i++)
-            for (int j=4;j< world.gridrows +4;j++)
+        game.batch.draw(game.rotate, rectRotate.x, rectRotate.y);
+        for (int i=0;i< world.gridcols+4;i++)
+            for (int j=1;j< world.gridrows+4;j++)
                 if (world.pool[i][j]!=0)
                 {
-                    game.batch.draw(game.block,(i-4)*game.mainBlockWidth+game.rectScreen.x+game.rectScreen.width/2, game.rectScreen.y+ game.rectScreen.getHeight()-(j-3)*game.mainBlockHeight);
+                    float x = game.rectScreen.x  + (i-1)*game.mainBlockWidth;
+                    float y = game.rectScreen.y + (j-1)*game.mainBlockHeight;
+                    if (game.rectScreen.x<x+1&&x<game.rectScreen.x+game.rectScreen.width
+                            &&y<game.rectScreen.y+game.rectScreen.height) {
+                        game.batch.draw(game.block, x, y);
+                    }
                 }
-            for (int i=0;i<4;i++)
-            {
-                float x = game.rectScreen.x  + (world.main_figure.data[i][0] + world.main_figure.x - 4) * game.mainBlockWidth;
-                float y = game.rectScreen.y +(world.main_figure.data[i][1] - 3 + world.main_figure.y) * game.mainBlockHeight-80;
-                if (game.rectScreen.x<x&&x<game.rectScreen.x+game.rectScreen.width
-                        &&game.rectScreen.y<y&&y<game.rectScreen.y+game.rectScreen.height) {
-                    game.batch.draw(game.block, x, y, game.block.getWidth(), game.block.getHeight());
-                }
+        for (int i=0;i<4;i++)
+        {
+            float x = game.rectScreen.x  + (world.main_figure.x-1)*game.mainBlockWidth + world.main_figure.data[i][0]*game.mainBlockWidth;
+            float y = game.rectScreen.y + world.main_figure.y*game.mainBlockHeight + world.main_figure.data[i][1]*game.mainBlockHeight;
+
+            if (game.rectScreen.x<x+1&&x<game.rectScreen.x+game.rectScreen.width
+                    &&game.rectScreen.y<y&&y<game.rectScreen.y+game.rectScreen.height) {
+                game.batch.draw(game.block, x, y, game.block.getWidth(), game.block.getHeight());
             }
+        }
         game.batch.end();
+
+
     }
 
     private void updateReady()
     {
-
+        Vector3 v= new Vector3();
+        v.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+        camera.unproject(v);
+        if (Gdx.input.justTouched()) {
+            if (Helpers.isTouchedInRect(game.rectScreen, v.x, v.y)) {
+                state = GameState.Running;
+            }
+        }
+        game.batch.begin();
+        drawOverlayBg();
+        game.batch.draw(game.ready, game.rectScreen.width / 2 - game.ready.getWidth() / 2 + 7, 420);
+        game.batch.end();
     }
 
     public void updateRunning()
     {
+        if (!gameIsStart) {
+            world.update();
+            gameIsStart=true;
+        }
+        Vector3 v = new Vector3();
+        v.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+        camera.unproject(v);
+        if (Gdx.input.justTouched()) {
+            if (Helpers.isTouchedInRect(rectLeft, v.x, v.y)) {
+                world.main_figure.move_left(world.pool);
+            }
+            if (Helpers.isTouchedInRect(rectRight, v.x, v.y)) {
+                world.main_figure.move_right(world.pool);
+            }
+            if (Helpers.isTouchedInRect(rectRotate, v.x, v.y)) {
+                world.main_figure.rotate(world.pool);
+            }
+            if (Helpers.isTouchedInRect(rectDown, v.x, v.y)) {
+                world.main_figure.drop(world.pool);
+            }
 
+            if (Helpers.isTouchedInRect(rectPause, v.x, v.y)) {
+                world.pause();
+                state = GameState.Paused;
+            }
+        }
+        if (world.gameOver)
+        {
+            state=GameState.GameOver;
+        }
+        score=world.score;
     }
 
     private void updatePaused()
     {
-
+        game.batch.begin();
+        drawOverlayBg();
+        game.batch.draw(game.resume,rectResume.x,rectResume.y);
+        game.batch.draw(game.quit,rectQuit.x,rectQuit.y);
+        game.batch.end();
+        Vector3 v = new Vector3();
+        v.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+        camera.unproject(v);
+        if (Gdx.input.justTouched()) {
+            if (Helpers.isTouchedInRect(rectResume, v.x, v.y)) {
+                world.resume();
+                state=GameState.Running;
+            }
+        }
     }
 
     private void updateGameOver()
     {
-
+        game.batch.begin();
+        drawOverlayBg();
+        game.batch.draw(game.gameOver, rectGameover.x, rectGameover.y);
+        game.batch.draw(game.newGame,rectNewgame.x,rectNewgame.y);
+        game.batch.draw(game.highScore,rectHighscore.x,rectHighscore.y);
+        game.batch.end();
+        Vector3 v = new Vector3();
+        v.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+        camera.unproject(v);
+        if (Gdx.input.justTouched()) {
+            if (Helpers.isTouchedInRect(rectNewgame, v.x, v.y)) {
+                world.restart();
+                world = new World();
+                score=0;
+                state=GameState.Ready;
+                gameIsStart=false;
+            }
+        }
     }
 
     private void updateWorldScore()
@@ -128,6 +235,10 @@ public class GameScreen implements Screen {
 
     }
 
+    private void drawOverlayBg()
+    {
+        game.batch.draw(game.overlay,game.rectScreen.width/2-game.overlay.getWidth()/2+7,246);
+    }
     @Override
     public void resize(int width, int height) {
 
