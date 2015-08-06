@@ -8,7 +8,6 @@ import java.util.Random;
 public class Figure {
     public int data[][];
     public int x,y;
-    boolean isNewFigure=false;
 
     public Figure(int x,int y)
     {
@@ -41,7 +40,7 @@ public class Figure {
     public boolean rotate(int[][] pool)
     {
         int buf;
-        Figure figure = new Figure(x,y);
+        Figure figure = new Figure(this);
         for (int i = 0;i<4;i++)
         {
             buf = figure.data[i][0];
@@ -79,17 +78,9 @@ public class Figure {
         y--;
         if (this.crossing(pool))
         {
-//            if (!this.move_left(pool))
-//            {
-//                if (!this.move_right(pool))
-//                {
-//                    isNewFigure=true;
-//                    return true;
-//                }
-//            }
+            y++;
             return false;
         }
-        else y--;
         return true;
     }
     public void drop(int[][] pool)
@@ -101,10 +92,13 @@ public class Figure {
     }
     public boolean crossing(int[][] pool)
     {
-        for (int i=0;i<4;i++)
-            if (pool[data[i][0]+x][data[i][1]+y]!=0) return true;
+        for (int i=0;i<4;i++) {
+            if (pool[data[i][0] + x][data[i][1] + y] != 0) return true;
+        }
+
         return false;
     }
+
     public void print(int[][] pool)
     {
         for (int i=0;i<4;i++)
