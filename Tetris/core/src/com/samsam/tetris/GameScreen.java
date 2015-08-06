@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.samsam.tetris.Model.World;
@@ -31,7 +32,8 @@ public class GameScreen implements Screen {
     boolean isMute;
     World world;
     int score;
-    boolean gameIsStart=false;
+    boolean gameIsStart;
+    boolean isSubmit;
 
 
     public GameScreen(TetrisGame game) {
@@ -45,14 +47,16 @@ public class GameScreen implements Screen {
         rectLeft = new Rectangle(game.down.getWidth()-5,0,game.left.getWidth(),game.left.getHeight());
         rectRight = new Rectangle(rectLeft.x+ game.left.getWidth()-3,0,game.right.getWidth(),game.right.getHeight());
         rectRotate = new Rectangle(rectRight.x+ game.right.getWidth()-3,0,game.rotate.getWidth(),game.rotate.getHeight());
-        rectResume = new Rectangle(game.rectScreen.width / 2 - game.resume.getWidth() / 2 + 7,450,game.resume.getWidth(),game.resume.getHeight());
-        rectQuit = new Rectangle(game.rectScreen.width / 2 - game.quit.getWidth() / 2 + 7,rectResume.y-60,game.quit.getWidth(),game.quit.getHeight());
+        rectResume = new Rectangle(game.rectScreen.width / 2 - game.resume.getWidth() / 2 + 7,490,game.resume.getWidth(),game.resume.getHeight());
+        rectQuit = new Rectangle(game.rectScreen.width / 2 - game.quit.getWidth() / 2 + 7,rectResume.y-80,game.quit.getWidth(),game.quit.getHeight());
         rectGameover =new Rectangle(game.rectScreen.width / 2 - game.gameOver.getWidth() / 2 + 7,540,game.gameOver.getWidth(),game.gameOver.getHeight());
         rectNewgame = new Rectangle(game.rectScreen.width / 2 - game.newGame.getWidth() / 2 + 7,rectGameover.y-game.newGame.getHeight()-20,game.newGame.getWidth(),game.newGame.getHeight());
         rectHighscore = new Rectangle(game.rectScreen.width / 2 - game.highScore.getWidth() / 2 + 7,rectNewgame.y-game.highScore.getHeight()-20,game.highScore.getWidth(),game.highScore.getHeight());
         isMute=false;
         world=new World();
         score=0;
+        gameIsStart=false;
+        isSubmit=false;
     }
 
     @Override
@@ -76,15 +80,6 @@ public class GameScreen implements Screen {
         if(state == GameState.SubmitWorldScore)
             updateWorldScore();
 
-        if (Gdx.input.justTouched()) {
-            Vector3 v = new Vector3();
-            v.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            camera.unproject(v);
-            if (Helpers.isTouchedInRect(rectLoudSpeaker, v.x, v.y)) {
-                if (isMute) isMute=false;
-                else isMute=true;
-            }
-        }
     }
 
     private void drawWorld()
@@ -107,12 +102,16 @@ public class GameScreen implements Screen {
 
         game.batch.begin();
         game.batch.draw(game.background, 0, 0);
-        game.batch.draw(isMute?game.muteSpeaker:game.loudSpeaker, rectLoudSpeaker.x, rectLoudSpeaker.y);
+        game.batch.draw(isMute ? game.muteSpeaker : game.loudSpeaker, rectLoudSpeaker.x, rectLoudSpeaker.y);
         game.batch.draw(game.pause, rectPause.x, rectPause.y);
         game.batch.draw(game.down, rectDown.x, rectDown.y);
         game.batch.draw(game.left, rectLeft.x, rectLeft.y);
         game.batch.draw(game.right, rectRight.x, rectRight.y);
         game.batch.draw(game.rotate, rectRotate.x, rectRotate.y);
+        game.font.setColor(1, 1, 1, 1);
+        GlyphLayout layout = new GlyphLayout(game.font, String.valueOf(score));
+        game.font.draw(game.batch,layout, 310+(420-310)/2 - layout.width/2, 340);
+
         for (int i=0;i< world.gridcols+4;i++)
             for (int j=1;j< world.gridrows+4;j++)
                 if (world.pool[i][j]!=0)
@@ -134,11 +133,28 @@ public class GameScreen implements Screen {
                 game.batch.draw(game.block, x, y, game.block.getWidth(), game.block.getHeight());
             }
         }
+
+        //render block mini
+        for (int i=0;i<4;i++)
+        {
+            float x = 317 + world.next_figure.data[i][0]*game.blockmini.getWidth();
+            float y = 410 + world.next_figure.data[i][1]*game.blockmini.getWidth();
+            game.batch.draw(game.blockmini, x, y, game.blockmini.getWidth(), game.blockmini.getHeight());
+        }
         game.batch.end();
 
 
     }
 
+    private  void restartGame()
+    {
+        world.restart();
+        world = new World();
+        score=0;
+        state=GameState.Ready;
+        gameIsStart=false;
+        isSubmit=false;
+    }
     private void updateReady()
     {
         Vector3 v= new Vector3();
@@ -205,34 +221,53 @@ public class GameScreen implements Screen {
                 world.resume();
                 state=GameState.Running;
             }
+            if (Helpers.isTouchedInRect(rectQuit, v.x, v.y)) {
+                world.game_Over();
+                state=GameState.GameOver;
+            }
         }
     }
 
     private void updateGameOver()
     {
+        //save score
+        int highscore = Helpers.getHighScore();
+        if (highscore<score)
+        {
+            Helpers.saveHighScore(score);
+//            if (!isSubmit) {
+//                state = GameState.SubmitWorldScore;
+//            }
+        }
+
         game.batch.begin();
         drawOverlayBg();
         game.batch.draw(game.gameOver, rectGameover.x, rectGameover.y);
-        game.batch.draw(game.newGame,rectNewgame.x,rectNewgame.y);
+        game.batch.draw(game.newGame, rectNewgame.x, rectNewgame.y);
         game.batch.draw(game.highScore,rectHighscore.x,rectHighscore.y);
+
+        game.font.setColor(1, 0, 0, 1);
+        GlyphLayout layout = new GlyphLayout(game.font,String.valueOf(score));
+        game.font.draw(game.batch, layout, game.rectScreen.width / 2 - layout.width / 2 +7, rectHighscore.y + 65);
+
+        GlyphLayout layout1 = new GlyphLayout(game.font,String.valueOf(Helpers.getHighScore()));
+        game.font.draw(game.batch,layout1,game.rectScreen.width/2-layout1.width/2 +7,rectHighscore.y+10);
         game.batch.end();
         Vector3 v = new Vector3();
         v.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         camera.unproject(v);
         if (Gdx.input.justTouched()) {
             if (Helpers.isTouchedInRect(rectNewgame, v.x, v.y)) {
-                world.restart();
-                world = new World();
-                score=0;
-                state=GameState.Ready;
-                gameIsStart=false;
+                restartGame();
             }
         }
     }
 
     private void updateWorldScore()
     {
+        game.batch.begin();
 
+        game.batch.end();
     }
 
     private void drawOverlayBg()

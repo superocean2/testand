@@ -19,7 +19,7 @@ public class World {
     public Timer timer = null;
     public boolean gameOver=false;
     private final int NEWFIGUREX=3;
-    private final int NEWFIGUREY=18;
+    private final int NEWFIGUREY=19;
     MoveTask task = new MoveTask(MoveTask.MOVE_DOWN);
 
 
@@ -86,7 +86,7 @@ public class World {
     {
         timer.cancel();
     }
-    private void game_Over()
+    public void game_Over()
     {
         timer.cancel();
         gameOver = true;
@@ -122,13 +122,13 @@ public class World {
         switch (x)
         {
             case 1:
-                score +=100; break;
+                score +=10; break;
             case 2:
-                score +=300; break;
+                score +=30; break;
             case 3:
-                score +=700; break;
+                score +=60; break;
             case 4:
-                score +=1500; break;
+                score +=120; break;
         }
 
     }
