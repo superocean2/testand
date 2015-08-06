@@ -1,6 +1,13 @@
 android {
     buildToolsVersion "21.1.2"
     compileSdkVersion 22
+    defaultConfig {
+        applicationId "samsam.colortest.com.android"
+        minSdkVersion 9
+        targetSdkVersion 21
+        versionCode 3
+        versionName "1.2"
+    }
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'

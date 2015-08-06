@@ -324,7 +324,7 @@ public class GameScreen implements Screen{
                 String title = "New high score in HISS SNAKE";
                 String decs = "Your score: "+score +" . You are pro snake";
                 String imageUrl = "http://2.bp.blogspot.com/-MLQhvppSUkk/VbhYYoW8FuI/AAAAAAAAPRY/V5fTFiIRQ2A/s1600/fbImage.png";
-                String url = "funnynet.net";
+                String url = "https://play.google.com/store/apps/details?id=com.samsam.snake.android";
                 game.actionResolver.showFbShare(title,decs,url,imageUrl);
                 isSubmit=true;
                 state=GameState.GameOver;

@@ -111,7 +111,7 @@ public class Result implements Screen{
                 game.actionResolver.showFbShare(
                         getResultInfo().get_name(),
                         languagesManager.getString("yourScore")+" "+String.valueOf(score) +". "+getResultInfo().get_description1()+". "+getResultInfo().get_description2()+". " + languagesManager.getString("trythis"),
-                        "http://funnynet.net",getResultInfo().get_picture_fb()
+                        "https://play.google.com/store/apps/details?id=samsam.colortest.com.android",getResultInfo().get_picture_fb()
                 );
             }
             if (Helpers.isTouchedInRect(restartRect,v.x,v.y))
