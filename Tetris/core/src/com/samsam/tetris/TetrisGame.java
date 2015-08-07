@@ -2,6 +2,9 @@ package com.samsam.tetris;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,7 +18,7 @@ public class TetrisGame extends Game {
 	Texture blockmini;
 	Texture left;
 	Texture right;
-	Texture down;
+	//Texture down;
 	Texture rotate;
 	Texture loudSpeaker;
 	Texture muteSpeaker;
@@ -31,6 +34,9 @@ public class TetrisGame extends Game {
 	int mainBlockWidth;
 	int mainBlockHeight;
 	BitmapFont font;
+	Music bacgroundMusic;
+	Sound eat;
+	Sound hit;
 	ActionResolver actionResolver;
 
 	public TetrisGame(ActionResolver actionResolver) {
@@ -41,11 +47,11 @@ public class TetrisGame extends Game {
 	public void create () {
 		batch = new SpriteBatch();
 		background = new Texture("tetris.png");
-		block = new Texture("block.png");
+		block = new Texture("block1.png");
 		blockmini = new Texture("blockmini.png");
 		left = new Texture("left.png");
 		right = new Texture("right.png");
-		down = new Texture("down.png");
+		//down = new Texture("down.png");
 		rotate = new Texture("rotate.png");
 		loudSpeaker = new Texture("lound.png");
 		muteSpeaker = new Texture("mute.png");
@@ -56,10 +62,13 @@ public class TetrisGame extends Game {
 		quit = new Texture("quit.png");
 		ready = new Texture("ready.png");
 		resume = new Texture("resume.png");
-		overlay = new Texture("gameoverlay.png");
+		overlay = new Texture("gameoverlay1.png");
+		bacgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/bg1.mp3"));
+		eat = Gdx.audio.newSound(Gdx.files.internal("sound/eat.wav"));
+		hit = Gdx.audio.newSound(Gdx.files.internal("sound/hit.wav"));
 
 
-		rectScreen = new Rectangle(6,154,300,570);
+		rectScreen = new Rectangle(8,146,300,570);
 		mainBlockWidth=30;
 		mainBlockHeight=30;
 
@@ -85,7 +94,7 @@ public class TetrisGame extends Game {
 		block.dispose();
 		left.dispose();
 		right.dispose();
-		down.dispose();
+		//down.dispose();
 		rotate.dispose();
 		muteSpeaker.dispose();
 		loudSpeaker.dispose();
@@ -98,5 +107,8 @@ public class TetrisGame extends Game {
 		resume.dispose();
 		overlay.dispose();
 		blockmini.dispose();
+		bacgroundMusic.dispose();
+		eat.dispose();
+		hit.dispose();
 	}
 }

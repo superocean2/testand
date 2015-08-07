@@ -95,7 +95,6 @@ public class Figure {
         for (int i=0;i<4;i++) {
             if (pool[data[i][0] + x][data[i][1] + y] != 0) return true;
         }
-
         return false;
     }
 

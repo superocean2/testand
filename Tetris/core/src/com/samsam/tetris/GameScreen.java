@@ -22,7 +22,7 @@ public class GameScreen implements Screen {
     Rectangle rectLoudSpeaker;
     Rectangle rectLeft;
     Rectangle rectRight;
-    Rectangle rectDown;
+    //Rectangle rectDown;
     Rectangle rectRotate;
     Rectangle rectResume;
     Rectangle rectQuit;
@@ -34,6 +34,7 @@ public class GameScreen implements Screen {
     int score;
     boolean gameIsStart;
     boolean isSubmit;
+    int oldscore;
 
 
     public GameScreen(TetrisGame game) {
@@ -41,12 +42,12 @@ public class GameScreen implements Screen {
         state = GameState.Ready;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 420, 800);
-        rectPause = new Rectangle(320,540,game.pause.getWidth(),game.pause.getHeight());
-        rectLoudSpeaker = new Rectangle(320,540+game.pause.getHeight()+10,game.loudSpeaker.getWidth(),game.loudSpeaker.getHeight());
-        rectDown = new Rectangle(0,0,game.down.getWidth(),game.down.getHeight());
-        rectLeft = new Rectangle(game.down.getWidth()-5,0,game.left.getWidth(),game.left.getHeight());
-        rectRight = new Rectangle(rectLeft.x+ game.left.getWidth()-3,0,game.right.getWidth(),game.right.getHeight());
-        rectRotate = new Rectangle(rectRight.x+ game.right.getWidth()-3,0,game.rotate.getWidth(),game.rotate.getHeight());
+        rectPause = new Rectangle(330,540,game.pause.getWidth(),game.pause.getHeight());
+        rectLoudSpeaker = new Rectangle(330,540+game.pause.getHeight()+10,game.loudSpeaker.getWidth(),game.loudSpeaker.getHeight());
+        //rectDown = new Rectangle(0,0,game.down.getWidth(),game.down.getHeight());
+        rectLeft = new Rectangle(0,0,game.left.getWidth(),game.left.getHeight());
+        rectRight = new Rectangle(rectLeft.x+ game.left.getWidth()+2,0,game.right.getWidth(),game.right.getHeight());
+        rectRotate = new Rectangle(rectRight.x+ game.right.getWidth()+5,0,game.rotate.getWidth(),game.rotate.getHeight());
         rectResume = new Rectangle(game.rectScreen.width / 2 - game.resume.getWidth() / 2 + 7,490,game.resume.getWidth(),game.resume.getHeight());
         rectQuit = new Rectangle(game.rectScreen.width / 2 - game.quit.getWidth() / 2 + 7,rectResume.y-80,game.quit.getWidth(),game.quit.getHeight());
         rectGameover =new Rectangle(game.rectScreen.width / 2 - game.gameOver.getWidth() / 2 + 7,540,game.gameOver.getWidth(),game.gameOver.getHeight());
@@ -57,6 +58,10 @@ public class GameScreen implements Screen {
         score=0;
         gameIsStart=false;
         isSubmit=false;
+        oldscore=0;
+        if (!isMute)
+        game.bacgroundMusic.play();
+        game.bacgroundMusic.setLooping(true);
     }
 
     @Override
@@ -92,10 +97,15 @@ public class GameScreen implements Screen {
                 if (isMute)
                 {
                     isMute=false;
+                    game.bacgroundMusic.play();
                 }
                 else
                 {
                     isMute=true;
+                    if (game.bacgroundMusic.isPlaying())
+                    {
+                        game.bacgroundMusic.stop();
+                    }
                 }
             }
         }
@@ -104,13 +114,13 @@ public class GameScreen implements Screen {
         game.batch.draw(game.background, 0, 0);
         game.batch.draw(isMute ? game.muteSpeaker : game.loudSpeaker, rectLoudSpeaker.x, rectLoudSpeaker.y);
         game.batch.draw(game.pause, rectPause.x, rectPause.y);
-        game.batch.draw(game.down, rectDown.x, rectDown.y);
+       // game.batch.draw(game.down, rectDown.x, rectDown.y);
         game.batch.draw(game.left, rectLeft.x, rectLeft.y);
         game.batch.draw(game.right, rectRight.x, rectRight.y);
         game.batch.draw(game.rotate, rectRotate.x, rectRotate.y);
         game.font.setColor(1, 1, 1, 1);
         GlyphLayout layout = new GlyphLayout(game.font, String.valueOf(score));
-        game.font.draw(game.batch,layout, 310+(420-310)/2 - layout.width/2, 340);
+        game.font.draw(game.batch,layout, 310+(420-310)/2 - layout.width/2, 332);
 
         for (int i=0;i< world.gridcols+4;i++)
             for (int j=1;j< world.gridrows+4;j++)
@@ -137,8 +147,8 @@ public class GameScreen implements Screen {
         //render block mini
         for (int i=0;i<4;i++)
         {
-            float x = 317 + world.next_figure.data[i][0]*game.blockmini.getWidth();
-            float y = 410 + world.next_figure.data[i][1]*game.blockmini.getWidth();
+            float x = 318 + world.next_figure.data[i][0]*game.blockmini.getWidth();
+            float y = 403 + world.next_figure.data[i][1]*game.blockmini.getWidth();
             game.batch.draw(game.blockmini, x, y, game.blockmini.getWidth(), game.blockmini.getHeight());
         }
         game.batch.end();
@@ -190,20 +200,30 @@ public class GameScreen implements Screen {
             if (Helpers.isTouchedInRect(rectRotate, v.x, v.y)) {
                 world.main_figure.rotate(world.pool);
             }
-            if (Helpers.isTouchedInRect(rectDown, v.x, v.y)) {
-                world.main_figure.drop(world.pool);
-            }
+//            if (Helpers.isTouchedInRect(rectDown, v.x, v.y)) {
+//                world.main_figure.drop(world.pool);
+//            }
 
             if (Helpers.isTouchedInRect(rectPause, v.x, v.y)) {
                 world.pause();
                 state = GameState.Paused;
             }
         }
+
+        oldscore=score;
+        score=world.score;
+
+        if (oldscore!=score)
+        {
+            if (!isMute)
+                game.eat.play();
+        }
         if (world.gameOver)
         {
+            if (!isMute)
+                game.hit.play();
             state=GameState.GameOver;
         }
-        score=world.score;
     }
 
     private void updatePaused()
@@ -246,7 +266,7 @@ public class GameScreen implements Screen {
         game.batch.draw(game.newGame, rectNewgame.x, rectNewgame.y);
         game.batch.draw(game.highScore,rectHighscore.x,rectHighscore.y);
 
-        game.font.setColor(1, 0, 0, 1);
+        //game.font.setColor(1, 0, 0, 1);
         GlyphLayout layout = new GlyphLayout(game.font,String.valueOf(score));
         game.font.draw(game.batch, layout, game.rectScreen.width / 2 - layout.width / 2 +7, rectHighscore.y + 65);
 
