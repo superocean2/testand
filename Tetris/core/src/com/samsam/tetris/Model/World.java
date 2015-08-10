@@ -15,10 +15,10 @@ public class World {
     public Figure next_figure;
     public int[][] pool;
     private int new_figure;
-    long down_speed = 300;
+    long down_speed = 200;
     public Timer timer = null;
     public boolean gameOver=false;
-    private final int NEWFIGUREX=3;
+    private final int NEWFIGUREX=4;
     private final int NEWFIGUREY=19;
     MoveTask task = new MoveTask(MoveTask.MOVE_DOWN);
 

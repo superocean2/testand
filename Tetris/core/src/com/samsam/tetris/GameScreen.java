@@ -29,6 +29,8 @@ public class GameScreen implements Screen {
     Rectangle rectNewgame;
     Rectangle rectGameover;
     Rectangle rectHighscore;
+    Rectangle rectShareFb;
+    Rectangle rectCancel;
     boolean isMute;
     World world;
     int score;
@@ -53,6 +55,8 @@ public class GameScreen implements Screen {
         rectGameover =new Rectangle(game.rectScreen.width / 2 - game.gameOver.getWidth() / 2 + 7,540,game.gameOver.getWidth(),game.gameOver.getHeight());
         rectNewgame = new Rectangle(game.rectScreen.width / 2 - game.newGame.getWidth() / 2 + 7,rectGameover.y-game.newGame.getHeight()-20,game.newGame.getWidth(),game.newGame.getHeight());
         rectHighscore = new Rectangle(game.rectScreen.width / 2 - game.highScore.getWidth() / 2 + 7,rectNewgame.y-game.highScore.getHeight()-20,game.highScore.getWidth(),game.highScore.getHeight());
+        rectShareFb = new Rectangle(game.rectScreen.width / 2 - game.highScore.getWidth() / 2 + 7,350,game.shareFb.getWidth(),game.shareFb.getHeight());
+        rectCancel = new Rectangle(rectShareFb.x,rectShareFb.y-game.cancel.getHeight()-20,game.cancel.getWidth(),game.cancel.getHeight());
         isMute=false;
         world=new World();
         score=0;
@@ -255,9 +259,9 @@ public class GameScreen implements Screen {
         if (highscore<score)
         {
             Helpers.saveHighScore(score);
-//            if (!isSubmit) {
-//                state = GameState.SubmitWorldScore;
-//            }
+            if (!isSubmit) {
+                state = GameState.SubmitWorldScore;
+            }
         }
 
         game.batch.begin();
@@ -273,12 +277,15 @@ public class GameScreen implements Screen {
         GlyphLayout layout1 = new GlyphLayout(game.font,String.valueOf(Helpers.getHighScore()));
         game.font.draw(game.batch,layout1,game.rectScreen.width/2-layout1.width/2 +7,rectHighscore.y+10);
         game.batch.end();
-        Vector3 v = new Vector3();
-        v.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-        camera.unproject(v);
+
         if (Gdx.input.justTouched()) {
-            if (Helpers.isTouchedInRect(rectNewgame, v.x, v.y)) {
-                restartGame();
+            Vector3 v = new Vector3();
+            v.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(v);
+            if (Gdx.input.justTouched()) {
+                if (Helpers.isTouchedInRect(rectNewgame, v.x, v.y)) {
+                    restartGame();
+                }
             }
         }
     }
@@ -286,8 +293,28 @@ public class GameScreen implements Screen {
     private void updateWorldScore()
     {
         game.batch.begin();
-
+        game.batch.draw(game.worldScoreBg, game.rectScreen.width / 2 - game.overlay.getWidth() / 2 + 7, 246);
+        GlyphLayout layout = new GlyphLayout(game.font,String.valueOf(score));
+        game.font.draw(game.batch, layout, game.rectScreen.width / 2 - layout.width / 2 +7, 443);
+        game.batch.draw(game.shareFb,rectShareFb.x,rectShareFb.y);
+        game.batch.draw(game.cancel,rectCancel.x,rectCancel.y);
         game.batch.end();
+
+        if (Gdx.input.justTouched()) {
+            Vector3 v = new Vector3();
+            v.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(v);
+            if (Gdx.input.justTouched()) {
+                if (Helpers.isTouchedInRect(rectShareFb, v.x, v.y)) {
+                    game.actionResolver.showFbShare("Hiss tetris","","","");
+                    state= GameState.GameOver;
+                }
+                if (Helpers.isTouchedInRect(rectCancel,v.x,v.y))
+                {
+                    state = GameState.GameOver;
+                }
+            }
+        }
     }
 
     private void drawOverlayBg()

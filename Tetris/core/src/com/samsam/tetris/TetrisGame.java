@@ -30,6 +30,9 @@ public class TetrisGame extends Game {
 	Texture quit;
 	Texture resume;
 	Texture overlay;
+	Texture worldScoreBg;
+	Texture shareFb;
+	Texture cancel;
 	Rectangle rectScreen;
 	int mainBlockWidth;
 	int mainBlockHeight;
@@ -63,9 +66,12 @@ public class TetrisGame extends Game {
 		ready = new Texture("ready.png");
 		resume = new Texture("resume.png");
 		overlay = new Texture("gameoverlay1.png");
-		bacgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/bg1.mp3"));
-		eat = Gdx.audio.newSound(Gdx.files.internal("sound/eat.wav"));
-		hit = Gdx.audio.newSound(Gdx.files.internal("sound/hit.wav"));
+		worldScoreBg = new Texture("worldscorebg.png");
+		shareFb = new Texture("sharefb.png");
+		cancel = new Texture("cancel.png");
+		bacgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/bg.ogg"));
+		eat = Gdx.audio.newSound(Gdx.files.internal("sound/eat.mp3"));
+		hit = Gdx.audio.newSound(Gdx.files.internal("sound/hit.mp3"));
 
 
 		rectScreen = new Rectangle(8,146,300,570);
@@ -110,5 +116,8 @@ public class TetrisGame extends Game {
 		bacgroundMusic.dispose();
 		eat.dispose();
 		hit.dispose();
+		worldScoreBg.dispose();
+		shareFb.dispose();
+		cancel.dispose();
 	}
 }

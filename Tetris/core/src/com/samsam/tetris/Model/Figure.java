@@ -37,10 +37,10 @@ public class Figure {
         x = copy.x;
         y = copy.y;
     }
-    public boolean rotate(int[][] pool)
-    {
+    public boolean rotate(int[][] pool) {
         int buf;
         Figure figure = new Figure(this);
+
         for (int i = 0;i<4;i++)
         {
             buf = figure.data[i][0];
