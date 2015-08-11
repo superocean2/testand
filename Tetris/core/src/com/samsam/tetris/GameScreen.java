@@ -7,9 +7,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Timer;
 import com.samsam.tetris.Model.World;
 
-import java.util.Timer;
 
 /**
  * Created by NghiaTrinh on 7/30/2015.
@@ -50,8 +50,8 @@ public class GameScreen implements Screen {
         rectLeft = new Rectangle(0,0,game.left.getWidth(),game.left.getHeight());
         rectRight = new Rectangle(rectLeft.x+ game.left.getWidth()+2,0,game.right.getWidth(),game.right.getHeight());
         rectRotate = new Rectangle(rectRight.x+ game.right.getWidth()+5,0,game.rotate.getWidth(),game.rotate.getHeight());
-        rectResume = new Rectangle(game.rectScreen.width / 2 - game.resume.getWidth() / 2 + 7,490,game.resume.getWidth(),game.resume.getHeight());
-        rectQuit = new Rectangle(game.rectScreen.width / 2 - game.quit.getWidth() / 2 + 7,rectResume.y-80,game.quit.getWidth(),game.quit.getHeight());
+        rectResume = new Rectangle(game.rectScreen.width / 2 - game.resume.getWidth() / 2+7,440,game.resume.getWidth(),game.resume.getHeight());
+        rectQuit = new Rectangle(game.rectScreen.width / 2 - game.quit.getWidth() / 2+7,rectResume.y-80,game.quit.getWidth(),game.quit.getHeight());
         rectGameover =new Rectangle(game.rectScreen.width / 2 - game.gameOver.getWidth() / 2 + 7,540,game.gameOver.getWidth(),game.gameOver.getHeight());
         rectNewgame = new Rectangle(game.rectScreen.width / 2 - game.newGame.getWidth() / 2 + 7,rectGameover.y-game.newGame.getHeight()-20,game.newGame.getWidth(),game.newGame.getHeight());
         rectHighscore = new Rectangle(game.rectScreen.width / 2 - game.highScore.getWidth() / 2 + 7,rectNewgame.y-game.highScore.getHeight()-20,game.highScore.getWidth(),game.highScore.getHeight());
@@ -171,17 +171,19 @@ public class GameScreen implements Screen {
     }
     private void updateReady()
     {
-        Vector3 v= new Vector3();
-        v.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-        camera.unproject(v);
         if (Gdx.input.justTouched()) {
+            Vector3 v = new Vector3();
+            v.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(v);
+
             if (Helpers.isTouchedInRect(game.rectScreen, v.x, v.y)) {
                 state = GameState.Running;
             }
         }
         game.batch.begin();
         drawOverlayBg();
-        game.batch.draw(game.ready, game.rectScreen.width / 2 - game.ready.getWidth() / 2 + 7, 420);
+        game.batch.draw(game.hissBrick,game.rectScreen.width / 2 - game.hissBrick.getWidth() / 2 + 7,500);
+        game.batch.draw(game.ready, game.rectScreen.width / 2 - game.ready.getWidth() / 2+7, 400);
         game.batch.end();
     }
 
@@ -191,10 +193,10 @@ public class GameScreen implements Screen {
             world.update();
             gameIsStart=true;
         }
-        Vector3 v = new Vector3();
-        v.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-        camera.unproject(v);
         if (Gdx.input.justTouched()) {
+            Vector3 v = new Vector3();
+            v.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(v);
             if (Helpers.isTouchedInRect(rectLeft, v.x, v.y)) {
                 world.main_figure.move_left(world.pool);
             }
@@ -234,13 +236,15 @@ public class GameScreen implements Screen {
     {
         game.batch.begin();
         drawOverlayBg();
-        game.batch.draw(game.resume,rectResume.x,rectResume.y);
-        game.batch.draw(game.quit,rectQuit.x,rectQuit.y);
+        game.batch.draw(game.hissBrick,game.rectScreen.width / 2 - game.hissBrick.getWidth() / 2 + 7,540);
+        game.batch.draw(game.resume, rectResume.x, rectResume.y);
+        game.batch.draw(game.quit, rectQuit.x, rectQuit.y);
         game.batch.end();
-        Vector3 v = new Vector3();
-        v.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-        camera.unproject(v);
+
         if (Gdx.input.justTouched()) {
+            Vector3 v = new Vector3();
+            v.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(v);
             if (Helpers.isTouchedInRect(rectResume, v.x, v.y)) {
                 world.resume();
                 state=GameState.Running;
@@ -259,9 +263,12 @@ public class GameScreen implements Screen {
         if (highscore<score)
         {
             Helpers.saveHighScore(score);
-            if (!isSubmit) {
-                state = GameState.SubmitWorldScore;
-            }
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    state = GameState.SubmitWorldScore;
+                }
+            },0.2f);
         }
 
         game.batch.begin();
@@ -306,7 +313,7 @@ public class GameScreen implements Screen {
             camera.unproject(v);
             if (Gdx.input.justTouched()) {
                 if (Helpers.isTouchedInRect(rectShareFb, v.x, v.y)) {
-                    game.actionResolver.showFbShare("Hiss tetris","","","");
+                    game.actionResolver.showFbShare("Your score: "+String.valueOf(score)+"","Good job!","funnynet.net","http://2.bp.blogspot.com/-2ODs7CtgtQ0/Vcih5pPbqOI/AAAAAAAAPRs/e0bjvlMuFDE/s1600/fbsharebg.png");
                     state= GameState.GameOver;
                 }
                 if (Helpers.isTouchedInRect(rectCancel,v.x,v.y))
