@@ -3,10 +3,10 @@ android {
     compileSdkVersion 22
     defaultConfig {
         applicationId "com.samsam.snake.android"
-        minSdkVersion 14
+        minSdkVersion 9
         targetSdkVersion 21
-        versionCode 3
-        versionName "1.2"
+        versionCode 4
+        versionName "1.3"
     }
     sourceSets {
         main {
