@@ -38,7 +38,6 @@ public class SnakeGame extends Game {
 	Texture sharefb;
 	Rectangle worldScreen;
 	BitmapFont font;
-	Sound click;
 	Sound eat;
 	Sound hit;
 	Sound extraFoodSound;
@@ -77,7 +76,6 @@ public class SnakeGame extends Game {
 		cancel = new Texture("cancel.png");
 		sharefb=new Texture("sharefb.png");
 		worldScreen = new Rectangle(48,258,320,380);
-		click = Gdx.audio.newSound(Gdx.files.internal("sound/click.wav"));
 		eat = Gdx.audio.newSound(Gdx.files.internal("sound/eat.wav"));
 		hit = Gdx.audio.newSound(Gdx.files.internal("sound/hit.wav"));
 		extraFoodSound = Gdx.audio.newSound(Gdx.files.internal("sound/extrafood.wav"));
@@ -124,7 +122,6 @@ public class SnakeGame extends Game {
 		cancel.dispose();
 		sharefb.dispose();
 		font.dispose();
-		click.dispose();
 		hit.dispose();
 		eat.dispose();
 		extraFoodSound.dispose();

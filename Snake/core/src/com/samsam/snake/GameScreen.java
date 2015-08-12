@@ -215,7 +215,6 @@ public class GameScreen implements Screen{
             if (Helpers.isTouchedInRect(rectPause, v.x, v.y))
             {
                 if (!isMute)
-                game.click.play();
                 state=GameState.Paused;
             }
         }
@@ -250,13 +249,11 @@ public class GameScreen implements Screen{
             if (Helpers.isTouchedInRect(rectResume,v.x,v.y))
             {
                 if (!isMute)
-                game.click.play();
                 state = GameState.Running;
             }
             if (Helpers.isTouchedInRect(rectQuit,v.x,v.y))
             {
                 if (!isMute)
-                game.click.play();
                 state=GameState.GameOver;
             }
         }
@@ -293,7 +290,6 @@ public class GameScreen implements Screen{
             if (Helpers.isTouchedInRect(rectNewGame, v.x, v.y))
             {
                 if (!isMute)
-                game.click.play();
                 state=GameState.Ready;
                 restartGame();
             }
