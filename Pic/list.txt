@@ -1,73 +1,76 @@
-﻿CON BẠCH TUỘC - 
-CON BÁO ĐỐM
-CON BÒ
-CON CHIM BỒ CÂU
-CON BỌ NGỰA
-CON BÒ SỮA
-CON BƯỚM
-CON CÁ HEO
-CON CÁ SẤU
-CON CẦU GAI
-CON CHÓ
-CON  SÓI
-CON CHUỒN CHUỒN
-CON CHUỘT
-CON BỌ
-CON DẾ
-CON CÔNG
-CON CỌP
-CON CUA
-CON CHIM CÚ MÈO
-CON CỪU
-CON ĐÀ ĐIỂU
-CON DÊ
-CON ẾCH
-CON GÀ MÁI
-CON GÀ TRỐNG
-CON GẤU
-CON GHẸ
-CON CHIM HẢI ÂU
-CON HEO
-CON CHIM HỒNG HẠC
-CON HƯƠU CAO CỔ
-CON CHUỘT TÚI
-CON KÉT
-CON KHỈ
-CON KIẾN
-CON GẤU KOALA
-CON LẠC ĐÀ
-CON MÈO
-CON MỰC
-CON NAI
-CON NGỰA VẰN
-CON NGỰA
-CON NHỆN
-CON NHÍM
-CON ỐC SÊN
-CON ONG
-CON RÁI CÁ
-CON RẮN
-CON RÙA
-CON SAO BIỂN
-CON SÂU
-CON SÓC
-CON SỨA BIỂN
-CON SƯ TỬ
-CON TẮC KÈ
-CON TÊ GIÁC
-CON THẰN LẰN
-CON CHIM THIÊN NGA
-CON THỎ
-CON TÔM
-CON TÔM HÙM
-CON TRÂU
-CON VỊT CON
-CON VỊT MẸ
-CON VOI
-CON CÁ VÀNG
-CON KHỦNG LONG
-CON LỪA
-CON TUẦN LỘC
+﻿CON BẠCH TUỘC - OCTOPUS
+CON BÁO ĐỐM - Jaguar
+CON BÒ - cow
+CON CHIM BỒ CÂU - pigeon
+CON BỌ NGỰA - mantis
+CON BÒ SỮA - milk cow
+CON BƯỚM - butterfly
+CON CÁ HEO - dolphin
+CON CÁ SẤU - crocodile
+CON CẦU GAI - urchin
+CON CHÓ - dog
+CON  SÓI - wolf
+CON CHUỒN CHUỒN - Dragonfly
+CON CHUỘT - mouse
+CON BỌ - Ladybird
+CON DẾ - cricket
+CON CÔNG - Peacock
+CON CỌP - tiger
+CON CUA - crab
+CON CHIM CÚ MÈO - owl
+CON CỪU - sheep
+CON ĐÀ ĐIỂU - OSTRICH
+CON DÊ - goat
+CON ẾCH - frog
+CON GÀ MÁI - hen
+CON GÀ TRỐNG - rooster
+CON GẤU  - bear
+CON GHẸ - SPIDERCRAB
+CON CHIM HẢI ÂU - Seagull
+CON HEO - pig
+CON CHIM HỒNG HẠC - Flamingo
+CON HƯƠU CAO CỔ - giraffe
+CON CHUỘT TÚI - kangaroo
+CON KÉT - PARROT
+CON KHỈ - monkey
+CON KIẾN - ant
+CON GẤU KOALA - koala
+CON LẠC ĐÀ - camel
+CON MÈO - cat
+CON MỰC - squid
+CON NAI - deer
+CON NGỰA VẰN - zebra
+CON NGỰA - horse
+CON NHỆN - spider
+CON NHÍM - HEDGEHOG
+CON ỐC SÊN - SNAIL
+CON ONG - bee
+CON RÁI CÁ - OTTER
+CON RẮN - snake
+CON RÙA - TORTOISE
+CON SAO BIỂN - Starfish
+CON Giun- worm
+CON SÓC - SQUIRREL
+CON SỨA BIỂN - Jellyfish
+CON SƯ TỬ - lion
+CON TẮC KÈ - gecko
+CON TÊ GIÁC - RHINO
+CON THẰN LẰN - LIZARD
+CON CHIM THIÊN NGA - Swan
+CON THỎ - rabbit
+CON TÔM - shrimp
+CON TÔM HÙM - lobster
+CON TRÂU - buffalo
+CON VỊT CON - little duck
+CON VỊT - duck
+CON VOI - elephant
+CON CÁ VÀNG - goldfish
+CON KHỦNG LONG - dinosaur
+CON LỪA - donkey
+CON TUẦN LỘC - REINDEER
+
+
+https://www.ivona.com/
 
 
 
