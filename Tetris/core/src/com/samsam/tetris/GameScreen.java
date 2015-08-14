@@ -182,7 +182,7 @@ public class GameScreen implements Screen {
         }
         game.batch.begin();
         drawOverlayBg();
-        game.batch.draw(game.hissBrick,game.rectScreen.width / 2 - game.hissBrick.getWidth() / 2 + 7,500);
+        game.batch.draw(game.hissBrick, game.rectScreen.width / 2 - game.hissBrick.getWidth() / 2 + 7, 500);
         game.batch.draw(game.ready, game.rectScreen.width / 2 - game.ready.getWidth() / 2+7, 400);
         game.batch.end();
     }
@@ -268,7 +268,7 @@ public class GameScreen implements Screen {
                 public void run() {
                     state = GameState.SubmitWorldScore;
                 }
-            },0.2f);
+            }, 0.2f);
         }
 
         game.batch.begin();
@@ -313,7 +313,7 @@ public class GameScreen implements Screen {
             camera.unproject(v);
             if (Gdx.input.justTouched()) {
                 if (Helpers.isTouchedInRect(rectShareFb, v.x, v.y)) {
-                    game.actionResolver.showFbShare("Your score: "+String.valueOf(score)+"","Good job!","funnynet.net","http://2.bp.blogspot.com/-2ODs7CtgtQ0/Vcih5pPbqOI/AAAAAAAAPRs/e0bjvlMuFDE/s1600/fbsharebg.png");
+                    game.actionResolver.showFbShare("Your score: "+String.valueOf(score)+"","Good job!","https://play.google.com/store/apps/details?id=com.samsam.tetris.android","http://2.bp.blogspot.com/-2ODs7CtgtQ0/Vcih5pPbqOI/AAAAAAAAPRs/e0bjvlMuFDE/s1600/fbsharebg.png");
                     state= GameState.GameOver;
                 }
                 if (Helpers.isTouchedInRect(rectCancel,v.x,v.y))
