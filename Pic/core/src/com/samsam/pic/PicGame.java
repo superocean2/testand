@@ -6,13 +6,27 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class PicGame extends Game {
 	SpriteBatch batch;
-	Texture pic1;
+	Texture human;
+	Texture muteHuman;
+	Texture animal;
+	Texture muteAnimal;
+	Texture vietnamese;
+	Texture english;
+	Texture left;
+	Texture right;
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		pic1 = new Texture("1.jpg");
-		setScreen(new GameScreen1(this));
+		human = new Texture("human.png");
+		muteHuman = new Texture("mutehuman.png");
+		animal = new Texture("animal.png");
+		muteAnimal = new Texture("muteanimal.png");
+		vietnamese = new Texture("vietnamese.png");
+		english = new Texture("english.png");
+		left = new Texture("left.png");
+		right = new Texture("right.png");
+		setScreen(new GameScreen(this,new GameScreenInfo(1)));
 	}
 
 	@Override
@@ -21,6 +35,14 @@ public class PicGame extends Game {
 	@Override
 	public void dispose()
 	{
-		pic1.dispose();
+		batch.dispose();
+		human.dispose();
+		muteHuman.dispose();
+		animal.dispose();
+		muteAnimal.dispose();
+		english.dispose();
+		vietnamese.dispose();
+		left.dispose();
+		right.dispose();
 	}
 }
