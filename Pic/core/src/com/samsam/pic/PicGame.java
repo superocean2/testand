@@ -26,7 +26,7 @@ public class PicGame extends Game {
 		english = new Texture("english.png");
 		left = new Texture("left.png");
 		right = new Texture("right.png");
-		setScreen(new GameScreen(this,new GameScreenInfo(1)));
+		setScreen(new GameScreen(this,new GameScreenInfo(1,false,false,false)));
 	}
 
 	@Override

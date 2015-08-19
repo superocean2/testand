@@ -45,18 +45,18 @@ public class GameScreen implements Screen {
 
         isHaveAnimalSound=false;
         screenId=info.getScreenId();
-        picture = new Texture(screenId+".png");
+        picture = new Texture("images/" + screenId+".jpg");
         humanEn = Gdx.audio.newMusic(Gdx.files.internal("sound/english/"+screenId+".mp3"));
-        humanVi = Gdx.audio.newMusic(Gdx.files.internal("sound/english/"+screenId+".mp3"));
-        if (!info.getAnimal().isEmpty()) {
+        humanVi = Gdx.audio.newMusic(Gdx.files.internal("sound/vietnamese/"+screenId+".mp3"));
+        if (!isContain(screenId)) {
             isHaveAnimalSound=true;
             animal = Gdx.audio.newMusic(Gdx.files.internal("sound/animal/"+screenId+".mp3"));
         }
 
 
-        isMuteHuman=false;
-        isMuteAnimal=false;
-        isEnglish=true;
+        isMuteHuman=info.isMuteHuman();
+        isMuteAnimal=info.isMuteAnimal();
+        isEnglish=info.isEnglish();
         isHided=false;
         isCompleteDelay=false;
         isTouched=false;
@@ -70,11 +70,72 @@ public class GameScreen implements Screen {
         else
         {
             rectHuman = new Rectangle(540,camera.viewportHeight-game.human.getHeight()-20,game.human.getWidth(),game.human.getHeight());
-            rectLanguage = new Rectangle(rectHuman.x+20,rectHuman.y,game.vietnamese.getWidth(),game.vietnamese.getHeight());
+            rectLanguage = new Rectangle(rectHuman.x+rectHuman.width+20,rectHuman.y,game.vietnamese.getWidth(),game.vietnamese.getHeight());
         }
         rectLeft = new Rectangle(0,0,game.left.getWidth(),game.left.getHeight());
         rectRight = new Rectangle(camera.viewportWidth-game.right.getWidth(),0,game.right.getWidth(),game.right.getHeight());
 
+        setPlaySound();
+
+    }
+
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClearColor(255, 255, 255, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        camera.update();
+        game.batch.setProjectionMatrix(camera.combined);
+
+        game.batch.begin();
+        game.batch.draw(picture, 0, 0);
+        game.batch.end();
+
+        if (Gdx.input.justTouched())
+        {
+            if (!humanEn.isPlaying()&&!humanVi.isPlaying())
+            {
+                if (isHaveAnimalSound)
+                {
+                    if (!animal.isPlaying()) setPlaySound();
+                }
+                else {
+                    setPlaySound();
+                }
+            }
+        }
+        if (Gdx.input.isTouched())
+        {
+            if (!isSetdelayed)
+            {
+                isTouched=true;
+                setDelay();
+                isSetdelayed=true;
+                isCompleteDelay=false;
+            }
+            else
+            {
+                if (isCompleteDelay)
+                {
+                    isSetdelayed=false;
+                }
+            }
+            drawOption();
+        }
+        else {
+            if (isTouched && !isCompleteDelay) {
+                drawOption();
+            }
+        }
+
+        if (isHided)
+        {
+            this.dispose();
+        }
+    }
+
+    private void setPlaySound()
+    {
         if (!isMuteHuman) {
             if (isEnglish)
             {
@@ -108,49 +169,13 @@ public class GameScreen implements Screen {
                 animal.play();
             }
         }
-
     }
-
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(255, 255, 255, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        camera.update();
-        game.batch.setProjectionMatrix(camera.combined);
-
-        game.batch.begin();
-        game.batch.draw(picture, 0, 0);
-        game.batch.end();
-
-        if (Gdx.input.isTouched())
-        {
-            if (!isSetdelayed)
-            {
-                isTouched=true;
-                setDelay();
-                isSetdelayed=true;
-                isCompleteDelay=false;
-            }
-            else
-            {
-                if (isCompleteDelay)
-                {
-                    isSetdelayed=false;
-                }
-            }
-            drawOption();
+    private boolean isContain(int id)
+    {
+        for (int i:arr) {
+            if (i==id) return true;
         }
-        else {
-            if (isTouched && !isCompleteDelay) {
-                drawOption();
-            }
-        }
-
-        if (isHided)
-        {
-            this.dispose();
-        }
+        return false;
     }
 
     private void setDelay()
@@ -189,12 +214,13 @@ public class GameScreen implements Screen {
 
             if (Helpers.isTouchedInRect(rectLeft,v.x,v.y))
             {
-
+                int prevScreen=screenId-1;
+                game.setScreen(new GameScreen(game,new GameScreenInfo(prevScreen,isMuteHuman,isMuteAnimal,isEnglish)));
             }
             if (Helpers.isTouchedInRect(rectRight,v.x,v.y))
             {
                 int nextScreen=screenId+1;
-                game.setScreen(new GameScreen(game,new GameScreenInfo(""+nextScreen+".png",""+nextScreen+".mp3",""+nextScreen+".mp3",""+nextScreen+".mp3",nextScreen)));
+                game.setScreen(new GameScreen(game,new GameScreenInfo(nextScreen,isMuteHuman,isMuteAnimal,isEnglish)));
             }
             if (Helpers.isTouchedInRect(rectHuman,v.x,v.y))
             {
