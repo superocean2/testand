@@ -36,8 +36,8 @@ public class AndroidLauncher extends AndroidApplication {
 		layout.addView(gameView);
 
 		//---create google ads----
-		adView = createAdView();
-		layout.addView(adView);
+		//adView = createAdView();
+		//layout.addView(adView);
 
 		setContentView(layout);
 
@@ -49,7 +49,7 @@ public class AndroidLauncher extends AndroidApplication {
 		adView = new AdView(this);
 		adView.setAdSize(AdSize.SMART_BANNER);
 		adView.setAdUnitId(getString(R.string.banner_ad_unit_id));
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 		params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
 		params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
 		adView.setLayoutParams(params);
