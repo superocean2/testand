@@ -27,6 +27,7 @@ public class GameScreen implements Screen {
     Rectangle rectHuman;
     Rectangle rectAnimal;
     Rectangle rectLanguage;
+    Rectangle rectCanClick;
     boolean isMuteHuman;
     boolean isMuteAnimal;
     boolean isEnglish;
@@ -53,7 +54,7 @@ public class GameScreen implements Screen {
             animal = Gdx.audio.newMusic(Gdx.files.internal("sound/animal/"+screenId+".mp3"));
         }
 
-
+        rectCanClick = new Rectangle(115,75,1055,645);
         isMuteHuman=info.isMuteHuman();
         isMuteAnimal=info.isMuteAnimal();
         isEnglish=info.isEnglish();
@@ -93,16 +94,23 @@ public class GameScreen implements Screen {
 
         if (Gdx.input.justTouched())
         {
-            if (!humanEn.isPlaying()&&!humanVi.isPlaying())
+            Vector3 v=new Vector3();
+            v.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(v);
+            if (Helpers.isTouchedInRect(rectCanClick,v.x,v.y))
             {
-                if (isHaveAnimalSound)
+                if (!humanEn.isPlaying()&&!humanVi.isPlaying())
                 {
-                    if (!animal.isPlaying()) setPlaySound();
-                }
-                else {
-                    setPlaySound();
+                    if (isHaveAnimalSound)
+                    {
+                        if (!animal.isPlaying()) setPlaySound();
+                    }
+                    else {
+                        setPlaySound();
+                    }
                 }
             }
+
         }
         if (Gdx.input.isTouched())
         {
