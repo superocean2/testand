@@ -2,6 +2,7 @@ package com.samsam.pic.android;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -36,20 +37,20 @@ public class AndroidLauncher extends AndroidApplication {
 		layout.addView(gameView);
 
 		//---create google ads----
-		//adView = createAdView();
-		//layout.addView(adView);
+		adView = createAdView();
+		layout.addView(adView);
 
 		setContentView(layout);
 
 		//---start google ads----
-		//startAdvertising(adView);
+		startAdvertising(adView);
 	}
 
 	protected AdView createAdView() {
 		adView = new AdView(this);
-		adView.setAdSize(AdSize.SMART_BANNER);
+		adView.setAdSize(AdSize.BANNER);
 		adView.setAdUnitId(getString(R.string.banner_ad_unit_id));
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(968,RelativeLayout.LayoutParams.WRAP_CONTENT);
 		params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
 		params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
 		adView.setLayoutParams(params);
