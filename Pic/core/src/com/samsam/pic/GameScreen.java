@@ -203,7 +203,7 @@ public class GameScreen implements Screen {
         if (isHaveAnimalSound) {
             game.batch.draw(isMuteAnimal ? game.muteAnimal : game.animal, rectAnimal.x, rectAnimal.y);
         }
-        game.batch.draw(isEnglish ? game.english : game.vietnamese, rectLanguage.x, rectLanguage.y);
+        game.batch.draw(isEnglish ? game.vietnamese : game.english, rectLanguage.x, rectLanguage.y);
         if (screenId>1) {
             game.batch.draw(game.left, rectLeft.x, rectLeft.y);
         }
