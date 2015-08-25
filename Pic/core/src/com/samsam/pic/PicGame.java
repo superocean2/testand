@@ -14,7 +14,12 @@ public class PicGame extends Game {
 	Texture english;
 	Texture left;
 	Texture right;
-	
+	ActionResolver actionResolver;
+
+	public PicGame(ActionResolver actionResolver) {
+		this.actionResolver = actionResolver;
+	}
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();

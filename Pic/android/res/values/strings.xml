@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Hiss Dog</string>
+    <string name="app_name">Hiss Animal</string>
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="title_activity_end">EndActivity</string>
+
+    <string name="thankyou">Thank you!</string>
 </resources>

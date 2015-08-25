@@ -207,9 +207,7 @@ public class GameScreen implements Screen {
         if (screenId>1) {
             game.batch.draw(game.left, rectLeft.x, rectLeft.y);
         }
-        if (screenId<70) {
-            game.batch.draw(game.right, rectRight.x, rectRight.y);
-        }
+        game.batch.draw(game.right, rectRight.x, rectRight.y);
         game.batch.end();
 
         if (Gdx.input.justTouched())
@@ -227,8 +225,14 @@ public class GameScreen implements Screen {
             }
             if (Helpers.isTouchedInRect(rectRight,v.x,v.y))
             {
-                int nextScreen=screenId+1;
-                game.setScreen(new GameScreen(game,new GameScreenInfo(nextScreen,isMuteHuman,isMuteAnimal,isEnglish)));
+                if (screenId<70) {
+                    int nextScreen = screenId + 1;
+                    game.setScreen(new GameScreen(game, new GameScreenInfo(nextScreen, isMuteHuman, isMuteAnimal, isEnglish)));
+                }
+                else
+                {
+                    game.actionResolver.showEndActivity();
+                }
             }
             if (Helpers.isTouchedInRect(rectHuman,v.x,v.y))
             {
