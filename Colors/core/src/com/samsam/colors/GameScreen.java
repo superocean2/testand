@@ -55,7 +55,7 @@ public class GameScreen implements Screen {
 
         game.batch.begin();
         game.batch.draw(picture, 0, 0);
-        game.batch.draw(game.bottombg, 0, 0);
+        game.batch.draw(game.bottombg, -1, 0);
         game.batch.draw(game.left, rectLeft.x, rectLeft.y);
         game.batch.draw(game.right, rectRight.x, rectRight.y);
         GlyphLayout layout = new GlyphLayout(game.font,color);
@@ -69,6 +69,7 @@ public class GameScreen implements Screen {
             if (Helpers.isTouchedInRect(rectLeft, v.x, v.y)) {
                 if (screenId>1)
                 game.setScreen(new GameScreen(game, color, screenId-1));
+                else game.setScreen(new MenuScreen(game));
             }
             if (Helpers.isTouchedInRect(rectRight,v.x,v.y))
             {
@@ -78,7 +79,7 @@ public class GameScreen implements Screen {
                 }
                 else
                 {
-
+                    game.setScreen(new MenuScreen(game));
                 }
             }
         }

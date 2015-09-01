@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">Colors</string>
-
+    <string name="app_name">Hiss Colors</string>
+    <string name="banner_ad_unit_id">ca-app-pub-9820568222156092/9477175765</string>
 </resources>
