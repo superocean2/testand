@@ -1,0 +1,28 @@
+animal
+fruit
+vegetable
+food
+drink
+house
+bed room
+kitchen
+living room
+toilet
+office
+traffic
+vehicle
+airport
+train station
+travel agent
+beach
+school
+theater
+cafe
+restaurant
+weather
+hotel
+sport
+fashion
+make up
+
+
