@@ -2,6 +2,7 @@ package com.samsam.Envo;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,7 +19,7 @@ public class EnvoGame extends Game {
 	Texture topbg;
 	Texture loudspeaker;
 	Texture mutespeaker;
-	
+	EnvoGame game;
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -38,8 +39,32 @@ public class EnvoGame extends Game {
 		font = generator6.generateFont(parameter6);
 		font.setColor(255, 255, 255, 1);
 		generator6.dispose();
+		game=this;
 
-		setScreen(new MenuScreen(this,0));
+
+		Gdx.input.setInputProcessor(new GestureDetect(new GestureDetect.DirectionListener() {
+			@Override
+			public void onLeft() {
+
+			}
+
+			@Override
+			public void onRight() {
+				game.setScreen(new MenuScreen(game,1));
+			}
+
+			@Override
+			public void onUp() {
+
+			}
+
+			@Override
+			public void onDown() {
+
+			}
+		}));
+		setScreen(new MenuScreen(this, 0));
+
 	}
 
 	@Override

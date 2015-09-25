@@ -22,23 +22,35 @@ public class MenuScreen implements Screen{
 
     boolean ishide;
 
-    Texture page,pageActive;
+    Texture pageImg,pageActiveImg;
     List<CategoryInfo> categories = new ArrayList<CategoryInfo>();
     String[] categoryNames = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"};
-    public MenuScreen(EnvoGame game,int pageNumber) {
-        this.game = game;
+    private static final int pageCount = 3;
+    int pageActive=0;
+
+    public MenuScreen(EnvoGame game1,int pageNumber) {
+        this.game = game1;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 480, 800);
         game.font.setColor(255, 0, 0, 1);
         ishide=false;
+        pageActive=pageNumber;
 
-        page=new Texture("page.png");
-        pageActive=new Texture("activepage.png");
+        pageImg=new Texture("page.png");
+        pageActiveImg=new Texture("activepage.png");
         int page=1+pageNumber*6;
-        for (int i=0;i<6;i++)
+        int px=20;
+        int py=85;
+        int w=200;
+        int h=150;
+        for (int i=0;i<2;i++)
         {
-            Rectangle rect = new Rectangle(20+(i==0?i*200:i*200+20),20+(i==0?i*150:i*150+20),200,150);
-            categories.add(new CategoryInfo(categoryNames[page+i],new Texture("category/"+page+i+".jpg"),rect));
+            for (int j=0;j<3;j++)
+            {
+                Rectangle rect = new Rectangle(px*(i+1)+i*w,py*(j+1)+j*h,w,h);
+                categories.add(new CategoryInfo(categoryNames[page+i],new Texture("category/"+(page+i)+".jpg"),rect));
+            }
+
         }
 
     }
@@ -55,6 +67,17 @@ public class MenuScreen implements Screen{
         for (CategoryInfo cat:categories)
         {
             game.batch.draw(cat.texture,cat.rectangle.x,cat.rectangle.y);
+        }
+        for (int i=0;i<pageCount;i++)
+        {
+            float x=0;
+            float y=35;
+            int wp=15;
+            int sp=20;
+            int wrect =(wp+sp)*pageCount;
+            Rectangle rectPage = new Rectangle(camera.viewportWidth/2-wrect/2,y,wrect,wp);
+            x=rectPage.x+i*wp +i*sp;
+            game.batch.draw(i==pageActive?pageActiveImg:pageImg,x,y);
         }
         game.batch.end();
 
