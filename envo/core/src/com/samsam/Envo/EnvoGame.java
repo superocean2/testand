@@ -19,7 +19,6 @@ public class EnvoGame extends Game {
 	Texture topbg;
 	Texture loudspeaker;
 	Texture mutespeaker;
-	EnvoGame game;
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -34,35 +33,11 @@ public class EnvoGame extends Game {
 
 		FreeTypeFontGenerator generator6 = new FreeTypeFontGenerator(Gdx.files.internal("font/chuviet1.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter6 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		parameter6.size = 60;
+		parameter6.size = 30;
 		//parameter6.characters="123456789";
 		font = generator6.generateFont(parameter6);
 		font.setColor(255, 255, 255, 1);
 		generator6.dispose();
-		game=this;
-
-
-		Gdx.input.setInputProcessor(new GestureDetect(new GestureDetect.DirectionListener() {
-			@Override
-			public void onLeft() {
-
-			}
-
-			@Override
-			public void onRight() {
-				game.setScreen(new MenuScreen(game,1));
-			}
-
-			@Override
-			public void onUp() {
-
-			}
-
-			@Override
-			public void onDown() {
-
-			}
-		}));
 		setScreen(new MenuScreen(this, 0));
 
 	}

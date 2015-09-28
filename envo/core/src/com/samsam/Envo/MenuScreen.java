@@ -1,6 +1,7 @@
 package com.samsam.Envo;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -16,11 +17,12 @@ import java.util.List;
  * Created by NghiaTrinh on 8/31/2015.
  */
 
-public class MenuScreen implements Screen{
+public class MenuScreen implements Screen,InputProcessor{
     final EnvoGame game;
     OrthographicCamera camera;
 
     boolean ishide;
+    int xDown,yDown,xUp,yUp;
 
     Texture pageImg,pageActiveImg;
     List<CategoryInfo> categories = new ArrayList<CategoryInfo>();
@@ -40,15 +42,18 @@ public class MenuScreen implements Screen{
         pageActiveImg=new Texture("activepage.png");
         int page=1+pageNumber*6;
         int px=20;
-        int py=85;
+        int py=80;
         int w=200;
         int h=150;
-        for (int i=0;i<2;i++)
+        float v=camera.viewportHeight;
+        for (int i=0;i<3;i++)
         {
-            for (int j=0;j<3;j++)
+            for (int j=0;j<2;j++)
             {
-                Rectangle rect = new Rectangle(px*(i+1)+i*w,py*(j+1)+j*h,w,h);
-                categories.add(new CategoryInfo(categoryNames[page+i],new Texture("category/"+(page+i)+".jpg"),rect));
+                int index = (j+2*i)+pageNumber*6;
+                if (index>categoryNames.length-1) break;
+                Rectangle rect = new Rectangle(px*(j+1)+j*w,v-py*(i+1)-(i+1)*h,w,h);
+                categories.add(new CategoryInfo(categoryNames[index],new Texture("category/"+(index+1)+".jpg"),rect));
             }
 
         }
@@ -67,11 +72,24 @@ public class MenuScreen implements Screen{
         for (CategoryInfo cat:categories)
         {
             game.batch.draw(cat.texture,cat.rectangle.x,cat.rectangle.y);
+            GlyphLayout layout = new GlyphLayout(game.font,cat.getName());
+            float fontX;
+            if (cat.rectangle.x>220)
+            {
+                fontX = (cat.rectangle.x + (cat.texture.getWidth())*2 +20)/2-layout.width/2;
+            }
+            else
+            {
+                fontX = (cat.rectangle.x + cat.texture.getWidth() +20)/2-layout.width/2;
+            }
+
+            float fontY = cat.rectangle.y - layout.height+15;
+            game.font.draw(game.batch,layout,fontX,fontY);
         }
         for (int i=0;i<pageCount;i++)
         {
             float x=0;
-            float y=35;
+            float y=15;
             int wp=15;
             int sp=20;
             int wrect =(wp+sp)*pageCount;
@@ -94,7 +112,7 @@ public class MenuScreen implements Screen{
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(this);
     }
 
     @Override
@@ -115,10 +133,69 @@ public class MenuScreen implements Screen{
     @Override
     public void hide() {
         ishide=true;
+        Gdx.input.setInputProcessor(null);
     }
 
     @Override
     public void dispose() {
+        Gdx.input.setInputProcessor(null);
+    }
 
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        xDown=screenX;
+        yDown=screenY;
+        return true;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        int difX = screenX-xDown;
+        int difY= screenY-yDown;
+        //swipe right
+        if (difX>30&&difX>difY)
+        {
+            if (pageActive>0) {
+                this.game.setScreen(new MenuScreen(game, pageActive - 1));
+            }
+        }
+        //swipe left
+        if (difX<-30&&difX<difY)
+        {
+            if (pageActive<2) {
+                this.game.setScreen(new MenuScreen(game, pageActive + 1));
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
     }
 }
