@@ -48,8 +48,8 @@ public class GameScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
-        game.batch.draw(picture, 0, 0);
-        game.batch.draw(game.bottombg, -1, 0);
+        game.batch.draw(picture, 15, 125);
+        game.batch.draw(game.bottombg, 0, 0);
         game.batch.draw(game.left, rectLeft.x, rectLeft.y);
         game.batch.draw(game.right, rectRight.x, rectRight.y);
         GlyphLayout layout = new GlyphLayout(game.font,names[screenId]);
