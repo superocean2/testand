@@ -21,7 +21,7 @@ public class MenuScreen implements Screen,InputProcessor{
     final EnvoGame game;
     OrthographicCamera camera;
 
-    boolean ishide;
+    boolean ishide,isdownloading;
     int xDown,yDown,xUp,yUp;
 
     Texture pageImg,pageActiveImg;
@@ -36,7 +36,10 @@ public class MenuScreen implements Screen,InputProcessor{
         camera.setToOrtho(false, 480, 800);
         game.font.setColor(255, 0, 0, 1);
         ishide=false;
+        isdownloading=false;
         pageActive=pageNumber;
+        String loadedCat = Helpers.getLoadedCategory().trim();
+        String[] loadedCategories = loadedCat.split(";");
 
         pageImg=new Texture("page.png");
         pageActiveImg=new Texture("activepage.png");
@@ -53,7 +56,8 @@ public class MenuScreen implements Screen,InputProcessor{
                 int index = (j+2*i)+pageNumber*6;
                 if (index>categoryNames.length-1) break;
                 Rectangle rect = new Rectangle(px*(j+1)+j*w,v-py*(i+1)-(i+1)*h,w,h);
-                categories.add(new CategoryInfo(categoryNames[index],new Texture("category/"+(index+1)+".jpg"),rect));
+                boolean isloaded = Helpers.containString(loadedCategories, String.valueOf(index));
+                categories.add(new CategoryInfo(categoryNames[index],new Texture("category/"+(isloaded?"":"download/")+(index+1)+".jpg"),rect,String.valueOf(index),isloaded));
             }
 
         }
@@ -97,19 +101,16 @@ public class MenuScreen implements Screen,InputProcessor{
             x=rectPage.x+i*wp +i*sp;
             game.batch.draw(i==pageActive?pageActiveImg:pageImg,x,y);
         }
+        if (isdownloading) renderDownloading();
+
         game.batch.end();
-
-        if (Gdx.input.justTouched())
-        {
-            Vector3 v= new Vector3();
-            v.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            camera.unproject(v);
-
-        }
 
         if (ishide) this.dispose();
     }
+    private void renderDownloading()
+    {
 
+    }
     @Override
     public void show() {
         Gdx.input.setInputProcessor(this);
@@ -168,17 +169,28 @@ public class MenuScreen implements Screen,InputProcessor{
         int difX = screenX-xDown;
         int difY= screenY-yDown;
         //swipe right
-        if (difX>30&&difX>difY)
+        if (difX>50&&difX>difY)
         {
             if (pageActive>0) {
                 this.game.setScreen(new MenuScreen(game, pageActive - 1));
             }
         }
         //swipe left
-        if (difX<-30&&difX<difY)
+        if (difX<-50&&difX<difY)
         {
             if (pageActive<2) {
                 this.game.setScreen(new MenuScreen(game, pageActive + 1));
+            }
+        }
+        if (difX<51&&difX>-51) {
+            Vector3 v = new Vector3();
+            v.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(v);
+            for (CategoryInfo cat : categories) {
+                if (Helpers.isTouchedInRect(cat.rectangle, v.x, v.y)) {
+                    if (cat.isLoaded) game.setScreen(new GameScreen(game,"1",1));
+                    else isdownloading=true;
+                }
             }
         }
         return true;
@@ -198,4 +210,5 @@ public class MenuScreen implements Screen,InputProcessor{
     public boolean scrolled(int amount) {
         return false;
     }
+
 }

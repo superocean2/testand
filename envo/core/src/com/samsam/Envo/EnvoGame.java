@@ -3,10 +3,13 @@ package com.samsam.Envo;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+
+import java.io.File;
 
 public class EnvoGame extends Game {
 	SpriteBatch batch;
@@ -38,6 +41,21 @@ public class EnvoGame extends Game {
 		font = generator6.generateFont(parameter6);
 		font.setColor(255, 255, 255, 1);
 		generator6.dispose();
+
+		if (!Helpers.getIsLocalDefaultPicture())
+		{
+			//not saved
+			FileHandle[] files = Gdx.files.internal("pictures/").list();
+			File dir = new File(Gdx.files.getLocalStoragePath()+"pictures");
+			if (!dir.exists()) dir.mkdir();
+			File dirCategory1= new File(dir.getPath()+"/1");
+			if (!dirCategory1.exists()) dirCategory1.mkdir();
+			for (FileHandle file:files)
+			{
+				file.copyTo(new FileHandle(dirCategory1.getPath()+"/"+file.name()));
+			}
+			Helpers.saveIsLocalDefaultPicture(true);
+		}
 		setScreen(new MenuScreen(this, 0));
 
 	}

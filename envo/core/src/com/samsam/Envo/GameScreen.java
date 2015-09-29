@@ -15,39 +15,33 @@ import com.badlogic.gdx.math.Vector3;
 public class GameScreen implements Screen {
 
     final EnvoGame game;
-    String color;
+    String category;
     int screenId;
     OrthographicCamera camera;
     boolean ishide;
     Texture picture;
     Rectangle rectLeft;
     Rectangle rectRight;
+    String[] names = {"Pic1","Pic2","Pic3"};
 
-
-    public GameScreen(EnvoGame game, String color, int screenId) {
+    public GameScreen(EnvoGame game, String category, int screenId) {
         this.game = game;
-        this.color = color;
+        this.category = category;
         this.screenId = screenId;
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 1280);
+        camera.setToOrtho(false, 480, 800);
         game.font.setColor(255, 255, 255, 1);
         ishide=false;
 
-        picture = new Texture(color.toLowerCase()+"/"+screenId+".png");
+        picture = new Texture(Gdx.files.local("pictures/"+category+"/"+screenId+".jpg"));
         rectLeft = new Rectangle(10,6,game.left.getWidth(),game.left.getHeight());
         rectRight = new Rectangle(camera.viewportWidth-10-game.right.getWidth(),6,game.right.getWidth(),game.right.getHeight());
     }
 
     @Override
     public void render(float delta) {
-        if (color.toLowerCase().equals("white"))
-        {
-            Gdx.gl.glClearColor(0, 0, 0, 1);
-        }
-        else {
-            Gdx.gl.glClearColor(255, 255, 255, 1);
-        }
+        Gdx.gl.glClearColor(255, 255, 255, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.update();
@@ -58,31 +52,9 @@ public class GameScreen implements Screen {
         game.batch.draw(game.bottombg, -1, 0);
         game.batch.draw(game.left, rectLeft.x, rectLeft.y);
         game.batch.draw(game.right, rectRight.x, rectRight.y);
-        GlyphLayout layout = new GlyphLayout(game.font,color);
+        GlyphLayout layout = new GlyphLayout(game.font,names[screenId]);
         game.font.draw(game.batch,layout,camera.viewportWidth/2-layout.width/2,game.bottombg.getHeight()/2+layout.height/2);
         game.batch.end();
-
-        if (Gdx.input.justTouched()) {
-            Vector3 v = new Vector3();
-            v.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            camera.unproject(v);
-            if (Helpers.isTouchedInRect(rectLeft, v.x, v.y)) {
-                if (screenId>1)
-                game.setScreen(new GameScreen(game, color, screenId-1));
-                else game.setScreen(new MenuScreen(game,0));
-            }
-            if (Helpers.isTouchedInRect(rectRight,v.x,v.y))
-            {
-                if (screenId<10)
-                {
-                    game.setScreen(new GameScreen(game,color,screenId+1));
-                }
-                else
-                {
-                    game.setScreen(new MenuScreen(game,0));
-                }
-            }
-        }
     }
 
     @Override

@@ -36,7 +36,7 @@ public class Helpers {
 
     public static void saveHighScore(int score)
     {
-        Preferences prefs = Gdx.app.getPreferences( "profiles" );
+        Preferences prefs = Gdx.app.getPreferences("profiles");
         prefs.putInteger( "highscore", score );
         prefs.flush();
     }
@@ -45,6 +45,31 @@ public class Helpers {
     {
         Preferences prefs = Gdx.app.getPreferences( "profiles" );
         return prefs.getInteger("highscore",0);
+    }
+    public static void saveIsLocalDefaultPicture(boolean isSaved)
+    {
+        Preferences prefs = Gdx.app.getPreferences("localDefault");
+        prefs.putBoolean("isSaved",isSaved);
+        prefs.flush();
+    }
+
+    public static boolean getIsLocalDefaultPicture()
+    {
+        Preferences prefs = Gdx.app.getPreferences( "localDefault" );
+        return prefs.getBoolean("isSaved",false);
+    }
+
+    public static void saveLoadedCategory(String categories)
+    {
+        Preferences prefs = Gdx.app.getPreferences( "loaded" );
+        prefs.putString("loadedCategories", categories);
+        prefs.flush();
+    }
+
+    public static String getLoadedCategory()
+    {
+        Preferences prefs = Gdx.app.getPreferences( "loaded" );
+        return prefs.getString("loadedCategories","0;");
     }
 
     public static String post(String url,String json)
@@ -79,6 +104,16 @@ public class Helpers {
         Json json = new Json();
         return json.fromJson(Objects.class,js);
     }
+
+    public  static boolean containString(String[] arr,String st)
+    {
+        for (String s:arr)
+        {
+            if (s.equals(st)) return  true;
+        }
+        return false;
+    }
+
 
     private static class GameHttpListener implements Net.HttpResponseListener
     {
