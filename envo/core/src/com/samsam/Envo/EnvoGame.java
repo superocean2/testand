@@ -22,17 +22,25 @@ public class EnvoGame extends Game {
 	Texture topbg;
 	Texture loudspeaker;
 	Texture mutespeaker;
+	Texture loadingbg;
+	Texture backtop;
+	String[] categoryNames;
+	boolean isMute;
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		bottombg=new Texture("bottom.png");
 		left = new Texture("left.png");
 		right=new Texture("right.png");
+
 		topbg = new Texture("top.png");
 		page = new Texture("page.png");
 		activePage = new Texture("activepage.png");
 		loudspeaker = new Texture("loudspeaker.png");
 		mutespeaker = new Texture("mutespeaker.png");
+		loadingbg = new Texture("downloading.png");
+		backtop = new Texture("topback.png");
+		categoryNames = new String[] {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"};
 
 		FreeTypeFontGenerator generator6 = new FreeTypeFontGenerator(Gdx.files.internal("font/chuviet1.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter6 = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -41,20 +49,36 @@ public class EnvoGame extends Game {
 		font = generator6.generateFont(parameter6);
 		font.setColor(255, 255, 255, 1);
 		generator6.dispose();
+		isMute=false;
 
 		if (!Helpers.getIsLocalDefaultPicture())
 		{
 			//not saved
-			FileHandle[] files = Gdx.files.internal("pictures/").list();
-			File dir = new File(Gdx.files.getLocalStoragePath()+"pictures");
-			if (!dir.exists()) dir.mkdir();
-			File dirCategory1= new File(dir.getPath()+"/1");
-			if (!dirCategory1.exists()) dirCategory1.mkdir();
-			for (FileHandle file:files)
-			{
-				file.copyTo(new FileHandle(dirCategory1.getPath()+"/"+file.name()));
+			try {
+				FileHandle[] imageFiles = Gdx.files.internal("1/pictures/").list();
+				FileHandle[] soundFiles = Gdx.files.internal("1/english/").list();
+				File dir = new File(Gdx.files.getLocalStoragePath() + "maindata");
+				if (!dir.exists()) dir.mkdir();
+				File dirCategory1 = new File(dir.getPath() + "/1");
+				if (!dirCategory1.exists()) dirCategory1.mkdir();
+				File dirPictures = new File(dirCategory1.getPath() + "/pictures");
+				if (!dirPictures.exists()) dirPictures.mkdir();
+				File dirSounds = new File(dirCategory1.getPath() + "/english");
+				if (!dirSounds.exists()) dirSounds.mkdir();
+
+				for (FileHandle file : imageFiles) {
+					file.copyTo(new FileHandle(dirPictures));
+				}
+				for (FileHandle file : soundFiles) {
+					file.copyTo(new FileHandle(dirSounds));
+				}
+				Gdx.files.internal("1/names.data").copyTo(new FileHandle(dirCategory1));
+				Helpers.saveIsLocalDefaultPicture(true);
 			}
-			Helpers.saveIsLocalDefaultPicture(true);
+			catch (Exception ex)
+			{
+				Helpers.saveIsLocalDefaultPicture(false);
+			}
 		}
 		setScreen(new MenuScreen(this, 0));
 
@@ -77,5 +101,7 @@ public class EnvoGame extends Game {
 		topbg.dispose();
 		loudspeaker.dispose();
 		mutespeaker.dispose();
+		loadingbg.dispose();
+		backtop.dispose();
 	}
 }

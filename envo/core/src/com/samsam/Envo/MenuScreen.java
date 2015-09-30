@@ -26,9 +26,9 @@ public class MenuScreen implements Screen,InputProcessor{
 
     Texture pageImg,pageActiveImg;
     List<CategoryInfo> categories = new ArrayList<CategoryInfo>();
-    String[] categoryNames = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"};
     private static final int pageCount = 3;
     int pageActive=0;
+
 
     public MenuScreen(EnvoGame game1,int pageNumber) {
         this.game = game1;
@@ -43,7 +43,6 @@ public class MenuScreen implements Screen,InputProcessor{
 
         pageImg=new Texture("page.png");
         pageActiveImg=new Texture("activepage.png");
-        int page=1+pageNumber*6;
         int px=20;
         int py=80;
         int w=200;
@@ -54,10 +53,10 @@ public class MenuScreen implements Screen,InputProcessor{
             for (int j=0;j<2;j++)
             {
                 int index = (j+2*i)+pageNumber*6;
-                if (index>categoryNames.length-1) break;
+                if (index>game.categoryNames.length-1) break;
                 Rectangle rect = new Rectangle(px*(j+1)+j*w,v-py*(i+1)-(i+1)*h,w,h);
                 boolean isloaded = Helpers.containString(loadedCategories, String.valueOf(index));
-                categories.add(new CategoryInfo(categoryNames[index],new Texture("category/"+(isloaded?"":"download/")+(index+1)+".jpg"),rect,String.valueOf(index),isloaded));
+                categories.add(new CategoryInfo(game.categoryNames[index],new Texture("category/"+(isloaded?"":"download/")+(index+1)+".jpg"),rect,String.valueOf(index),isloaded));
             }
 
         }
@@ -109,7 +108,12 @@ public class MenuScreen implements Screen,InputProcessor{
     }
     private void renderDownloading()
     {
-
+        float loadingY=camera.viewportHeight/2-game.loadingbg.getHeight()/2;
+        game.batch.draw(game.loadingbg,0,loadingY);
+        GlyphLayout layout = new GlyphLayout(game.font,"Downloading...");
+        game.font.draw(game.batch,layout,camera.viewportWidth/2-layout.width/2,loadingY+80);
+        GlyphLayout layout1 = new GlyphLayout(game.font,"50%");
+        game.font.draw(game.batch,layout1,camera.viewportWidth/2-layout1.width/2,loadingY+50);
     }
     @Override
     public void show() {
@@ -188,8 +192,12 @@ public class MenuScreen implements Screen,InputProcessor{
             camera.unproject(v);
             for (CategoryInfo cat : categories) {
                 if (Helpers.isTouchedInRect(cat.rectangle, v.x, v.y)) {
-                    if (cat.isLoaded) game.setScreen(new GameScreen(game,"1",1));
-                    else isdownloading=true;
+                    if (cat.isLoaded) game.setScreen(new GameScreen(game,"1",0));
+                    else
+                    {
+                        isdownloading=true;
+                        Gdx.input.setInputProcessor(null);
+                    }
                 }
             }
         }
