@@ -18,10 +18,12 @@ import com.samsam.Envo.EnvoGame;
 public class AndroidLauncher extends AndroidApplication {
 	protected AdView adView;
 	protected View gameView;
+	ActionResolverAndroid resolverAndroid;
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+		resolverAndroid = new ActionResolverAndroid(this);
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -57,7 +59,7 @@ public class AndroidLauncher extends AndroidApplication {
 	}
 
 	protected View createGameView(AndroidApplicationConfiguration cfg) {
-		gameView = initializeForView(new EnvoGame(), cfg);
+		gameView = initializeForView(new EnvoGame(resolverAndroid), cfg);
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 		params.addRule(RelativeLayout.ALIGN_PARENT_TOP,RelativeLayout.TRUE);
 		params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
