@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,7 +12,9 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
-import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Created by NghiaTrinh on 8/31/2015.
@@ -36,27 +38,33 @@ public class GameScreen implements Screen,InputProcessor {
     Music read;
 
     public GameScreen(EnvoGame game, String category, int screenId) {
-        this.game = game;
-        this.category = category;
-        this.screenId = screenId;
 
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, 480, 800);
-        game.font.setColor(255, 255, 255, 1);
-        ishide=false;
+            this.game = game;
+            this.category = category;
+            this.screenId = screenId;
 
-        String st= Gdx.files.local("maindata/"+category+"/names.data").readString();
-        names = st.split(";");
-        picture = new Texture(Gdx.files.local("maindata/"+category+"/pictures/"+(screenId+1)+".jpg"));
-        read = Gdx.audio.newMusic(Gdx.files.local("maindata/"+category+"/english/"+(screenId+1)+".mp3"));
-        rectLeft = new Rectangle(0,0,game.left.getWidth()+50,game.left.getHeight()+30);
-        rectRight = new Rectangle(camera.viewportWidth-game.right.getWidth()-50,0,game.right.getWidth()+50,game.right.getHeight()+30);
-        rectTop = new Rectangle(0,683,game.topbg.getWidth(),game.topbg.getHeight());
-        rectBack = new Rectangle(rectTop.x,rectTop.y,game.backtop.getWidth()+50,game.backtop.getHeight()+30);
-        rectSpeaker = new Rectangle(camera.viewportWidth-game.loudspeaker.getWidth()-70,rectTop.y,game.loudspeaker.getWidth()+50,game.loudspeaker.getHeight()+30);
-        rectPicture = new Rectangle(15,125,picture.getWidth(),picture.getHeight());
+            camera = new OrthographicCamera();
+            camera.setToOrtho(false, 480, 800);
+            game.font.setColor(255, 255, 255, 1);
+            ishide = false;
+        try {
+            String st = Gdx.files.local("maindata/" + category + "/names.data").readString();
+            names = st.split(";");
+            picture = new Texture(Gdx.files.local("maindata/" + category + "/pictures/" + (screenId + 1) + ".jpg"));
+            //read = Gdx.audio.newMusic(Gdx.files.local("maindata/" + category + "/english/" + (screenId + 1) + ".mp3"));
+            rectLeft = new Rectangle(0, 0, game.left.getWidth() + 50, game.left.getHeight() + 30);
+            rectRight = new Rectangle(camera.viewportWidth - game.right.getWidth() - 50, 0, game.right.getWidth() + 50, game.right.getHeight() + 30);
+            rectTop = new Rectangle(0, 683, game.topbg.getWidth(), game.topbg.getHeight());
+            rectBack = new Rectangle(rectTop.x, rectTop.y, game.backtop.getWidth() + 50, game.backtop.getHeight() + 30);
+            rectSpeaker = new Rectangle(camera.viewportWidth - game.loudspeaker.getWidth() - 70, rectTop.y, game.loudspeaker.getWidth() + 50, game.loudspeaker.getHeight() + 30);
+            rectPicture = new Rectangle(15, 125, picture.getWidth(), picture.getHeight());
 
-        if (!game.isMute) read.play();
+           // if (!game.isMute) read.play();
+        }
+        catch (Exception ex)
+        {
+            String exss = ex.getMessage();
+        }
     }
 
     @Override
