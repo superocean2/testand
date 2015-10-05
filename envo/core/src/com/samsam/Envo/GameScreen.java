@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -35,7 +36,7 @@ public class GameScreen implements Screen,InputProcessor {
     Rectangle rectPicture;
     String[] names;
     int xDown,yDown,xUp,yUp;
-    Music read;
+    Sound read;
 
     public GameScreen(EnvoGame game, String category, int screenId) {
 
@@ -51,15 +52,14 @@ public class GameScreen implements Screen,InputProcessor {
             String st = Gdx.files.local("maindata/" + category + "/names.data").readString();
             names = st.split(";");
             picture = new Texture(Gdx.files.local("maindata/" + category + "/pictures/" + (screenId + 1) + ".jpg"));
-            //read = Gdx.audio.newMusic(Gdx.files.local("maindata/" + category + "/english/" + (screenId + 1) + ".mp3"));
+            read = Gdx.audio.newSound(Gdx.files.local("maindata/" + category + "/english/" + (screenId + 1) + ".mp3"));
             rectLeft = new Rectangle(0, 0, game.left.getWidth() + 50, game.left.getHeight() + 30);
             rectRight = new Rectangle(camera.viewportWidth - game.right.getWidth() - 50, 0, game.right.getWidth() + 50, game.right.getHeight() + 30);
-            rectTop = new Rectangle(0, 683, game.topbg.getWidth(), game.topbg.getHeight());
+            rectTop = new Rectangle(0, 675, game.topbg.getWidth(), game.topbg.getHeight());
             rectBack = new Rectangle(rectTop.x, rectTop.y, game.backtop.getWidth() + 50, game.backtop.getHeight() + 30);
             rectSpeaker = new Rectangle(camera.viewportWidth - game.loudspeaker.getWidth() - 70, rectTop.y, game.loudspeaker.getWidth() + 50, game.loudspeaker.getHeight() + 30);
             rectPicture = new Rectangle(15, 125, picture.getWidth(), picture.getHeight());
 
-           // if (!game.isMute) read.play();
         }
         catch (Exception ex)
         {
@@ -189,7 +189,8 @@ public class GameScreen implements Screen,InputProcessor {
             }
             if (Helpers.isTouchedInRect(rectPicture,v.x,v.y))
             {
-                if (!read.isPlaying()) read.play();
+                read.stop();
+                read.play();
             }
         }
         return false;
