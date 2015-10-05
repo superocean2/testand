@@ -25,7 +25,13 @@ public class EnvoGame extends Game {
 	Texture loadingbg;
 	Texture backtop;
 	String[] categoryNames;
+	String[] downloadUrls;
 	boolean isMute;
+	ActionResolver actionResolver;
+
+	public EnvoGame(ActionResolver actionResolver) {
+		this.actionResolver = actionResolver;
+	}
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -41,6 +47,7 @@ public class EnvoGame extends Game {
 		loadingbg = new Texture("downloading.png");
 		backtop = new Texture("topback.png");
 		categoryNames = new String[] {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"};
+		downloadUrls = new String[] {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"};
 
 		FreeTypeFontGenerator generator6 = new FreeTypeFontGenerator(Gdx.files.internal("font/chuviet1.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter6 = new FreeTypeFontGenerator.FreeTypeFontParameter();

@@ -12,13 +12,15 @@ public class CategoryInfo {
     public Rectangle rectangle;
     public String id;
     public boolean isLoaded;
+    public String downloadUrl;
 
-    public CategoryInfo(String name, Texture texture,Rectangle rectangle,String id,boolean isLoaded) {
+    public CategoryInfo(String name, Texture texture,Rectangle rectangle,String id,boolean isLoaded,String downloadUrl) {
         this.name = name;
         this.texture = texture;
         this.rectangle=rectangle;
         this.id=id;
         this.isLoaded=isLoaded;
+        this.downloadUrl=downloadUrl;
     }
 
     public String getName() {
@@ -59,6 +61,14 @@ public class CategoryInfo {
 
     public void setIsLoaded(boolean isLoaded) {
         this.isLoaded = isLoaded;
+    }
+
+    public String getDownloadUrl() {
+        return downloadUrl;
+    }
+
+    public void setDownloadUrl(String downloadUrl) {
+        this.downloadUrl = downloadUrl;
     }
 }
 

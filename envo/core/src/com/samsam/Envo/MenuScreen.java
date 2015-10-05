@@ -10,6 +10,12 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +27,11 @@ public class MenuScreen implements Screen,InputProcessor{
     final EnvoGame game;
     OrthographicCamera camera;
 
-    boolean ishide,isdownloading;
-    int xDown,yDown,xUp,yUp;
+    boolean ishide,isdownloading,isStartdownload;
+    int xDown,yDown,xUp,yUp,downloadPercent;
+    InputStream input = null;
+    OutputStream output = null;
+    HttpURLConnection connection = null;
 
     Texture pageImg,pageActiveImg;
     List<CategoryInfo> categories = new ArrayList<CategoryInfo>();
@@ -37,6 +46,8 @@ public class MenuScreen implements Screen,InputProcessor{
         game.font.setColor(255, 0, 0, 1);
         ishide=false;
         isdownloading=false;
+        isStartdownload=false;
+        downloadPercent=0;
         pageActive=pageNumber;
         String loadedCat = Helpers.getLoadedCategory().trim();
         String[] loadedCategories = loadedCat.split(";");
@@ -56,7 +67,7 @@ public class MenuScreen implements Screen,InputProcessor{
                 if (index>game.categoryNames.length-1) break;
                 Rectangle rect = new Rectangle(px*(j+1)+j*w,v-py*(i+1)-(i+1)*h,w,h);
                 boolean isloaded = Helpers.containString(loadedCategories, String.valueOf(index));
-                categories.add(new CategoryInfo(game.categoryNames[index],new Texture("category/"+(isloaded?"":"download/")+(index+1)+".jpg"),rect,String.valueOf(index),isloaded));
+                categories.add(new CategoryInfo(game.categoryNames[index],new Texture("category/"+(isloaded?"":"download/")+(index+1)+".jpg"),rect,String.valueOf(index),isloaded,game.downloadUrls[index]));
             }
 
         }
@@ -109,11 +120,11 @@ public class MenuScreen implements Screen,InputProcessor{
     private void renderDownloading()
     {
         float loadingY=camera.viewportHeight/2-game.loadingbg.getHeight()/2;
-        game.batch.draw(game.loadingbg,0,loadingY);
+        game.batch.draw(game.loadingbg, 0, loadingY);
         GlyphLayout layout = new GlyphLayout(game.font,"Downloading...");
         game.font.draw(game.batch,layout,camera.viewportWidth/2-layout.width/2,loadingY+80);
-        GlyphLayout layout1 = new GlyphLayout(game.font,"50%");
-        game.font.draw(game.batch,layout1,camera.viewportWidth/2-layout1.width/2,loadingY+50);
+        GlyphLayout layout1 = new GlyphLayout(game.font,String.valueOf(downloadPercent)+"%");
+        game.font.draw(game.batch, layout1, camera.viewportWidth / 2 - layout1.width / 2, loadingY + 50);
     }
     @Override
     public void show() {
@@ -127,7 +138,7 @@ public class MenuScreen implements Screen,InputProcessor{
 
     @Override
     public void pause() {
-
+        closeConnectionDownload();
     }
 
     @Override
@@ -139,11 +150,13 @@ public class MenuScreen implements Screen,InputProcessor{
     public void hide() {
         ishide=true;
         Gdx.input.setInputProcessor(null);
+        closeConnectionDownload();
     }
 
     @Override
     public void dispose() {
         Gdx.input.setInputProcessor(null);
+        closeConnectionDownload();
     }
 
     @Override
@@ -197,6 +210,7 @@ public class MenuScreen implements Screen,InputProcessor{
                     {
                         isdownloading=true;
                         Gdx.input.setInputProcessor(null);
+                        downloadFile(cat.getDownloadUrl());
                     }
                 }
             }
@@ -219,4 +233,52 @@ public class MenuScreen implements Screen,InputProcessor{
         return false;
     }
 
+    private boolean downloadFile(String sUrl)
+    {
+        try {
+            URL url = new URL(sUrl);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.connect();
+
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                return false;
+            }
+
+            int fileLength = connection.getContentLength();
+
+            // download the file
+            input = connection.getInputStream();
+            output = new FileOutputStream("/sdcard/file_name.extension");
+
+            byte data[] = new byte[4096];
+            long total = 0;
+            int count;
+            while ((count = input.read(data)) != -1) {
+                total += count;
+                // publishing the progress....
+                if (fileLength > 0) // only if total length is known
+                    downloadPercent= (int) (total * 100 / fileLength);
+                output.write(data, 0, count);
+            }
+        } catch (Exception e) {
+           return false;
+        } finally {
+            closeConnectionDownload();
+        }
+        return  true;
+    }
+
+    private void closeConnectionDownload()
+    {
+        try {
+            if (output != null)
+                output.close();
+            if (input != null)
+                input.close();
+        } catch (IOException ignored) {
+        }
+
+        if (connection != null)
+            connection.disconnect();
+    }
 }
