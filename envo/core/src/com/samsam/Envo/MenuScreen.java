@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -72,6 +73,8 @@ public class MenuScreen implements Screen,InputProcessor{
 
         }
 
+        ArrayList<File> files= new ArrayList<File>();
+        Helpers.compress(files,"");
     }
 
     @Override
