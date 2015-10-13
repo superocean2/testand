@@ -142,15 +142,34 @@ public class Helpers {
         }
     }
 
-    public static void  compress(ArrayList<File> files,String path)
+    public static void extractFile(String filename)
+    {
+        try {
+            File dir = new File(Gdx.files.getLocalStoragePath() + "maindata");
+            if (!dir.exists()) dir.mkdir();
+            File zippicture = new File(dir.getPath() +"/"+ filename);
+            ZipFile zipFile = new ZipFile(zippicture);
+            if (zipFile.isEncrypted())
+            {
+                zipFile.setPassword("123456789");
+            }
+            zipFile.extractAll(dir.getPath());
+            zippicture.delete();
+
+        } catch (ZipException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void  compressFile(ArrayList<File> files,String path)
     {
         try {
             FileHandle[] imageFiles = Gdx.files.internal("1/pictures/").list();
-            File imageFolder = new File(Gdx.files.internal("1/pictures/").path());
             FileHandle[] soundFiles = Gdx.files.internal("1/english/").list();
             File dir = new File(Gdx.files.getLocalStoragePath() + "maindata");
             if (!dir.exists()) dir.mkdir();
-            File dirCategory1 = new File(dir.getPath() + "/2");
+            File imageFolder = new File(dir.getPath() + "/1" + "/pictures");
+            File dirCategory1 = new File(dir.getPath() + "/5");
             if (!dirCategory1.exists()) dirCategory1.mkdir();
             File dirPictures = new File(dirCategory1.getPath() + "/pictures");
             if (!dirPictures.exists()) dirPictures.mkdir();
@@ -169,6 +188,10 @@ public class Helpers {
             ZipParameters parameters = new ZipParameters();
             parameters.setCompressionMethod(Zip4jConstants.COMP_DEFLATE);
             parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_NORMAL);
+            parameters.setEncryptFiles(true);
+            parameters.setEncryptionMethod(Zip4jConstants.ENC_METHOD_STANDARD);
+
+            parameters.setPassword("123456789");
 
             // Sets the folder in the zip file to which these new files will be added.
             // In this example, test2 is the folder to which these files will be added.

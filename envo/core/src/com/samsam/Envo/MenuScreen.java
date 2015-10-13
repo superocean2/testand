@@ -73,8 +73,10 @@ public class MenuScreen implements Screen,InputProcessor{
 
         }
 
-        ArrayList<File> files= new ArrayList<File>();
-        Helpers.compress(files,"");
+       // ArrayList<File> files= new ArrayList<File>();
+        //Helpers.compress(files,"");
+        //Helpers.extractFile();
+        //downloadFile("http://sofunny.apphb.com/Content/35.jpg");
     }
 
     @Override
@@ -213,7 +215,10 @@ public class MenuScreen implements Screen,InputProcessor{
                     {
                         isdownloading=true;
                         Gdx.input.setInputProcessor(null);
-                        downloadFile(cat.getDownloadUrl());
+                       if(downloadFile(cat.getDownloadUrl()))
+                       {
+                           cat.setIsLoaded(true);
+                       }
                     }
                 }
             }
@@ -238,7 +243,10 @@ public class MenuScreen implements Screen,InputProcessor{
 
     private boolean downloadFile(String sUrl)
     {
+        String filename = "";
         try {
+            String[] arr = sUrl.split("/");
+            filename = arr[arr.length-1].trim();
             URL url = new URL(sUrl);
             connection = (HttpURLConnection) url.openConnection();
             connection.connect();
@@ -251,7 +259,9 @@ public class MenuScreen implements Screen,InputProcessor{
 
             // download the file
             input = connection.getInputStream();
-            output = new FileOutputStream("/sdcard/file_name.extension");
+            File dir = new File(Gdx.files.getLocalStoragePath() + "maindata");
+            if (!dir.exists()) dir.mkdir();
+            output = new FileOutputStream(dir.getPath() + "/" + filename);
 
             byte data[] = new byte[4096];
             long total = 0;
@@ -267,6 +277,15 @@ public class MenuScreen implements Screen,InputProcessor{
            return false;
         } finally {
             closeConnectionDownload();
+        }
+        try
+        {
+            Thread.sleep(3*1000);
+            Helpers.extractFile(filename);
+        }
+        catch (InterruptedException ex)
+        {
+            return false;
         }
         return  true;
     }

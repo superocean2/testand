@@ -46,7 +46,7 @@ public class EnvoGame extends Game {
 		loadingbg = new Texture("downloading.png");
 		backtop = new Texture("topback.png");
 		categoryNames = new String[] {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"};
-		downloadUrls = new String[] {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"};
+		downloadUrls = new String[] {"1","http://sofunny.apphb.com/Content/2.jpg","3","4","5","6","7","8","9","10","11","12","13","14","15"};
 
 		FreeTypeFontGenerator generator6 = new FreeTypeFontGenerator(Gdx.files.internal("font/chuviet1.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter6 = new FreeTypeFontGenerator.FreeTypeFontParameter();
