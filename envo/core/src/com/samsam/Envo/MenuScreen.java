@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.async.AsyncTask;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -19,6 +20,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by NghiaTrinh on 8/31/2015.
@@ -38,6 +41,11 @@ public class MenuScreen implements Screen,InputProcessor{
     List<CategoryInfo> categories = new ArrayList<CategoryInfo>();
     private static final int pageCount = 3;
     int pageActive=0;
+    String loadedCat;
+    Timer timer=new Timer();
+    TimerTask timerTask;
+    CategoryInfo catWillDownload;
+
 
 
     public MenuScreen(EnvoGame game1,int pageNumber) {
@@ -50,7 +58,7 @@ public class MenuScreen implements Screen,InputProcessor{
         isStartdownload=false;
         downloadPercent=0;
         pageActive=pageNumber;
-        String loadedCat = Helpers.getLoadedCategory().trim();
+        loadedCat = Helpers.getLoadedCategory().trim();
         String[] loadedCategories = loadedCat.split(";");
 
         pageImg=new Texture("page.png");
@@ -119,7 +127,6 @@ public class MenuScreen implements Screen,InputProcessor{
         if (isdownloading) renderDownloading();
 
         game.batch.end();
-
         if (ishide) this.dispose();
     }
     private void renderDownloading()
@@ -130,7 +137,34 @@ public class MenuScreen implements Screen,InputProcessor{
         game.font.draw(game.batch,layout,camera.viewportWidth/2-layout.width/2,loadingY+80);
         GlyphLayout layout1 = new GlyphLayout(game.font,String.valueOf(downloadPercent)+"%");
         game.font.draw(game.batch, layout1, camera.viewportWidth / 2 - layout1.width / 2, loadingY + 50);
+        if (!isStartdownload) {
+            isStartdownload=true;
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    if (downloadFile(catWillDownload.getDownloadUrl())) {
+                        loadedCat += catWillDownload.getId() + ";";
+                        Helpers.saveLoadedCategory(loadedCat);
+                        try {
+                            Thread.sleep(3 * 1000);
+                        }
+                        catch (Exception e){}
+
+                        game.setScreen(new GameScreen(game,String.valueOf(Integer.parseInt(catWillDownload.getId()) + 1), 0,true));
+                    }
+                    else
+                    {
+                        game.actionResolver.showToast("Download error! Please try again later");
+                        game.setScreen(new MenuScreen(game,0));
+                    }
+                }
+            },0);
+
+        }
     }
+
+
+
     @Override
     public void show() {
         Gdx.input.setInputProcessor(this);
@@ -210,15 +244,18 @@ public class MenuScreen implements Screen,InputProcessor{
             camera.unproject(v);
             for (CategoryInfo cat : categories) {
                 if (Helpers.isTouchedInRect(cat.rectangle, v.x, v.y)) {
-                    if (cat.isLoaded) game.setScreen(new GameScreen(game,"1",0));
+                    if (cat.isLoaded) game.setScreen(new GameScreen(game,String.valueOf(Integer.parseInt(cat.getId())+1),0,false));
                     else
                     {
-                        isdownloading=true;
-                        Gdx.input.setInputProcessor(null);
-                       if(downloadFile(cat.getDownloadUrl()))
-                       {
-                           cat.setIsLoaded(true);
-                       }
+                        if (game.actionResolver.isInternetConnect()) {
+                            isdownloading = true;
+                            Gdx.input.setInputProcessor(null);
+                            catWillDownload = cat;
+                        }
+                        else
+                        {
+                            game.actionResolver.showToast("No internet connection!");
+                        }
                     }
                 }
             }
@@ -303,4 +340,5 @@ public class MenuScreen implements Screen,InputProcessor{
         if (connection != null)
             connection.disconnect();
     }
+
 }

@@ -26,6 +26,7 @@ public class EnvoGame extends Game {
 	String[] categoryNames;
 	String[] downloadUrls;
 	boolean isMute;
+	String d;
 	ActionResolver actionResolver;
 
 	public EnvoGame(ActionResolver actionResolver) {
@@ -45,8 +46,12 @@ public class EnvoGame extends Game {
 		mutespeaker = new Texture("mutespeaker.png");
 		loadingbg = new Texture("downloading.png");
 		backtop = new Texture("topback.png");
-		categoryNames = new String[] {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"};
-		downloadUrls = new String[] {"1","http://sofunny.apphb.com/Content/2.jpg","3","4","5","6","7","8","9","10","11","12","13","14","15"};
+		d=Helpers.getDownloadHostName();
+		categoryNames = new String[] {"Animal","Fruit","Vegetable","Family","Human body","Food & Drink","House","Bed room","Kitchen","Living room","Bathroom","Workshop","Medical","Fire fighting","Law"
+		,"City","Postal","Library","Military","Vehicle","Transportation","Flower","School","Fashion","Travel","Space","Science lab","School subjects","Math","Energy","Farming","Construction","Office",
+		"Airport","Occupations","Beach","Park","Sports", "Musical Instruments","Theater","Electronics","Cafe","Restaurant","Weather","Hotel","Make up"};
+
+		downloadUrls = new String[] {"1",d+"s/x2dcquthp0k167e/2.c?dl=1","3","4","5","6","7","8","9","10","11","12","13","14","15"};
 
 		FreeTypeFontGenerator generator6 = new FreeTypeFontGenerator(Gdx.files.internal("font/chuviet1.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter6 = new FreeTypeFontGenerator.FreeTypeFontParameter();

@@ -25,8 +25,13 @@ public class ActionResolverAndroid implements ActionResolver {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, text, Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    public boolean isInternetConnect() {
+       return  Helper.isConnectingToInternet(context);
     }
 }

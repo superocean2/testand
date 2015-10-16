@@ -37,12 +37,14 @@ public class GameScreen implements Screen,InputProcessor {
     String[] names;
     int xDown,yDown,xUp,yUp;
     Sound read;
+    boolean refresh;
 
-    public GameScreen(EnvoGame game, String category, int screenId) {
+    public GameScreen(EnvoGame game, String category, int screenId,boolean isRefresh) {
 
             this.game = game;
             this.category = category;
             this.screenId = screenId;
+            this.refresh = isRefresh;
 
             camera = new OrthographicCamera();
             camera.setToOrtho(false, 480, 800);
@@ -65,6 +67,7 @@ public class GameScreen implements Screen,InputProcessor {
         {
             String exss = ex.getMessage();
         }
+
     }
 
     @Override
@@ -90,6 +93,7 @@ public class GameScreen implements Screen,InputProcessor {
         game.batch.end();
 
         if (ishide) this.dispose();
+        if (refresh) game.setScreen(new GameScreen(game,category,screenId,false));
     }
 
     @Override
@@ -157,14 +161,14 @@ public class GameScreen implements Screen,InputProcessor {
         {
             int prevScreenId = screenId-1;
             if (prevScreenId>-1)
-            this.game.setScreen(new GameScreen(game,category,prevScreenId));
+            this.game.setScreen(new GameScreen(game,category,prevScreenId,false));
         }
         //swipe left
         if (difX<-50&&difX<difY)
         {
             int nextScreenId = screenId+1;
             if (nextScreenId<names.length)
-                this.game.setScreen(new GameScreen(game,category,nextScreenId));
+                this.game.setScreen(new GameScreen(game,category,nextScreenId,false));
         }
         if (difX<51&&difX>-51) {
             Vector3 v = new Vector3();
@@ -175,13 +179,13 @@ public class GameScreen implements Screen,InputProcessor {
             {
                 int prevScreenId = screenId-1;
                 if (prevScreenId>-1)
-                    this.game.setScreen(new GameScreen(game,category,prevScreenId));
+                    this.game.setScreen(new GameScreen(game,category,prevScreenId,false));
             }
             if (Helpers.isTouchedInRect(rectRight,v.x,v.y))
             {
                 int nextScreenId = screenId+1;
                 if (nextScreenId<names.length)
-                    this.game.setScreen(new GameScreen(game,category,nextScreenId));
+                    this.game.setScreen(new GameScreen(game,category,nextScreenId,false));
             }
             if (Helpers.isTouchedInRect(rectSpeaker,v.x,v.y))
             {

@@ -12,10 +12,13 @@ import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.model.ZipParameters;
 import net.lingala.zip4j.util.Zip4jConstants;
 
+import org.omg.CORBA.Context;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
+
 
 /**
  * Created by NghiaTrinh on 7/6/2015.
@@ -151,7 +154,7 @@ public class Helpers {
             ZipFile zipFile = new ZipFile(zippicture);
             if (zipFile.isEncrypted())
             {
-                zipFile.setPassword("123456789");
+                zipFile.setPassword("MainActivity");
             }
             zipFile.extractAll(dir.getPath());
             zippicture.delete();
@@ -206,5 +209,10 @@ public class Helpers {
             Gdx.app.log("ee",e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    public static String getDownloadHostName()
+    {
+        return "https://www.dropbox.com/";
     }
 }

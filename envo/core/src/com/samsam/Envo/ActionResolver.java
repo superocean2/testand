@@ -5,4 +5,5 @@ package com.samsam.Envo;
  */
 public interface ActionResolver {
      void showToast(CharSequence text);
+     boolean isInternetConnect();
 }
