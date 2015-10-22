@@ -3,18 +3,13 @@ package com.samsam.Envo;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -34,7 +29,8 @@ public class GameScreen implements Screen,InputProcessor {
     Rectangle rectTop;
     Rectangle rectSpeaker;
     Rectangle rectPicture;
-    String[] names;
+    Rectangle rectLanguage;
+    String[] namesEn,namesVi;
     int xDown,yDown,xUp,yUp;
     Sound read;
     boolean refresh;
@@ -51,8 +47,10 @@ public class GameScreen implements Screen,InputProcessor {
             game.font.setColor(255, 255, 255, 1);
             ishide = false;
         try {
-            String st = Gdx.files.local("maindata/" + category + "/names.data").readString();
-            names = st.split(";");
+            String st = Gdx.files.local("maindata/" + category + "/names-en.data").readString();
+            String stVi = Gdx.files.local("maindata/" + category + "/names-vi.data").readString();
+            namesEn = st.split(";");
+            namesVi=stVi.split(";");
             picture = new Texture(Gdx.files.local("maindata/" + category + "/pictures/" + (screenId + 1) + ".jpg"));
             read = Gdx.audio.newSound(Gdx.files.local("maindata/" + category + "/english/" + (screenId + 1) + ".mp3"));
             rectLeft = new Rectangle(0, 0, game.left.getWidth() + 50, game.left.getHeight() + 30);
@@ -60,6 +58,7 @@ public class GameScreen implements Screen,InputProcessor {
             rectTop = new Rectangle(0, 675, game.topbg.getWidth(), game.topbg.getHeight());
             rectBack = new Rectangle(rectTop.x, rectTop.y, game.backtop.getWidth() + 50, game.backtop.getHeight() + 30);
             rectSpeaker = new Rectangle(camera.viewportWidth - game.loudspeaker.getWidth() - 70, rectTop.y, game.loudspeaker.getWidth() + 50, game.loudspeaker.getHeight() + 30);
+            rectLanguage = new Rectangle(rectSpeaker.x-game.english.getWidth()-40,rectSpeaker.y,game.english.getWidth()+50,game.english.getHeight()+30);
             rectPicture = new Rectangle(15, 125, picture.getWidth(), picture.getHeight());
 
         }
@@ -84,11 +83,12 @@ public class GameScreen implements Screen,InputProcessor {
         game.batch.draw(game.topbg,rectTop.x,rectTop.y);
         game.batch.draw(game.backtop,rectBack.x+20,rectBack.y+5);
         game.batch.draw(game.isMute?game.mutespeaker:game.loudspeaker,rectSpeaker.x+40,rectSpeaker.y+5);
+        game.batch.draw(game.isEnglish?game.english:game.vietnamese,rectLanguage.x+40,rectLanguage.y+5);
         game.batch.draw(game.left, rectLeft.x+10, rectLeft.y+5);
         game.batch.draw(game.right, rectRight.x+40, rectRight.y+5);
         GlyphLayout layout1 = new GlyphLayout(game.font,game.categoryNames[Integer.parseInt(category)-1]);
-        game.font.draw(game.batch,layout1,camera.viewportWidth/2-layout1.width/2,rectTop.y + game.topbg.getHeight()/2+layout1.height/2);
-        GlyphLayout layout = new GlyphLayout(game.font,names[screenId]);
+        game.font.draw(game.batch,layout1,(rectLanguage.x +40)/2 + rectBack.x+game.backtop.getWidth()-layout1.width/2,rectTop.y + game.topbg.getHeight()/2+layout1.height/2);
+        GlyphLayout layout = new GlyphLayout(game.font,game.isEnglish?namesEn[screenId]:namesVi[screenId]);
         game.font.draw(game.batch,layout,camera.viewportWidth/2-layout.width/2,game.bottombg.getHeight()/2+layout.height/2);
         game.batch.end();
 
@@ -167,7 +167,7 @@ public class GameScreen implements Screen,InputProcessor {
         if (difX<-50&&difX<difY)
         {
             int nextScreenId = screenId+1;
-            if (nextScreenId<names.length)
+            if (nextScreenId<namesEn.length)
                 this.game.setScreen(new GameScreen(game,category,nextScreenId,false));
         }
         if (difX<51&&difX>-51) {
@@ -184,17 +184,21 @@ public class GameScreen implements Screen,InputProcessor {
             if (Helpers.isTouchedInRect(rectRight,v.x,v.y))
             {
                 int nextScreenId = screenId+1;
-                if (nextScreenId<names.length)
+                if (nextScreenId<namesEn.length)
                     this.game.setScreen(new GameScreen(game,category,nextScreenId,false));
             }
             if (Helpers.isTouchedInRect(rectSpeaker,v.x,v.y))
             {
                 if (game.isMute) game.isMute=false; else  game.isMute=true;
             }
+            if (Helpers.isTouchedInRect(rectLanguage,v.x,v.y))
+            {
+                if (game.isEnglish) game.isEnglish=false; else  game.isEnglish=true;
+            }
             if (Helpers.isTouchedInRect(rectPicture,v.x,v.y))
             {
                 read.stop();
-                read.play();
+                if(!game.isMute) read.play();
             }
         }
         return false;

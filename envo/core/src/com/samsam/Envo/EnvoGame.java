@@ -23,9 +23,12 @@ public class EnvoGame extends Game {
 	Texture mutespeaker;
 	Texture loadingbg;
 	Texture backtop;
+	Texture english;
+	Texture vietnamese;
 	String[] categoryNames;
 	String[] downloadUrls;
 	boolean isMute;
+	boolean isEnglish;
 	String d;
 	ActionResolver actionResolver;
 
@@ -46,21 +49,25 @@ public class EnvoGame extends Game {
 		mutespeaker = new Texture("mutespeaker.png");
 		loadingbg = new Texture("downloading.png");
 		backtop = new Texture("topback.png");
+		english = new Texture("english.png");
+		vietnamese = new Texture("vietnamese.png");
+
 		d=Helpers.getDownloadHostName();
 		categoryNames = new String[] {"Animal","Fruit","Vegetable","Family","Human body","Food & Drink","House","Bed room","Kitchen","Living room","Bathroom","Workshop","Medical","Fire fighting","Law"
 		,"City","Postal","Library","Military","Vehicle","Transportation","Flower","School","Fashion","Travel","Space","Science lab","School subjects","Math","Energy","Farming","Construction","Office",
 		"Airport","Occupations","Beach","Park","Sports", "Musical Instruments","Theater","Electronics","Cafe","Restaurant","Weather","Hotel","Make up"};
 
-		downloadUrls = new String[] {"1",d+"s/x2dcquthp0k167e/2.c?dl=1","3","4","5","6","7","8","9","10","11","12","13","14","15"};
+		downloadUrls = new String[] {"1",d+"s/oaubbwgiahr7khh/2.cpp?dl=1","3","4","5","6","7","8","9","10","11","12","13","14","15"};
 
 		FreeTypeFontGenerator generator6 = new FreeTypeFontGenerator(Gdx.files.internal("font/chuviet1.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter6 = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter6.size = 30;
-		//parameter6.characters="123456789";
+		parameter6.characters="aẤểlơÚữáẦÊLớÙỮàẬẾmờỤõạẨỀMợỦÕảbỆnởưỗABỂNƠứỖÁcfoỚừỡÀCFóỜựỠẠdgòỢửĩẢDGọỞƯĨăđhỏpỨỵắĐH​OPỪýằeiÓqỰỳặéíÒQỬỷẳèìỌrvãỹĂẹịỎRVÃỴẮẻỉôswẵÝẰEIốSWẴỲẶÉÍồtxẫỶẲÈÌộTXẪỸâẸỊổuyẽấẺỈÔúYẼ​ầêjỐùzễậếJỒụZỄẩềkỘủũÂệKỔUŨ0123456789][_!$%#@|\\/?-+=:'\".,";
 		font = generator6.generateFont(parameter6);
 		font.setColor(255, 255, 255, 1);
 		generator6.dispose();
 		isMute=false;
+		isEnglish=true;
 
 		if (!Helpers.getIsLocalDefaultPicture())
 		{
@@ -83,7 +90,8 @@ public class EnvoGame extends Game {
 				for (FileHandle file : soundFiles) {
 					file.copyTo(new FileHandle(dirSounds));
 				}
-				Gdx.files.internal("1/names.data").copyTo(new FileHandle(dirCategory1));
+				Gdx.files.internal("1/names-en.data").copyTo(new FileHandle(dirCategory1));
+				Gdx.files.internal("1/names-vi.data").copyTo(new FileHandle(dirCategory1));
 				Helpers.saveIsLocalDefaultPicture(true);
 			}
 			catch (Exception ex)
@@ -114,5 +122,7 @@ public class EnvoGame extends Game {
 		mutespeaker.dispose();
 		loadingbg.dispose();
 		backtop.dispose();
+		english.dispose();
+		vietnamese.dispose();
 	}
 }
