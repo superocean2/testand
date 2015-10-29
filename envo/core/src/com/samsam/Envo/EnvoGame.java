@@ -21,7 +21,6 @@ public class EnvoGame extends Game {
 	Texture topbg;
 	Texture loudspeaker;
 	Texture mutespeaker;
-	Texture loadingbg;
 	Texture backtop;
 	Texture english;
 	Texture vietnamese;
@@ -47,7 +46,7 @@ public class EnvoGame extends Game {
 		activePage = new Texture("activepage.png");
 		loudspeaker = new Texture("loudspeaker.png");
 		mutespeaker = new Texture("mutespeaker.png");
-		loadingbg = new Texture("downloading.png");
+
 		backtop = new Texture("topback.png");
 		english = new Texture("english.png");
 		vietnamese = new Texture("vietnamese.png");
@@ -120,7 +119,6 @@ public class EnvoGame extends Game {
 		topbg.dispose();
 		loudspeaker.dispose();
 		mutespeaker.dispose();
-		loadingbg.dispose();
 		backtop.dispose();
 		english.dispose();
 		vietnamese.dispose();
