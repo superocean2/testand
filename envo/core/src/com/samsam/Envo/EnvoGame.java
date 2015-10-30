@@ -52,11 +52,11 @@ public class EnvoGame extends Game {
 		vietnamese = new Texture("vietnamese.png");
 
 		d=Helpers.getDownloadHostName();
-		categoryNames = new String[] {"Animal","Fruit","Vegetable","Family","Human body","Food & Drink","House","Bed room","Kitchen","Living room","Bathroom","Workshop","Medical","Fire fighting","Law"
+		categoryNames = new String[] {"Animal","Fruit","Vegetable","Food & Drink","House","Bed room","Kitchen","Living room","Bathroom","Workshop","Medical","Fire fighting","Law"
 		,"City","Postal","Library","Military","Vehicle","Transportation","Flower","School","Fashion","Travel","Space","Science lab","School subjects","Math","Energy","Farming","Construction","Office",
-		"Airport","Occupations","Beach","Park","Sports", "Musical Instruments","Theater","Electronics","Cafe","Restaurant","Weather","Hotel","Make up"};
+		"Airport","Occupations","Beach","Park","Sports", "Musical Instruments","Theater","Electronics","Cafe","Restaurant","Weather","Hotel","Make up","Family","Human body"};
 
-		downloadUrls = new String[] {"1",d+"s/oaubbwgiahr7khh/2.cpp?dl=1","3","4","5","6","7","8","9","10","11","12","13","14","15"};
+		downloadUrls = new String[] {"1",d+"s/udkb01zfc0giv71/2.a?dl=1","s/ulhngd12b1hpezn/3.b?dl=1","4","5","6","7","8","9","10","11","12","13","14","15"};
 
 		FreeTypeFontGenerator generator6 = new FreeTypeFontGenerator(Gdx.files.internal("font/chuviet1.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter6 = new FreeTypeFontGenerator.FreeTypeFontParameter();
