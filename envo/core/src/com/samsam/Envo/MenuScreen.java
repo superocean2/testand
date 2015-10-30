@@ -6,7 +6,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.async.AsyncTask;
@@ -45,8 +47,11 @@ public class MenuScreen implements Screen,InputProcessor{
     Timer timer=new Timer();
     TimerTask timerTask;
     CategoryInfo catWillDownload;
-
-
+    Texture loadingbg;
+    Texture loading1;
+    Texture loading2;
+    Animation loading;
+    float loadingTime=0;
 
     public MenuScreen(EnvoGame game1,int pageNumber) {
         this.game = game1;
@@ -63,6 +68,13 @@ public class MenuScreen implements Screen,InputProcessor{
 
         pageImg=new Texture("page.png");
         pageActiveImg=new Texture("activepage.png");
+
+        loadingbg = new Texture("downloadOverlay.png");
+        loading1 = new Texture("loading1.png");
+        loading2 = new Texture("loading2.png");
+        loading = new Animation(0.02f,new TextureRegion(loading1),new TextureRegion(loading2));
+        loading.setPlayMode(Animation.PlayMode.LOOP);
+
         int px=20;
         int py=80;
         int w=200;
@@ -94,6 +106,7 @@ public class MenuScreen implements Screen,InputProcessor{
 
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
+        loadingTime +=Gdx.graphics.getDeltaTime();
 
         game.batch.begin();
         for (CategoryInfo cat:categories)
@@ -131,8 +144,10 @@ public class MenuScreen implements Screen,InputProcessor{
     }
     private void renderDownloading()
     {
-        float loadingY=camera.viewportHeight/2-game.loadingbg.getHeight()/2;
-        game.batch.draw(game.loadingbg, 0, loadingY);
+        float loadingY=camera.viewportHeight/2-loading1.getHeight()/2;
+        float loadingX = camera.viewportWidth/2 - loading1.getWidth()/2;
+        game.batch.draw(loadingbg, 0, 0);
+        game.batch.draw(loading.getKeyFrame(loadingTime),loadingX,loadingY);
         GlyphLayout layout = new GlyphLayout(game.font,"Downloading...");
         game.font.draw(game.batch,layout,camera.viewportWidth/2-layout.width/2,loadingY+80);
         GlyphLayout layout1 = new GlyphLayout(game.font,String.valueOf(downloadPercent)+"%");
