@@ -35,6 +35,7 @@ public class GameScreen implements Screen,InputProcessor {
     Sound read;
     boolean refresh;
 
+
     public GameScreen(EnvoGame game, String category, int screenId,boolean isRefresh) {
 
             this.game = game;
@@ -51,6 +52,10 @@ public class GameScreen implements Screen,InputProcessor {
             String stVi = Gdx.files.local("maindata/" + category + "/names-vi.data").readString();
             namesEn = st.split(";");
             namesVi=stVi.split(";");
+            if (screenId==3)
+            {
+                xDown =screenId;
+            }
             picture = new Texture(Gdx.files.local("maindata/" + category + "/pictures/" + (screenId + 1) + ".jpg"));
             read = Gdx.audio.newSound(Gdx.files.local("maindata/" + category + "/english/" + (screenId + 1) + ".mp3"));
             rectLeft = new Rectangle(0, 0, game.left.getWidth() + 50, game.left.getHeight() + 30);
