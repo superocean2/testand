@@ -56,7 +56,7 @@ public class EnvoGame extends Game {
 		,"City","Postal","Library","Military","Vehicle","Transportation","Flower","School","Fashion","Travel","Space","Science lab","School subjects","Math","Energy","Farming","Construction","Office",
 		"Airport","Occupations","Beach","Park","Sports", "Musical Instruments","Theater","Electronics","Cafe","Restaurant","Weather","Hotel","Make up","Family","Human body"};
 
-		downloadUrls = new String[] {"1",d+"s/udkb01zfc0giv71/2.a?dl=1",d+"s/ulhngd12b1hpezn/3.b?dl=1",d+"s/scbkmjzkpyoo3jz/4.b?dl=1","5","6","7","8","9","10","11","12","13","14","15"};
+		downloadUrls = new String[] {"1",d+"s/udkb01zfc0giv71/2.a?dl=1",d+"s/qr8ijwl8o8w1ida/3.a?dl=1",d+"s/a9ap8t2eec0pncq/4.a?dl=1","5","6","7","8","9","10","11","12","13","14","15"};
 
 		FreeTypeFontGenerator generator6 = new FreeTypeFontGenerator(Gdx.files.internal("font/chuviet1.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter6 = new FreeTypeFontGenerator.FreeTypeFontParameter();
