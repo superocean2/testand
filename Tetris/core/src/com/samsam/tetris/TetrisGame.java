@@ -50,9 +50,9 @@ public class TetrisGame extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		background = new Texture("tetris.png");
-		block = new Texture("block1.png");
-		blockmini = new Texture("blockmini.png");
+		background = new Texture("tetrisxmas.png");
+		block = new Texture("block2.png");
+		blockmini = new Texture("block2mini.png");
 		left = new Texture("left.png");
 		right = new Texture("right.png");
 		//down = new Texture("down.png");
@@ -61,16 +61,16 @@ public class TetrisGame extends Game {
 		muteSpeaker = new Texture("mute.png");
 		pause = new Texture("pause.png");
 		gameOver=new Texture("gameover.png");
-		highScore = new Texture("highscore.png");
+		highScore = new Texture("youhavenewhighscore.png");
 		newGame = new Texture("newgame.png");
 		quit = new Texture("quit.png");
 		ready = new Texture("ready.png");
 		resume = new Texture("resume.png");
-		overlay = new Texture("gameoverlay1.png");
+		overlay = new Texture("gameoverlayxmas.png");
 		worldScoreBg = new Texture("worldscorebg.png");
-		shareFb = new Texture("sharefb.png");
+		shareFb = new Texture("share.png");
 		cancel = new Texture("cancel.png");
-		hissBrick = new Texture("hisstetris.png");
+		hissBrick = new Texture("merryxmas.png");
 		bacgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/bg.ogg"));
 		eat = Gdx.audio.newSound(Gdx.files.internal("sound/eat.mp3"));
 		hit = Gdx.audio.newSound(Gdx.files.internal("sound/hit.mp3"));
