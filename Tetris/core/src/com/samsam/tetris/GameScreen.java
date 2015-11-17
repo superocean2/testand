@@ -55,7 +55,7 @@ public class GameScreen implements Screen {
         rectGameover =new Rectangle(game.rectScreen.width / 2 - game.gameOver.getWidth() / 2 + 7,540,game.gameOver.getWidth(),game.gameOver.getHeight());
         rectNewgame = new Rectangle(game.rectScreen.width / 2 - game.newGame.getWidth() / 2 + 7,rectGameover.y-game.newGame.getHeight()-20,game.newGame.getWidth(),game.newGame.getHeight());
         rectHighscore = new Rectangle(game.rectScreen.width / 2 - game.highScore.getWidth() / 2 + 7,rectNewgame.y-game.highScore.getHeight()-20,game.highScore.getWidth(),game.highScore.getHeight());
-        rectShareFb = new Rectangle(game.rectScreen.width / 2 - game.highScore.getWidth() / 2 + 7,350,game.shareFb.getWidth(),game.shareFb.getHeight());
+        rectShareFb = new Rectangle(game.rectScreen.width / 2 - game.shareFb.getWidth() / 2 + 7,350,game.shareFb.getWidth(),game.shareFb.getHeight());
         rectCancel = new Rectangle(rectShareFb.x,rectShareFb.y-game.cancel.getHeight()-20,game.cancel.getWidth(),game.cancel.getHeight());
         isMute=false;
         world=new World();
@@ -182,8 +182,8 @@ public class GameScreen implements Screen {
         }
         game.batch.begin();
         drawOverlayBg();
-        game.batch.draw(game.hissBrick, game.rectScreen.width / 2 - game.hissBrick.getWidth() / 2 + 7, 500);
-        game.batch.draw(game.ready, game.rectScreen.width / 2 - game.ready.getWidth() / 2+7, 400);
+        game.batch.draw(game.hissBrick, game.rectScreen.width / 2 - game.hissBrick.getWidth() / 2 + 7, 550);
+        game.batch.draw(game.ready, game.rectScreen.width / 2 - game.ready.getWidth() / 2+7, 340);
         game.batch.end();
     }
 
@@ -300,9 +300,11 @@ public class GameScreen implements Screen {
     private void updateWorldScore()
     {
         game.batch.begin();
-        game.batch.draw(game.worldScoreBg, game.rectScreen.width / 2 - game.overlay.getWidth() / 2 + 7, 246);
+        game.batch.draw(game.overlay, game.rectScreen.width / 2 - game.overlay.getWidth() / 2 + 7, 246);
+        game.batch.draw(game.hissBrick,game.rectScreen.width / 2 - game.hissBrick.getWidth() / 2 + 7,540);
+        game.batch.draw(game.youhavenewhighscore,game.rectScreen.width/2-game.youhavenewhighscore.getWidth()/2+7,475);
         GlyphLayout layout = new GlyphLayout(game.font,String.valueOf(score));
-        game.font.draw(game.batch, layout, game.rectScreen.width / 2 - layout.width / 2 +7, 443);
+        game.font.draw(game.batch, layout, game.rectScreen.width / 2 - layout.width / 2 +7, 460);
         game.batch.draw(game.shareFb,rectShareFb.x,rectShareFb.y);
         game.batch.draw(game.cancel,rectCancel.x,rectCancel.y);
         game.batch.end();

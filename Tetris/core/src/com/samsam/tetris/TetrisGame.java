@@ -26,6 +26,7 @@ public class TetrisGame extends Game {
 	Texture ready;
 	Texture gameOver;
 	Texture highScore;
+	Texture youhavenewhighscore;
 	Texture newGame;
 	Texture quit;
 	Texture resume;
@@ -61,13 +62,13 @@ public class TetrisGame extends Game {
 		muteSpeaker = new Texture("mute.png");
 		pause = new Texture("pause.png");
 		gameOver=new Texture("gameover.png");
-		highScore = new Texture("youhavenewhighscore.png");
+		youhavenewhighscore = new Texture("youhavenewhighscore.png");
+		highScore = new Texture("yourscore-highscore.png");
 		newGame = new Texture("newgame.png");
 		quit = new Texture("quit.png");
 		ready = new Texture("ready.png");
 		resume = new Texture("resume.png");
 		overlay = new Texture("gameoverlayxmas.png");
-		worldScoreBg = new Texture("worldscorebg.png");
 		shareFb = new Texture("share.png");
 		cancel = new Texture("cancel.png");
 		hissBrick = new Texture("merryxmas.png");
