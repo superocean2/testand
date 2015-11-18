@@ -70,7 +70,7 @@ public class TetrisGame extends Game {
 		resume = new Texture("resume.png");
 		overlay = new Texture("gameoverlayxmas.png");
 		shareFb = new Texture("share.png");
-		cancel = new Texture("cancel.png");
+		cancel = new Texture("cancelxmas.png");
 		hissBrick = new Texture("merryxmas.png");
 		bacgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/bg.ogg"));
 		eat = Gdx.audio.newSound(Gdx.files.internal("sound/eat.mp3"));
