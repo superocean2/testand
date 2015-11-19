@@ -78,7 +78,7 @@ public class XmasBlockGame extends Game {
 		hit = Gdx.audio.newSound(Gdx.files.internal("sound/hit.mp3"));
 
 
-		rectScreen = new Rectangle(8,146,300,570);
+		rectScreen = new Rectangle(7.5f,153.5f,300,570);
 		mainBlockWidth=30;
 		mainBlockHeight=30;
 
