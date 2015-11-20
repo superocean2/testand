@@ -36,6 +36,7 @@ public class XmasBlockGame extends Game {
 	Texture shareFb;
 	Texture cancel;
 	Texture hissBrick;
+	Texture snow;
 	Rectangle rectScreen;
 	int mainBlockWidth;
 	int mainBlockHeight;
@@ -44,6 +45,7 @@ public class XmasBlockGame extends Game {
 	Sound eat;
 	Sound hit;
 	ActionResolver actionResolver;
+
 
 	public XmasBlockGame(ActionResolver actionResolver) {
 		this.actionResolver = actionResolver;
@@ -73,6 +75,7 @@ public class XmasBlockGame extends Game {
 		shareFb = new Texture("share.png");
 		cancel = new Texture("cancelxmas.png");
 		hissBrick = new Texture("merryxmas.png");
+		snow = new Texture("iceflower.png");
 		bacgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/bg.ogg"));
 		eat = Gdx.audio.newSound(Gdx.files.internal("sound/eat.mp3"));
 		hit = Gdx.audio.newSound(Gdx.files.internal("sound/hit.mp3"));

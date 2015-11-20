@@ -5,10 +5,15 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.samsam.xmasblock.Model.World;
+
+import java.util.Iterator;
 
 
 /**
@@ -37,6 +42,8 @@ public class GameScreen implements Screen {
     boolean gameIsStart;
     boolean isSubmit;
     int oldscore;
+    Array<Rectangle> rainDrops;
+    float lastDropTime;
 
 
     public GameScreen(XmasBlockGame game) {
@@ -63,9 +70,11 @@ public class GameScreen implements Screen {
         gameIsStart=false;
         isSubmit=false;
         oldscore=0;
+        rainDrops = new Array<Rectangle>();
         if (!isMute)
         game.bacgroundMusic.play();
         game.bacgroundMusic.setLooping(true);
+        initSnow();
     }
 
     @Override
@@ -89,6 +98,7 @@ public class GameScreen implements Screen {
         if(state == GameState.SubmitWorldScore)
             updateWorldScore();
 
+        renderSnow();
     }
 
     private void drawWorld()
@@ -124,7 +134,7 @@ public class GameScreen implements Screen {
         game.batch.draw(game.rotate, rectRotate.x, rectRotate.y);
         game.font.setColor(1, 1, 1, 1);
         GlyphLayout layout = new GlyphLayout(game.font, String.valueOf(score));
-        game.font.draw(game.batch,layout, 310+(420-310)/2 - layout.width/2, 332);
+        game.font.draw(game.batch, layout, 310 + (420 - 310) / 2 - layout.width / 2, 335);
 
         for (int i=0;i< world.gridcols+4;i++)
             for (int j=1;j< world.gridrows+4;j++)
@@ -275,7 +285,7 @@ public class GameScreen implements Screen {
         drawOverlayBg();
         game.batch.draw(game.gameOver, rectGameover.x, rectGameover.y);
         game.batch.draw(game.newGame, rectNewgame.x, rectNewgame.y);
-        game.batch.draw(game.highScore,rectHighscore.x,rectHighscore.y);
+        game.batch.draw(game.highScore, rectHighscore.x, rectHighscore.y);
 
         //game.font.setColor(1, 0, 0, 1);
         GlyphLayout layout = new GlyphLayout(game.font,String.valueOf(score));
@@ -315,7 +325,7 @@ public class GameScreen implements Screen {
             camera.unproject(v);
             if (Gdx.input.justTouched()) {
                 if (Helpers.isTouchedInRect(rectShareFb, v.x, v.y)) {
-                    game.actionResolver.showFbShare("Your score: "+String.valueOf(score)+"","Good job!","https://play.google.com/store/apps/details?id=com.samsam.tetris.android","http://2.bp.blogspot.com/-2ODs7CtgtQ0/Vcih5pPbqOI/AAAAAAAAPRs/e0bjvlMuFDE/s1600/fbsharebg.png");
+                    game.actionResolver.showFbShare("Your score: "+String.valueOf(score)+"","Merry XMas","https://play.google.com/store/apps/details?id=com.samsam.xmasblock.android","http://2.bp.blogspot.com/-FssOjGFv6jM/Vk6bFtYxIwI/AAAAAAAAPXM/M4A44awNyK8/s1600/sharefbimage.png");
                     state= GameState.GameOver;
                 }
                 if (Helpers.isTouchedInRect(rectCancel,v.x,v.y))
@@ -328,7 +338,38 @@ public class GameScreen implements Screen {
 
     private void drawOverlayBg()
     {
-        game.batch.draw(game.overlay,game.rectScreen.width/2-game.overlay.getWidth()/2+7,246);
+        game.batch.draw(game.overlay, game.rectScreen.width / 2 - game.overlay.getWidth() / 2 + 7, 246);
+    }
+    private void initSnow()
+    {
+        Rectangle snow = new Rectangle();
+        snow.x = MathUtils.random(0, 420 - 15);
+        snow.y=800;
+        snow.width=15;
+        snow.height=18;
+        rainDrops.add(snow);
+        lastDropTime= TimeUtils.nanoTime();
+    }
+    private void renderSnow()
+    {
+        if (TimeUtils.nanoTime() - lastDropTime > 1000000000*1.2) {
+            initSnow();
+        }
+
+        Iterator<Rectangle> iter = rainDrops.iterator();
+
+        while (iter.hasNext()) {
+            Rectangle rect = iter.next();
+            rect.y -= 200*Gdx.graphics.getDeltaTime();
+            game.batch.begin();
+            game.batch.draw(game.snow, rect.x, rect.y);
+            game.batch.end();
+            if (rect.y < -18)
+            {
+                iter.remove();
+            }
+
+        }
     }
     @Override
     public void resize(int width, int height) {

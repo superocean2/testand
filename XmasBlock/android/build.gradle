@@ -1,5 +1,5 @@
 android {
-    buildToolsVersion "20.0.0"
+    buildToolsVersion "21.1.2"
     compileSdkVersion 23
     sourceSets {
         main {
@@ -13,6 +13,12 @@ android {
         }
 
         instrumentTest.setRoot('tests')
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
+        }
     }
 }
 
