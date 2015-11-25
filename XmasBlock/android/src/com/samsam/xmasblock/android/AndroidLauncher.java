@@ -42,7 +42,7 @@ public class AndroidLauncher extends AndroidApplication {
 		setContentView(layout);
 
 		//---start google ads----
-		//startAdvertising(adView);
+		startAdvertising(adView);
 	}
 	protected AdView createAdView() {
 		adView = new AdView(this);

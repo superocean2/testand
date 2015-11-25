@@ -289,10 +289,10 @@ public class GameScreen implements Screen {
 
         //game.font.setColor(1, 0, 0, 1);
         GlyphLayout layout = new GlyphLayout(game.font,String.valueOf(score));
-        game.font.draw(game.batch, layout, game.rectScreen.width / 2 - layout.width / 2 +7, rectHighscore.y + 65);
+        game.font.draw(game.batch, layout, game.rectScreen.width / 2 - layout.width / 2 +7, rectHighscore.y + 63);
 
         GlyphLayout layout1 = new GlyphLayout(game.font,String.valueOf(Helpers.getHighScore()));
-        game.font.draw(game.batch,layout1,game.rectScreen.width/2-layout1.width/2 +7,rectHighscore.y+10);
+        game.font.draw(game.batch,layout1,game.rectScreen.width/2-layout1.width/2 +7,rectHighscore.y+8);
         game.batch.end();
 
         if (Gdx.input.justTouched()) {
@@ -383,7 +383,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void pause() {
-
+        world.pause();
+        state = GameState.Paused;
     }
 
     @Override
