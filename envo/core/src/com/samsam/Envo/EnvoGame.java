@@ -56,8 +56,8 @@ public class EnvoGame extends Game {
 		,"School","Fashion","Library","Military","Vehicle","Transportation","Flower","School","Fashion","Travel","Space","Science lab","School subjects","Math","Energy","Farming","Construction","Office",
 		"Airport","Occupations","Beach","Park","Sports", "Musical Instruments","Theater","Electronics","Cafe","Restaurant","Weather","Hotel","Make up","Family","Human body"};
 
-		downloadUrls = new String[] {"1",d+"s/udkb01zfc0giv71/2.a?dl=1",d+"s/qr8ijwl8o8w1ida/3.a?dl=1",d+"s/a9ap8t2eec0pncq/4.a?dl=1",d+"s/arfn9t6y6cxv6ql/5.a?dl=1",d+"s/z2uihyq0xdk6xsn/6.a?dl=1",d+"s/lklgxreqigoun4m/7.a?dl=1",d+"s/28poug2wecp6bjo/8.a?dl=1",
-										d+"s/uaonupxa8ttafog/9.a?dl=1",d+"s/vpwlviq7dcpquhi/10.a?dl=1",d+"s/oyujt7f839i232j/11.a?dl=1",d+"s/67dquuqa40zl89w/12.a?dl=1",d+"s/ds0jskihcfihfee/13.a?dl=1",d+"s/k5nodn0fabb8yrx/14.a?dl=1",d+"s/9x8dx0y22tsc9kl/15.a?dl=1","16","17","18"};
+		downloadUrls = new String[] {"1",d+"s/udkb01zfc0giv71/2.a?dl=1",d+"s/qr8ijwl8o8w1ida/3.a?dl=1",d+"s/a9ap8t2eec0pncq/4.a?dl=1",d+"s/zialcgi444em3ti/5.b?dl=1",d+"s/5i6kj8qh6t69ae3/6.b?dl=1",d+"s/qejhnop5og2fk9u/7.c?dl=1",d+"s/28poug2wecp6bjo/8.a?dl=1",
+										d+"s/uaonupxa8ttafog/9.a?dl=1",d+"s/vpwlviq7dcpquhi/10.a?dl=1",d+"s/oyujt7f839i232j/11.a?dl=1",d+"s/t04rxe0705x3frp/12.b?dl=1",d+"s/ds0jskihcfihfee/13.a?dl=1",d+"s/k5nodn0fabb8yrx/14.a?dl=1",d+"s/9x8dx0y22tsc9kl/15.a?dl=1","16","17","18"};
 
 		FreeTypeFontGenerator generator6 = new FreeTypeFontGenerator(Gdx.files.internal("font/chuviet1.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter6 = new FreeTypeFontGenerator.FreeTypeFontParameter();
