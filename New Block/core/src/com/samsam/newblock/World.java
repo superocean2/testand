@@ -8,30 +8,30 @@ import java.util.TimerTask;
  * Created by NghiaTrinh on 7/31/2015.
  */
 public class World {
-    public final int gridcols = 10;
-    public final int gridrows = 19;
+    public final int gridcols = 13;
+    public final int gridrows = 21;
     public int score;
     public Figure main_figure;
     public Figure next_figure;
     public int[][] pool;
     private int new_figure;
-    long down_speed = 200;
+    long down_speed = 500;
     public Timer timer = null;
     public boolean gameOver=false;
-    private final int NEWFIGUREX=4;
+    private final int NEWFIGUREX=5;
     private final int NEWFIGUREY=19;
     MoveTask task = new MoveTask(MoveTask.MOVE_DOWN);
 
 
     public World() {
-        pool = new int[gridcols + 8][gridrows + 8];
-        for (int i = 4; i < gridcols + 4; i++)
-            for (int j = 4; j < gridrows + 4; j++)
+        pool = new int[gridcols + 2][gridrows + 2];
+        for (int i = 1; i < gridcols+1; i++)
+            for (int j = 1; j < gridrows +1; j++)
                 pool[i][j] = 0;
-        for (int j = 0; j < gridcols+1; j++) {
+        for (int j = 0; j < gridcols+2; j++) {
             pool[j][0] = 1;
         }
-        for (int i=0;i<gridrows;i++)
+        for (int i=0;i<gridrows+2;i++)
         {
             pool[0][i]=1;
             pool[gridcols+1][i]=1;

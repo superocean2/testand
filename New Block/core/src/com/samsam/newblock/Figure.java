@@ -8,22 +8,25 @@ import java.util.Random;
 public class Figure {
     public int data[][];
     public int x,y;
+    public int color;
 
     public Figure(int x,int y)
     {
+        Random r = new Random();
         this.x=x;
         this.y=y;
-        Random r = new Random();
+        color = r.nextInt(8);
+
         int type = r.nextInt(7);
         switch (type)
         {
-            case 0: data = new int[][] {{1,0},{1,1},{1,2},{1,3}}; break;
-            case 1: data = new int[][] {{0,3},{0,2},{1,2},{2,2}}; break;
-            case 2: data = new int[][] {{1,1},{2,1},{3,1},{3,2}}; break;
-            case 3: data = new int[][] {{1,1},{1,2},{2,1},{2,2}}; break;
-            case 4: data = new int[][] {{0,1},{1,1},{1,2},{2,2}}; break;
-            case 5: data = new int[][] {{0,1},{1,1},{2,1},{1,2}}; break;
-            case 6: data = new int[][] {{0,2},{1,2},{1,1},{2,1}}; break;
+            case 0: data = new int[][] {{0,0},{0,1},{1,1},{1,0}}; break;
+            case 1: data = new int[][] {{0,0},{0,1},{1,0}}; break;
+            case 2: data = new int[][] {{1,1},{0,1},{1,0}}; break;
+            case 3: data = new int[][] {{0,1},{1,1},{0,0}}; break;
+            case 4: data = new int[][] {{1,0},{1,1},{0,0}}; break;
+            case 5: data = new int[][] {{0,0},{0,1}}; break;
+            case 6: data = new int[][] {{0,0},{1,0}}; break;
         }
     }
     public Figure(Figure copy)
@@ -92,7 +95,7 @@ public class Figure {
     }
     public boolean crossing(int[][] pool)
     {
-        for (int i=0;i<4;i++) {
+        for (int i=0;i<data.length;i++) {
             if (pool[data[i][0] + x][data[i][1] + y] != 0) return true;
         }
         return false;
@@ -100,7 +103,7 @@ public class Figure {
 
     public void print(int[][] pool)
     {
-        for (int i=0;i<4;i++)
+        for (int i=0;i<data.length;i++)
             pool[data[i][0]+x][data[i][1]+y]=1;
     }
 }

@@ -19,6 +19,9 @@ public class NewBlock extends Game {
     Texture ready;
     BitmapFont font;
     ActionResolver actionResolver;
+    int blockWidth;
+    int blockHeight;
+    Rectangle rectScreen;
 
 
     public NewBlock(ActionResolver actionResolver) {
@@ -33,6 +36,9 @@ public class NewBlock extends Game {
         disableMedal = new Texture("disablemedal.png");
         enableMedal = new Texture("enablemedal.png");
         ready = new Texture("ready.png");
+        blockWidth=30;
+        blockHeight=30;
+        rectScreen = new Rectangle(0,0,390,630);
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 40;
