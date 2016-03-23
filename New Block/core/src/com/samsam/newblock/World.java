@@ -13,10 +13,10 @@ public class World {
     public int[][] pool;
     public int[][] poolColor;
     private int new_figure;
-    long down_speed = 200;
+    long down_speed = 300;
     public Timer timer = null;
     public boolean gameOver=false;
-    private final int NEWFIGUREX=5;
+    private final int NEWFIGUREX=6;
     private final int NEWFIGUREY=19;
     MoveTask task = new MoveTask(MoveTask.MOVE_DOWN);
 

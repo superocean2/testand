@@ -88,7 +88,7 @@ public class GameScreen implements Screen,InputProcessor {
                     float x = game.rectScreen.x  + (i-1)*game.blockWidth;
                     float y = game.rectScreen.y + (j-1)*game.blockHeight;
                     if (game.rectScreen.x<x+1&&x<game.rectScreen.x+game.rectScreen.width
-                            &&y>game.rectScreen.y&&y<game.rectScreen.y+game.rectScreen.height) {
+                            &&y>=game.rectScreen.y&&y<game.rectScreen.y+game.rectScreen.height) {
                         game.batch.draw(getTextureColor(world.poolColor[i][j]), x, y);
                     }
                 }
