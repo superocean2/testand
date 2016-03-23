@@ -17,7 +17,7 @@ public class Figure {
         this.y=y;
         color = r.nextInt(8);
 
-        int type = r.nextInt(7);
+        int type = r.nextInt(5);
         switch (type)
         {
             case 0: data = new int[][] {{0,0},{0,1},{1,1},{1,0}}; break;
@@ -25,20 +25,19 @@ public class Figure {
             case 2: data = new int[][] {{1,1},{0,1},{1,0}}; break;
             case 3: data = new int[][] {{0,1},{1,1},{0,0}}; break;
             case 4: data = new int[][] {{1,0},{1,1},{0,0}}; break;
-            case 5: data = new int[][] {{0,0},{0,1}}; break;
-            case 6: data = new int[][] {{0,0},{1,0}}; break;
         }
     }
     public Figure(Figure copy)
     {
-        data = new int[4][2];
-        for (int i=0;i<4;i++)
+        data = new int[copy.data.length][2];
+        for (int i=0;i<copy.data.length;i++)
         {
             data[i][0] = copy.data[i][0];
             data[i][1] = copy.data[i][1];
         }
         x = copy.x;
         y = copy.y;
+        color = copy.color;
     }
     public boolean rotate(int[][] pool) {
         int buf;
@@ -96,14 +95,16 @@ public class Figure {
     public boolean crossing(int[][] pool)
     {
         for (int i=0;i<data.length;i++) {
-            if (pool[data[i][0] + x][data[i][1] + y] != 0) return true;
+            if (pool[data[i][0] + x+1][data[i][1] + y+1] != 0) return true;
         }
         return false;
     }
 
-    public void print(int[][] pool)
+    public void print(int[][] pool,int[][] poolColor)
     {
-        for (int i=0;i<data.length;i++)
-            pool[data[i][0]+x][data[i][1]+y]=1;
+        for (int i=0;i<data.length;i++) {
+            pool[data[i][0] + x + 1][data[i][1] + y + 1] = 1;
+            poolColor[data[i][0] + x + 1][data[i][1] + y + 1] = color;
+        }
     }
 }

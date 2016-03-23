@@ -67,6 +67,7 @@ public class GameScreen implements Screen,InputProcessor {
         camera.unproject(v);
         game.batch.begin();
         game.batch.draw(game.background, 0, 0);
+        score =world.score;
         game.font.setColor(0, 0, 0, 1);
         GlyphLayout layout = new GlyphLayout(game.font, String.valueOf(score));
         game.font.draw(game.batch, layout, (int)(0.75*camera.viewportWidth)+30-layout.width/2, 620);
@@ -74,11 +75,24 @@ public class GameScreen implements Screen,InputProcessor {
         //draw wait block
         for(int j=0;j<world.main_figure.data.length;j++)
         {
-            int x = (world.main_figure.x+world.main_figure.data[j][0])*game.blockWidth;
-            int y = (world.main_figure.y+world.main_figure.data[j][1])*game.blockHeight;
+            int x = (int)game.rectScreen.x + (world.main_figure.x+world.main_figure.data[j][0])*game.blockWidth;
+            int y = (int)game.rectScreen.y + (world.main_figure.y+world.main_figure.data[j][1])*game.blockHeight;
             game.batch.draw(getTextureColor(world.main_figure.color),x,y);
         }
         //draw current block
+        for (int i=0;i<world.gridcols+2;i++)
+            for (int j=0;j<world.gridrows+2;j++)
+            {
+                if (world.pool[i][j]!=0)
+                {
+                    float x = game.rectScreen.x  + (i-1)*game.blockWidth;
+                    float y = game.rectScreen.y + (j-1)*game.blockHeight;
+                    if (game.rectScreen.x<x+1&&x<game.rectScreen.x+game.rectScreen.width
+                            &&y>game.rectScreen.y&&y<game.rectScreen.y+game.rectScreen.height) {
+                        game.batch.draw(getTextureColor(world.poolColor[i][j]), x, y);
+                    }
+                }
+            }
         game.batch.end();
 
     }

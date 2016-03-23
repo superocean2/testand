@@ -4,9 +4,6 @@ package com.samsam.newblock;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * Created by NghiaTrinh on 7/31/2015.
- */
 public class World {
     public final int gridcols = 13;
     public final int gridrows = 21;
@@ -14,8 +11,9 @@ public class World {
     public Figure main_figure;
     public Figure next_figure;
     public int[][] pool;
+    public int[][] poolColor;
     private int new_figure;
-    long down_speed = 500;
+    long down_speed = 200;
     public Timer timer = null;
     public boolean gameOver=false;
     private final int NEWFIGUREX=5;
@@ -25,9 +23,12 @@ public class World {
 
     public World() {
         pool = new int[gridcols + 2][gridrows + 2];
+        poolColor = new int[gridcols + 2][gridrows + 2];
         for (int i = 1; i < gridcols+1; i++)
-            for (int j = 1; j < gridrows +1; j++)
+            for (int j = 1; j < gridrows+1; j++)
                 pool[i][j] = 0;
+
+
         for (int j = 0; j < gridcols+2; j++) {
             pool[j][0] = 1;
         }
@@ -62,14 +63,14 @@ public class World {
                             else new_figure--;
                     }
                     if (new_figure == 1) {
-                        main_figure.print(pool);
+                        main_figure.print(pool,poolColor);
                         delete();
                         main_figure = new Figure(next_figure);
                         next_figure = new Figure(NEWFIGUREX, NEWFIGUREY);
                         new_figure = 0;
                         if (main_figure.crossing(pool))
                         {
-                            game_Over();
+                            //game_Over();
                         }
                     }
 
@@ -113,8 +114,11 @@ public class World {
             if (combo)
             {
                 for (int k=j;k< gridrows +1;k++)
-                    for (int l=1;l< gridcols+1;l++)
-                        pool[l][k] = pool[l][k+1];
+                    for (int l=1;l< gridcols+1;l++) {
+                        pool[l][k] = pool[l][k + 1];
+                        poolColor[l][k] = poolColor[l][k+1];
+                    }
+
                 x++;
                 j--;
             }
