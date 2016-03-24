@@ -13,7 +13,7 @@ public class World {
     public int[][] pool;
     public int[][] poolColor;
     private int new_figure;
-    long down_speed = 300;
+    long down_speed = 350;
     public Timer timer = null;
     public boolean gameOver=false;
     private final int NEWFIGUREX=6;
@@ -70,7 +70,7 @@ public class World {
                         new_figure = 0;
                         if (main_figure.crossing(pool))
                         {
-                            //game_Over();
+                            game_Over();
                         }
                     }
 
@@ -126,9 +126,9 @@ public class World {
         switch (x)
         {
             case 1:
-                score +=10; break;
+                score +=1; break;
             case 2:
-                score +=30; break;
+                score +=3; break;
             case 3:
                 score +=60; break;
             case 4:

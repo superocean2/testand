@@ -16,7 +16,12 @@ public class NewBlock extends Game {
     Texture block;
     Texture disableMedal;
     Texture enableMedal;
+    Texture activeMedal;
+    Texture miniMedal;
+    Texture pause;
+    Texture resume;
     Texture ready;
+    Texture instruction;
     BitmapFont font;
     ActionResolver actionResolver;
     int blockWidth;
@@ -34,11 +39,17 @@ public class NewBlock extends Game {
         background = new Texture("bg.png");
         block = new Texture("block.png");
         disableMedal = new Texture("disablemedal.png");
-        enableMedal = new Texture("enablemedal.png");
+        enableMedal = new Texture("medal.png");
         ready = new Texture("ready.png");
+        pause= new Texture("pause.png");
+        resume = new Texture("resume.png");
+        instruction = new Texture("instruction.png");
+        miniMedal = new Texture("medalmini.png");
+        activeMedal = new Texture("activemedal.png");
+
         blockWidth=30;
         blockHeight=30;
-        rectScreen = new Rectangle(10,10,390,630);
+        rectScreen = new Rectangle(10,10,390,560);
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 40;
@@ -62,5 +73,10 @@ public class NewBlock extends Game {
         disableMedal.dispose();
         enableMedal.dispose();
         ready.dispose();
+        pause.dispose();
+        resume.dispose();
+        instruction.dispose();
+        miniMedal.dispose();
+        activeMedal.dispose();
     }
 }

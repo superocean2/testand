@@ -27,14 +27,27 @@ public class Helpers {
 
     public static void saveHighScore(int score)
     {
-        Preferences prefs = Gdx.app.getPreferences( "profiles" );
+        Preferences prefs = Gdx.app.getPreferences( "newblock" );
         prefs.putInteger( "highscore", score );
         prefs.flush();
     }
 
     public static int getHighScore()
     {
-        Preferences prefs = Gdx.app.getPreferences( "profiles" );
+        Preferences prefs = Gdx.app.getPreferences( "newblock" );
         return prefs.getInteger("highscore",0);
+    }
+
+    public static void saveStatus(int status)
+    {
+        Preferences prefs = Gdx.app.getPreferences( "newblock" );
+        prefs.putInteger( "status", status );
+        prefs.flush();
+    }
+
+    public static int getStatus()
+    {
+        Preferences prefs = Gdx.app.getPreferences( "newblock" );
+        return prefs.getInteger("status",0);
     }
 }
