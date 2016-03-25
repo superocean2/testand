@@ -13,7 +13,6 @@ public class World {
     public int[][] pool;
     public int[][] poolColor;
     private int new_figure;
-    long down_speed = 350;
     public Timer timer = null;
     public boolean gameOver=false;
     private final int NEWFIGUREX=6;
@@ -79,13 +78,20 @@ public class World {
         }
     }
 
-    public void update()
+    public void update(int speed)
     {
-        timer.schedule(task, 300, down_speed);
+        timer.schedule(task, 300, speed);
     }
     public void restart()
     {
         timer.cancel();
+    }
+    public void increaseSpeed(int speed)
+    {
+        timer.cancel();
+        timer = new Timer();
+        MoveTask task = new MoveTask(MoveTask.MOVE_DOWN);
+        timer.schedule(task, 0, speed);
     }
     public void game_Over()
     {
@@ -96,11 +102,11 @@ public class World {
     {
        timer.cancel();
     }
-    public void resume() {
+    public void resume(int speed) {
         timer.cancel();
         timer = new Timer();
         MoveTask task = new MoveTask(MoveTask.MOVE_DOWN);
-        timer.schedule(task, 0, down_speed);
+        timer.schedule(task, 0, speed);
     }
     private void delete()
     {

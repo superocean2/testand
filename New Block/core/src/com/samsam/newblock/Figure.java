@@ -17,7 +17,7 @@ public class Figure {
         this.y=y;
         color = r.nextInt(8);
 
-        int type = r.nextInt(5);
+        int type = r.nextInt(3) + r.nextInt(2);
         switch (type)
         {
             case 0: data = new int[][] {{0,0},{0,1},{1,1},{1,0}}; break;

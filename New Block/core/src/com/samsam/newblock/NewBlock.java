@@ -22,6 +22,7 @@ public class NewBlock extends Game {
     Texture resume;
     Texture ready;
     Texture instruction;
+    Texture gameover;
     BitmapFont font;
     ActionResolver actionResolver;
     int blockWidth;
@@ -46,6 +47,7 @@ public class NewBlock extends Game {
         instruction = new Texture("instruction.png");
         miniMedal = new Texture("medalmini.png");
         activeMedal = new Texture("activemedal.png");
+        gameover = new Texture("gameover.png");
 
         blockWidth=30;
         blockHeight=30;
@@ -78,5 +80,6 @@ public class NewBlock extends Game {
         instruction.dispose();
         miniMedal.dispose();
         activeMedal.dispose();
+        gameover.dispose();
     }
 }

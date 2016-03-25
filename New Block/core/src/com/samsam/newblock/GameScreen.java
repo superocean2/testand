@@ -5,46 +5,65 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
-import org.w3c.dom.css.Rect;
+import java.util.Timer;
 
 
 /**
  * Created by NghiaTrinh on 7/30/2015.
  */
-public class GameScreen implements Screen,InputProcessor {
+public class GameScreen implements Screen {
     final  NewBlock game;
     OrthographicCamera camera;
     GameState state;
     World world;
-    int score,highscore;
-    int xDown,yDown,xUp,yUp;
-    boolean gameIsStart;
+    int score,highscore,startSpeed,currentSpeed;
+    boolean gameIsStart,isSaveHighscore,isIronSpeed,isSilverSpeed,isGoldSpeed;
     Rectangle rectLeft;
     Rectangle rectRight;
     Rectangle rectClose;
     Rectangle rectPause;
+    Rectangle rectIron;
+    Rectangle rectSilver;
+    Rectangle rectGold;
+    Rectangle rectRestart;
 
     public GameScreen(NewBlock game) {
         this.game = game;
         if (Helpers.getStatus() == 1)
             state = GameState.Ready;
         else
-            state = GameState.Intruction;
+            state = GameState.Instruction;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 410, 725);
         world = new World();
         score = 0;
         gameIsStart = false;
+        isIronSpeed=isSilverSpeed=isGoldSpeed=false;
         rectLeft = new Rectangle(0, 0, game.rectScreen.width / 2, game.rectScreen.height);
         rectRight = new Rectangle(game.rectScreen.width / 2, 0, game.rectScreen.width / 2, game.rectScreen.height);
         rectPause = new Rectangle(0,560,100,100);
         highscore = Helpers.getHighScore();
+
+        float x,y;
+        x = camera.viewportWidth / 2 - game.gameover.getWidth() / 2;
+        y = camera.viewportHeight / 2 - game.gameover.getHeight() / 2;
+
+        isSaveHighscore=false;
+        rectIron = new Rectangle(x+30,y+105,87,87);
+        rectSilver = new Rectangle(x+30+114,y+100,87,87);
+        rectGold = new Rectangle(x+30+225,y+100,87,87);
+        rectRestart = new Rectangle(x+190,y+35,150,40);
+
+        if (highscore<Medal.IRON) startSpeed=Speed.EASY;
+        if (highscore>Medal.IRON&&highscore<Medal.SILVER) startSpeed=Speed.IRON;
+        if (highscore>Medal.SILVER&&highscore<Medal.GOLD) startSpeed=Speed.SILVER;
+        if (highscore>Medal.GOLD) startSpeed=Speed.GOLD;
+        currentSpeed=startSpeed;
     }
 
     @Override
@@ -57,7 +76,7 @@ public class GameScreen implements Screen,InputProcessor {
 
         drawWorld();
 
-        if (state == GameState.Intruction)
+        if (state == GameState.Instruction)
             updateInstruction();
         if(state == GameState.Ready)
             updateReady();
@@ -80,15 +99,30 @@ public class GameScreen implements Screen,InputProcessor {
         score =world.score;
         if (score>Medal.IRON && score<Medal.SILVER)
         {
-            game.batch.draw(new TextureRegion(game.miniMedal,0,0,30,30),70,593);
+            game.batch.draw(new TextureRegion(game.miniMedal, 0, 0, 30, 30), 73, 593);
+            if (!isIronSpeed) {
+                currentSpeed=Speed.IRON;
+                world.increaseSpeed(currentSpeed);
+                isIronSpeed=true;
+            }
         }
         if (score>Medal.SILVER && score<Medal.GOLD)
         {
-            game.batch.draw(new TextureRegion(game.miniMedal,30,0,30,30),70,593);
+            game.batch.draw(new TextureRegion(game.miniMedal, 30, 0, 30, 30), 73, 593);
+            if (!isSilverSpeed) {
+                currentSpeed=Speed.SILVER;
+                world.increaseSpeed(currentSpeed);
+                isSilverSpeed=true;
+            }
         }
         if (score>Medal.GOLD)
         {
-            game.batch.draw(new TextureRegion(game.miniMedal,60,0,30,30),70,593);
+            game.batch.draw(new TextureRegion(game.miniMedal, 60, 0, 30, 30), 73, 593);
+            if (!isGoldSpeed) {
+                currentSpeed=Speed.GOLD;
+                world.increaseSpeed(currentSpeed);
+                isGoldSpeed=true;
+            }
         }
         game.font.setColor(1, 1, 1, 1);
         GlyphLayout layout = new GlyphLayout(game.font, String.valueOf(score));
@@ -147,6 +181,15 @@ public class GameScreen implements Screen,InputProcessor {
         world.restart();
         world = new World();
         score=0;
+        gameIsStart=false;
+        isIronSpeed=isSilverSpeed=isGoldSpeed=false;
+        highscore = Helpers.getHighScore();
+        isSaveHighscore=false;
+        if (highscore<Medal.IRON) startSpeed=Speed.EASY;
+        if (highscore>Medal.IRON&&highscore<Medal.SILVER) startSpeed=Speed.IRON;
+        if (highscore>Medal.SILVER&&highscore<Medal.GOLD) startSpeed=Speed.SILVER;
+        if (highscore>Medal.GOLD) startSpeed=Speed.GOLD;
+        currentSpeed=startSpeed;
         state= GameState.Ready;
     }
     private  void updateInstruction()
@@ -167,7 +210,7 @@ public class GameScreen implements Screen,InputProcessor {
         }
 
         game.batch.begin();
-        game.batch.draw(game.instruction,camera.viewportWidth/2-game.instruction.getWidth()/2,camera.viewportHeight/2-game.instruction.getHeight()/2);
+        game.batch.draw(game.instruction, camera.viewportWidth / 2 - game.instruction.getWidth() / 2, camera.viewportHeight / 2 - game.instruction.getHeight() / 2);
         game.batch.end();
     }
     private void updateReady()
@@ -200,7 +243,7 @@ public class GameScreen implements Screen,InputProcessor {
             }
         }
         if (!gameIsStart) {
-            world.update();
+            world.update(currentSpeed);
             gameIsStart=true;
         }
         if (world.gameOver)
@@ -218,7 +261,7 @@ public class GameScreen implements Screen,InputProcessor {
             camera.unproject(v);
             if (Helpers.isTouchedInRect(game.rectScreen, v.x, v.y)) {
                 state=GameState.Running;
-                world.resume();
+                world.resume(currentSpeed);
             }
         }
         game.batch.begin();
@@ -226,9 +269,64 @@ public class GameScreen implements Screen,InputProcessor {
         game.batch.end();
     }
 
-    private void updateGameOver()
-    {
+    private void updateGameOver() {
+        if (score > highscore && !isSaveHighscore) {
+            Helpers.saveHighScore(score);
+            highscore = Helpers.getHighScore();
+            isSaveHighscore=true;
+        }
+        float x,y;
+        x = camera.viewportWidth / 2 - game.gameover.getWidth() / 2;
+        y = camera.viewportHeight / 2 - game.gameover.getHeight() / 2;
 
+        if(Gdx.input.justTouched())
+        {
+            Vector3 v = new Vector3();
+            v.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(v);
+            if (Helpers.isTouchedInRect(rectIron, v.x, v.y)) {
+
+            }
+            if (Helpers.isTouchedInRect(rectSilver, v.x, v.y)) {
+
+            }
+            if (Helpers.isTouchedInRect(rectGold, v.x, v.y)) {
+
+            }
+            if (Helpers.isTouchedInRect(rectRestart, v.x, v.y)) {
+                restartGame();
+            }
+        }
+
+        game.batch.begin();
+        game.batch.draw(game.gameover, x, y);
+
+        if (highscore>Medal.GOLD)
+        {
+            game.batch.draw(new TextureRegion(game.enableMedal,0,0,88,115),x+30,y+105);
+            game.batch.draw(new TextureRegion(game.enableMedal,87,0,87,115),x+30+114,y+100);
+            game.batch.draw(new TextureRegion(game.enableMedal,174,0,87,115),x+30+225,y+100);
+        }
+        if (highscore<Medal.GOLD&&highscore>Medal.SILVER)
+        {
+            game.batch.draw(new TextureRegion(game.enableMedal,0,0,88,115),x+30,y+105);
+            game.batch.draw(new TextureRegion(game.enableMedal,87,0,87,115),x+30+114,y+100);
+            game.batch.draw(new TextureRegion(game.disableMedal,209,0,104,127),x+30+225,y+100);
+        }
+        if (highscore<Medal.SILVER&&highscore>Medal.IRON)
+        {
+            game.batch.draw(new TextureRegion(game.enableMedal,0,0,88,115),x+30,y+105);
+            game.batch.draw(new TextureRegion(game.disableMedal,105,0,98,127),x+30+110,y+100);
+            game.batch.draw(new TextureRegion(game.disableMedal,209,0,104,127),x+30+225,y+100);
+        }
+        if (highscore<Medal.IRON)
+        {
+            game.batch.draw(new TextureRegion(game.disableMedal,0,0,104,127),x+30,y+105);
+            game.batch.draw(new TextureRegion(game.disableMedal,105,0,98,127),x+30+114,y+100);
+            game.batch.draw(new TextureRegion(game.disableMedal,209,0,104,127),x+30+225,y+100);
+        }
+
+        game.batch.end();
     }
 
     @Override
@@ -238,7 +336,6 @@ public class GameScreen implements Screen,InputProcessor {
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(this);
     }
 
     @Override
@@ -249,7 +346,7 @@ public class GameScreen implements Screen,InputProcessor {
 
     @Override
     public void resume() {
-        world.resume();
+        world.resume(currentSpeed);
         state = GameState.Running;
     }
 
@@ -262,62 +359,9 @@ public class GameScreen implements Screen,InputProcessor {
     public void dispose() {
         Gdx.input.setInputProcessor(null);
     }
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
 
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        xDown=screenX;
-        yDown=screenY;
-        return true;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        int difX = screenX-xDown;
-        int difY= screenY-yDown;
-        //swipe right
-        if (difX>20&&difX>difY)
-        {
-
-        }
-        //swipe left
-        if (difX<-20&&difX<difY)
-        {
-
-        }
-
-        return true;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
-    }
     enum GameState {
-        Intruction,
+        Instruction,
         Ready,
         Running,
         Paused,
@@ -326,7 +370,14 @@ public class GameScreen implements Screen,InputProcessor {
     private static class Medal
     {
         public static  int IRON=1;
-        public static  int SILVER=2;
-        public static  int GOLD=3;
+        public static  int SILVER=5;
+        public static  int GOLD=10;
+    }
+    private static class Speed
+    {
+        public static  int EASY=350;
+        public static  int IRON=300;
+        public static  int SILVER=250;
+        public static  int GOLD=200;
     }
 }
