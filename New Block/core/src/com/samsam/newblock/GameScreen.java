@@ -22,7 +22,7 @@ public class GameScreen implements Screen {
     GameState state;
     World world;
     int score,highscore,startSpeed,currentSpeed;
-    boolean gameIsStart,isSaveHighscore,isIronSpeed,isSilverSpeed,isGoldSpeed;
+    boolean gameIsStart,isSaveHighscore,isIronSpeed,isSilverSpeed,isGoldSpeed,isPlayingMedalMode;
     Rectangle rectLeft;
     Rectangle rectRight;
     Rectangle rectClose;
@@ -31,6 +31,7 @@ public class GameScreen implements Screen {
     Rectangle rectSilver;
     Rectangle rectGold;
     Rectangle rectRestart;
+    Rectangle rectRateGame;
 
     public GameScreen(NewBlock game) {
         this.game = game;
@@ -44,6 +45,7 @@ public class GameScreen implements Screen {
         score = 0;
         gameIsStart = false;
         isIronSpeed=isSilverSpeed=isGoldSpeed=false;
+        isPlayingMedalMode=false;
         rectLeft = new Rectangle(0, 0, game.rectScreen.width / 2, game.rectScreen.height);
         rectRight = new Rectangle(game.rectScreen.width / 2, 0, game.rectScreen.width / 2, game.rectScreen.height);
         rectPause = new Rectangle(0,560,100,100);
@@ -58,6 +60,7 @@ public class GameScreen implements Screen {
         rectSilver = new Rectangle(x+30+114,y+100,87,87);
         rectGold = new Rectangle(x+30+225,y+100,87,87);
         rectRestart = new Rectangle(x+190,y+35,150,40);
+        rectRateGame = new Rectangle(x+20,y+35,150,40);
 
         if (highscore<Medal.IRON) startSpeed=Speed.EASY;
         if (highscore>Medal.IRON&&highscore<Medal.SILVER) startSpeed=Speed.IRON;
@@ -97,32 +100,37 @@ public class GameScreen implements Screen {
         game.batch.draw(game.background, 0, 0);
         game.batch.draw(game.pause, 45, 595);
         score =world.score;
-        if (score>Medal.IRON && score<Medal.SILVER)
-        {
-            game.batch.draw(new TextureRegion(game.miniMedal, 0, 0, 30, 30), 73, 593);
-            if (!isIronSpeed) {
-                currentSpeed=Speed.IRON;
-                world.increaseSpeed(currentSpeed);
-                isIronSpeed=true;
+        if (!isPlayingMedalMode) {
+            if (score >= Medal.IRON && score < Medal.SILVER) {
+                game.batch.draw(new TextureRegion(game.miniMedal, 0, 0, 30, 30), 78, 593);
+                if (!isIronSpeed) {
+                    currentSpeed = Speed.IRON;
+                    world.increaseSpeed(currentSpeed);
+                    isIronSpeed = true;
+                }
+            }
+            if (score >= Medal.SILVER && score < Medal.GOLD) {
+                game.batch.draw(new TextureRegion(game.miniMedal, 30, 0, 30, 30), 78, 593);
+                if (!isSilverSpeed) {
+                    currentSpeed = Speed.SILVER;
+                    world.increaseSpeed(currentSpeed);
+                    isSilverSpeed = true;
+                }
+            }
+            if (score >= Medal.GOLD) {
+                game.batch.draw(new TextureRegion(game.miniMedal, 60, 0, 30, 30), 78, 593);
+                if (!isGoldSpeed) {
+                    currentSpeed = Speed.GOLD;
+                    world.increaseSpeed(currentSpeed);
+                    isGoldSpeed = true;
+                }
             }
         }
-        if (score>Medal.SILVER && score<Medal.GOLD)
+        else
         {
-            game.batch.draw(new TextureRegion(game.miniMedal, 30, 0, 30, 30), 73, 593);
-            if (!isSilverSpeed) {
-                currentSpeed=Speed.SILVER;
-                world.increaseSpeed(currentSpeed);
-                isSilverSpeed=true;
-            }
-        }
-        if (score>Medal.GOLD)
-        {
-            game.batch.draw(new TextureRegion(game.miniMedal, 60, 0, 30, 30), 73, 593);
-            if (!isGoldSpeed) {
-                currentSpeed=Speed.GOLD;
-                world.increaseSpeed(currentSpeed);
-                isGoldSpeed=true;
-            }
+            if (currentSpeed==Speed.IRON) game.batch.draw(new TextureRegion(game.miniMedal, 0, 0, 30, 30), 78, 593);
+            if (currentSpeed==Speed.SILVER) game.batch.draw(new TextureRegion(game.miniMedal, 30, 0, 30, 30), 78, 593);
+            if (currentSpeed==Speed.GOLD)game.batch.draw(new TextureRegion(game.miniMedal, 60, 0, 30, 30), 78, 593);
         }
         game.font.setColor(1, 1, 1, 1);
         GlyphLayout layout = new GlyphLayout(game.font, String.valueOf(score));
@@ -185,11 +193,13 @@ public class GameScreen implements Screen {
         isIronSpeed=isSilverSpeed=isGoldSpeed=false;
         highscore = Helpers.getHighScore();
         isSaveHighscore=false;
-        if (highscore<Medal.IRON) startSpeed=Speed.EASY;
-        if (highscore>Medal.IRON&&highscore<Medal.SILVER) startSpeed=Speed.IRON;
-        if (highscore>Medal.SILVER&&highscore<Medal.GOLD) startSpeed=Speed.SILVER;
-        if (highscore>Medal.GOLD) startSpeed=Speed.GOLD;
-        currentSpeed=startSpeed;
+        if (!isPlayingMedalMode) {
+            if (highscore < Medal.IRON) startSpeed = Speed.EASY;
+            if (highscore > Medal.IRON && highscore < Medal.SILVER) startSpeed = Speed.IRON;
+            if (highscore > Medal.SILVER && highscore < Medal.GOLD) startSpeed = Speed.SILVER;
+            if (highscore > Medal.GOLD) startSpeed = Speed.GOLD;
+            currentSpeed = startSpeed;
+        }
         state= GameState.Ready;
     }
     private  void updateInstruction()
@@ -285,37 +295,63 @@ public class GameScreen implements Screen {
             v.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(v);
             if (Helpers.isTouchedInRect(rectIron, v.x, v.y)) {
-
+                isPlayingMedalMode=true;
+                currentSpeed=Speed.IRON;
             }
             if (Helpers.isTouchedInRect(rectSilver, v.x, v.y)) {
-
+                isPlayingMedalMode=true;
+                currentSpeed=Speed.SILVER;
             }
             if (Helpers.isTouchedInRect(rectGold, v.x, v.y)) {
-
+                isPlayingMedalMode=true;
+                currentSpeed=Speed.GOLD;
             }
             if (Helpers.isTouchedInRect(rectRestart, v.x, v.y)) {
                 restartGame();
+            }
+            if (Helpers.isTouchedInRect(rectRateGame, v.x, v.y)) {
+                Gdx.net.openURI("https://play.google.com/store/apps/details?id=com.samsam.newblock");
             }
         }
 
         game.batch.begin();
         game.batch.draw(game.gameover, x, y);
 
-        if (highscore>Medal.GOLD)
+        if (highscore>=Medal.GOLD)
         {
-            game.batch.draw(new TextureRegion(game.enableMedal,0,0,88,115),x+30,y+105);
-            game.batch.draw(new TextureRegion(game.enableMedal,87,0,87,115),x+30+114,y+100);
-            game.batch.draw(new TextureRegion(game.enableMedal,174,0,87,115),x+30+225,y+100);
+            if (currentSpeed==Speed.IRON)
+                game.batch.draw(new TextureRegion(game.activeMedal,0,0,88,115),x+30,y+105);
+            else
+                game.batch.draw(new TextureRegion(game.enableMedal,0,0,88,115),x+30,y+105);
+            if (currentSpeed==Speed.SILVER)
+                game.batch.draw(new TextureRegion(game.activeMedal,87,0,87,115),x+30+114,y+100);
+            else
+                game.batch.draw(new TextureRegion(game.enableMedal,87,0,87,115),x+30+114,y+100);
+            if (currentSpeed==Speed.GOLD)
+                game.batch.draw(new TextureRegion(game.activeMedal,174,0,87,115),x+30+225,y+100);
+            else
+                game.batch.draw(new TextureRegion(game.enableMedal,174,0,87,115),x+30+225,y+100);
         }
-        if (highscore<Medal.GOLD&&highscore>Medal.SILVER)
+        if (highscore<Medal.GOLD&&highscore>=Medal.SILVER)
         {
-            game.batch.draw(new TextureRegion(game.enableMedal,0,0,88,115),x+30,y+105);
-            game.batch.draw(new TextureRegion(game.enableMedal,87,0,87,115),x+30+114,y+100);
+            if (currentSpeed==Speed.IRON)
+                game.batch.draw(new TextureRegion(game.activeMedal,0,0,88,115),x+30,y+105);
+            else
+                game.batch.draw(new TextureRegion(game.enableMedal,0,0,88,115),x+30,y+105);
+            if (currentSpeed==Speed.SILVER)
+                game.batch.draw(new TextureRegion(game.activeMedal,87,0,87,115),x+30+114,y+100);
+            else
+                game.batch.draw(new TextureRegion(game.enableMedal,87,0,87,115),x+30+114,y+100);
+
             game.batch.draw(new TextureRegion(game.disableMedal,209,0,104,127),x+30+225,y+100);
         }
-        if (highscore<Medal.SILVER&&highscore>Medal.IRON)
+        if (highscore<Medal.SILVER&&highscore>=Medal.IRON)
         {
-            game.batch.draw(new TextureRegion(game.enableMedal,0,0,88,115),x+30,y+105);
+            if (currentSpeed==Speed.IRON)
+                game.batch.draw(new TextureRegion(game.activeMedal,0,0,88,115),x+30,y+105);
+            else
+                game.batch.draw(new TextureRegion(game.enableMedal,0,0,88,115),x+30,y+105);
+
             game.batch.draw(new TextureRegion(game.disableMedal,105,0,98,127),x+30+110,y+100);
             game.batch.draw(new TextureRegion(game.disableMedal,209,0,104,127),x+30+225,y+100);
         }
@@ -356,8 +392,7 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void dispose() {
-        Gdx.input.setInputProcessor(null);
+    public void dispose(){
     }
 
     enum GameState {
