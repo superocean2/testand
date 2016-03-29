@@ -98,7 +98,7 @@ public class GameScreen implements Screen {
         game.batch.draw(game.pause, 45, 595);
         if (score<world.score)
         {
-            game.getScoreSoud.play();
+            game.getScoreSoud.play(0.3f);
         }
         score =world.score;
         if (!isPlayingMedalMode) {
