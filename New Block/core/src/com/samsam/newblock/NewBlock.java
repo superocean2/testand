@@ -2,7 +2,6 @@ package com.samsam.newblock;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -28,6 +27,8 @@ public class NewBlock extends Game {
     int blockWidth;
     int blockHeight;
     Rectangle rectScreen;
+    Sound getScoreSoud;
+    Sound gameoverSound;
 
 
     public NewBlock(ActionResolver actionResolver) {
@@ -48,6 +49,8 @@ public class NewBlock extends Game {
         miniMedal = new Texture("medalmini.png");
         activeMedal = new Texture("activemedal.png");
         gameover = new Texture("gameover.png");
+        getScoreSoud = Gdx.audio.newSound(Gdx.files.internal("coin1.wav"));
+        gameoverSound = Gdx.audio.newSound(Gdx.files.internal("lose.wav"));
 
         blockWidth=30;
         blockHeight=30;
@@ -81,5 +84,7 @@ public class NewBlock extends Game {
         miniMedal.dispose();
         activeMedal.dispose();
         gameover.dispose();
+        gameoverSound.dispose();
+        getScoreSoud.dispose();
     }
 }

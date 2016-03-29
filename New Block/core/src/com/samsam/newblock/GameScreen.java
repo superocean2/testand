@@ -60,12 +60,9 @@ public class GameScreen implements Screen {
         rectSilver = new Rectangle(x+30+114,y+100,87,87);
         rectGold = new Rectangle(x+30+225,y+100,87,87);
         rectRestart = new Rectangle(x+190,y+35,150,40);
-        rectRateGame = new Rectangle(x+20,y+35,150,40);
+        rectRateGame = new Rectangle(x+30,y+35,110,40);
 
-        if (highscore<Medal.IRON) startSpeed=Speed.EASY;
-        if (highscore>Medal.IRON&&highscore<Medal.SILVER) startSpeed=Speed.IRON;
-        if (highscore>Medal.SILVER&&highscore<Medal.GOLD) startSpeed=Speed.SILVER;
-        if (highscore>Medal.GOLD) startSpeed=Speed.GOLD;
+        startSpeed=Speed.EASY;
         currentSpeed=startSpeed;
     }
 
@@ -99,6 +96,10 @@ public class GameScreen implements Screen {
         game.batch.begin();
         game.batch.draw(game.background, 0, 0);
         game.batch.draw(game.pause, 45, 595);
+        if (score<world.score)
+        {
+            game.getScoreSoud.play();
+        }
         score =world.score;
         if (!isPlayingMedalMode) {
             if (score >= Medal.IRON && score < Medal.SILVER) {
@@ -258,6 +259,7 @@ public class GameScreen implements Screen {
         }
         if (world.gameOver)
         {
+            game.gameoverSound.play();
             state=GameState.GameOver;
         }
     }
@@ -295,16 +297,22 @@ public class GameScreen implements Screen {
             v.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(v);
             if (Helpers.isTouchedInRect(rectIron, v.x, v.y)) {
-                isPlayingMedalMode=true;
-                currentSpeed=Speed.IRON;
+                if (highscore>=Medal.IRON) {
+                    isPlayingMedalMode = true;
+                    currentSpeed = Speed.IRON;
+                }
             }
             if (Helpers.isTouchedInRect(rectSilver, v.x, v.y)) {
-                isPlayingMedalMode=true;
-                currentSpeed=Speed.SILVER;
+                if (highscore>=Medal.SILVER) {
+                    isPlayingMedalMode = true;
+                    currentSpeed = Speed.SILVER;
+                }
             }
             if (Helpers.isTouchedInRect(rectGold, v.x, v.y)) {
-                isPlayingMedalMode=true;
-                currentSpeed=Speed.GOLD;
+                if (highscore>=Medal.GOLD) {
+                    isPlayingMedalMode = true;
+                    currentSpeed = Speed.GOLD;
+                }
             }
             if (Helpers.isTouchedInRect(rectRestart, v.x, v.y)) {
                 restartGame();
@@ -404,9 +412,9 @@ public class GameScreen implements Screen {
     }
     private static class Medal
     {
-        public static  int IRON=1;
-        public static  int SILVER=5;
-        public static  int GOLD=10;
+        public static  int IRON=3;
+        public static  int SILVER=15;
+        public static  int GOLD=30;
     }
     private static class Speed
     {
