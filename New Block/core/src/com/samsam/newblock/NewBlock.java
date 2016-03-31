@@ -15,7 +15,6 @@ public class NewBlock extends Game {
     Texture block;
     Texture disableMedal;
     Texture enableMedal;
-    Texture activeMedal;
     Texture miniMedal;
     Texture pause;
     Texture resume;
@@ -47,7 +46,6 @@ public class NewBlock extends Game {
         resume = new Texture("resume.png");
         instruction = new Texture("instruction.png");
         miniMedal = new Texture("medalmini.png");
-        activeMedal = new Texture("activemedal.png");
         gameover = new Texture("gameover.png");
         getScoreSoud = Gdx.audio.newSound(Gdx.files.internal("coin1.wav"));
         gameoverSound = Gdx.audio.newSound(Gdx.files.internal("lose.wav"));
@@ -82,7 +80,6 @@ public class NewBlock extends Game {
         resume.dispose();
         instruction.dispose();
         miniMedal.dispose();
-        activeMedal.dispose();
         gameover.dispose();
         gameoverSound.dispose();
         getScoreSoud.dispose();
