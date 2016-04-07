@@ -14,10 +14,11 @@ android {
 
         instrumentTest.setRoot('tests')
     }
-    defaultConfig {
-        applicationId "com.samsam.happybird"
-        minSdkVersion 8
-        targetSdkVersion 23
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
+        }
     }
 }
 
