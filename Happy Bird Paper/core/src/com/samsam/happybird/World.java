@@ -38,21 +38,21 @@ public class World {
             xBefore = x;
         }
 
-        //fence top
-//        xBefore = 0;
-//        for (Fence fence:fences)
-//        {
-//            float x = xBefore+FENCE_SPACE_X;
-//            float y = fence.position.y + FENCE_SPACE_Y;
-//            int h = (int)(rectScreen.getHeight()-fence.height-FENCE_SPACE_Y);
-//            temp.add(new Fence(x,y,h));
-//            xBefore = x;
-//        }
-//
-//        for (Fence fence: temp)
-//        {
-//            fences.add(fence);
-//        }
+       // fence top
+        xBefore = rectScreen.getX();
+        for (Fence fence:fences)
+        {
+            float x = xBefore+FENCE_SPACE_X;
+            float y = fence.position.y + fence.height + FENCE_SPACE_Y +12;
+            int h = (int)(rectScreen.getHeight()-fence.height-FENCE_SPACE_Y - 12 -12 +2);
+            temp.add(new Fence(x,y,h));
+            xBefore = x;
+        }
+
+        for (Fence fence: temp)
+        {
+            fences.add(fence);
+        }
     }
 
 

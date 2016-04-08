@@ -41,10 +41,10 @@ public class GameScreen implements Screen {
     private void DisplayFence(float x, float y, int h)
     {
         float yLineBottom = y;
-        float yCol = yLineBottom + game.fenceLine.getHeight();
+        float yCol = yLineBottom + game.fenceLine.getRegionHeight()-1;
         float yLineTop = yCol + h;
         game.batch.draw(game.fenceLine, x, yLineBottom);
-        game.batch.draw(new TextureRegion(game.fenceCol,0,0,game.fenceCol.getWidth(),h),x,y);
+        game.batch.draw(new TextureRegion(game.fenceCol,0,0,game.fenceCol.getRegionWidth(),h),x,yCol);
         game.batch.draw(game.fenceLine,x,yLineTop);
     }
     @Override
@@ -76,7 +76,7 @@ public class GameScreen implements Screen {
         for (Fence fence:world.fences) {
             DisplayFence(fence.position.x,fence.position.y,fence.height);
         }
-        game.batch.draw(world.bird.image,world.bird.position.x,world.bird.position.y);
+        //game.batch.draw(world.bird.image,world.bird.position.x,world.bird.position.y);
         game.batch.end();
 
     }

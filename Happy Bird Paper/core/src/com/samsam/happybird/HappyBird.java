@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 public class HappyBird extends Game {
@@ -18,8 +19,9 @@ public class HappyBird extends Game {
 	Texture birdDown;
 	Texture birdDie;
 	Texture gameover;
-	Texture fenceLine;
-	Texture fenceCol;
+	TextureRegion fenceLine;
+	Texture fence;
+	TextureRegion fenceCol;
 	BitmapFont font;
 
 	public HappyBird(ActionResolver actionResolver){this.actionResolver=actionResolver;}
@@ -33,8 +35,9 @@ public class HappyBird extends Game {
 		birdDown = new Texture("bird-down.png");
 		birdDie = new Texture("bird-die.png");
 		gameover = new Texture("gameover.png");
-		fenceCol = new Texture("col.png");
-		fenceLine = new Texture("line.png");
+		fence = new Texture("col.png");
+		fenceLine = new TextureRegion(fence,0,0,fence.getWidth(),6);
+		fenceCol = new TextureRegion(fence,0,7,fence.getWidth(),fence.getHeight()-12);
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = 40;
@@ -59,7 +62,6 @@ public class HappyBird extends Game {
 		birdDown.dispose();
 		birdDie.dispose();
 		gameover.dispose();
-		fenceCol.dispose();
-		fenceCol.dispose();
+		fence.dispose();
 	}
 }
