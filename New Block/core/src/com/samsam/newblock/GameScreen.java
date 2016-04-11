@@ -32,6 +32,7 @@ public class GameScreen implements Screen {
     Rectangle rectGold;
     Rectangle rectRestart;
     Rectangle rectRateGame;
+    Rectangle rectQuit;
 
     public GameScreen(NewBlock game) {
         this.game = game;
@@ -58,8 +59,9 @@ public class GameScreen implements Screen {
         rectIron = new Rectangle(x + 30, y + 105, 87, 87);
         rectSilver = new Rectangle(x + 30 + 114, y + 100, 87, 87);
         rectGold = new Rectangle(x + 30 + 225, y + 100, 87, 87);
-        rectRestart = new Rectangle(x + 190, y + 35, 150, 40);
-        rectRateGame = new Rectangle(x + 30, y + 35, 110, 40);
+        rectRateGame = new Rectangle(x + 10, y + 35, 100, 40);
+        rectRestart = new Rectangle(x + 117, y + 35, 150, 40);
+        rectQuit = new Rectangle(x + 273, y + 35, 100, 40);
 
         startSpeed = Speed.EASY;
         currentSpeed = startSpeed;
@@ -277,6 +279,9 @@ public class GameScreen implements Screen {
             }
             if (Helpers.isTouchedInRect(rectRateGame, v.x, v.y)) {
                 Gdx.net.openURI("https://play.google.com/store/apps/details?id=com.samsam.newblock");
+            }
+            if (Helpers.isTouchedInRect(rectQuit, v.x, v.y)) {
+                Gdx.app.exit();
             }
         }
 
