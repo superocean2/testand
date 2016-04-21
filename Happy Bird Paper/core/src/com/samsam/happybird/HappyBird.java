@@ -19,9 +19,11 @@ public class HappyBird extends Game {
 	Texture birdDown;
 	Texture birdDie;
 	Texture gameover;
-	TextureRegion fenceLine;
-	Texture fence;
-	TextureRegion fenceCol;
+	Texture ready;
+	TextureRegion floor;
+	TextureRegion ceiling;
+	TextureRegion rockTop;
+	TextureRegion rockBottom;
 	BitmapFont font;
 
 	public HappyBird(ActionResolver actionResolver){this.actionResolver=actionResolver;}
@@ -35,15 +37,20 @@ public class HappyBird extends Game {
 		birdDown = new Texture("bird-down.png");
 		birdDie = new Texture("bird-die.png");
 		gameover = new Texture("gameover.png");
-		fence = new Texture("col.png");
-		fenceLine = new TextureRegion(fence,0,0,fence.getWidth(),6);
-		fenceCol = new TextureRegion(fence,0,7,fence.getWidth(),fence.getHeight()-12);
+		ready = new Texture("ready.png");
+		floor = new TextureRegion(new Texture("ground.png"));
+		ceiling = new TextureRegion(floor);
+		ceiling.flip(true,true);
+		rockBottom = new TextureRegion(new Texture("rock.png"));
+		rockTop = new TextureRegion(rockBottom);
+		rockTop.flip(false,true);
+
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = 40;
 		parameter.characters="0123456789";
 		font = generator.generateFont(parameter);
-		font.setColor(255, 255, 255, 1);
+		font.setColor(0, 0, 0, 1);
 		generator.dispose();
 		setScreen(new GameScreen(this));
 	}
@@ -62,6 +69,6 @@ public class HappyBird extends Game {
 		birdDown.dispose();
 		birdDie.dispose();
 		gameover.dispose();
-		fence.dispose();
+		ready.dispose();
 	}
 }
