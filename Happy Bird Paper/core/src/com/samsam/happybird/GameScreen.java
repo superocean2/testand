@@ -28,7 +28,7 @@ public class GameScreen implements Screen {
     private static final float BIRD_START_Y = 240;
     private static final float BIRD_START_X = 50;
     int score, highscore;
-    boolean gameIsStart, isSaveHighscore;
+    boolean gameIsStart, isSaveHighscore, isShowAds;
     Vector2 birdPosition = new Vector2();
     Vector2 birdVelocity = new Vector2();
     float birdStateTime = 0;
@@ -38,9 +38,10 @@ public class GameScreen implements Screen {
     Rectangle rect1 = new Rectangle();
     Rectangle rect2 = new Rectangle();
 
-    Rectangle rectPause;
+    Rectangle rectQuit;
     Rectangle rectRestart;
     Rectangle rectRateGame;
+    Rectangle rectWorldScore;
 
     public GameScreen(HappyBird game) {
         this.game = game;
@@ -49,7 +50,10 @@ public class GameScreen implements Screen {
         uiCamera = new OrthographicCamera();
         uiCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         uiCamera.update();
-
+        rectRestart=new Rectangle(340,150,140,60);
+        rectQuit=new Rectangle(120,30,140,60);
+        rectRateGame=new Rectangle(350,30,140,60);
+        rectWorldScore=new Rectangle(570,30,110,80);
         resetWorld();
     }
     private void resetWorld() {
@@ -57,12 +61,13 @@ public class GameScreen implements Screen {
         state = GameState.Ready;
         gameIsStart=false;
         isSaveHighscore=false;
+        isShowAds=false;
         groundOffsetX = 0;
         birdPosition.set(BIRD_START_X, BIRD_START_Y);
         birdVelocity.set(0, 0);
         gravity.set(0, GRAVITY);
         camera.position.x = 400;
-
+        game.actionResolver.hideAds();
         rocks.clear();
         for(int i = 0; i < 5; i++) {
             boolean isDown = MathUtils.randomBoolean();
@@ -114,7 +119,7 @@ public class GameScreen implements Screen {
 
 
     private void restartGame() {
-
+        resetWorld();
     }
 
     private void updateReady() {
@@ -160,6 +165,10 @@ public class GameScreen implements Screen {
                 r.counted = true;
             }
         }
+        if (birdPosition.y<game.floor.getRegionHeight()-20||birdPosition.y>480-game.ceiling.getRegionHeight()+game.bird.getHeight()-20)
+        {
+            state = GameState.GameOver;
+        }
     }
 
     private void updatePaused() {
@@ -177,7 +186,7 @@ public class GameScreen implements Screen {
         if (Gdx.input.justTouched()) {
             Vector3 v = new Vector3();
             v.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            camera.unproject(v);
+            uiCamera.unproject(v);
 
             if (Helpers.isTouchedInRect(rectRestart, v.x, v.y)) {
                 restartGame();
@@ -185,11 +194,21 @@ public class GameScreen implements Screen {
             if (Helpers.isTouchedInRect(rectRateGame, v.x, v.y)) {
                 Gdx.net.openURI("https://play.google.com/store/apps/details?id=com.samsam.newblock");
             }
+            if (Helpers.isTouchedInRect(rectQuit, v.x, v.y)) {
+                Gdx.app.exit();
+            }
+            if (Helpers.isTouchedInRect(rectWorldScore, v.x, v.y)) {
+                restartGame();
+            }
+        }
+        if (!isShowAds) {
+            game.actionResolver.showAds();
+            isShowAds=true;
         }
 
         game.batch.begin();
-
-        GlyphLayout layout = new GlyphLayout(game.font, String.valueOf(highscore));
+        game.batch.draw(game.gameover,0,0);
+        //GlyphLayout layout = new GlyphLayout(game.font, String.valueOf(highscore));
 
 
 

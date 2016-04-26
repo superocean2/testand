@@ -1,7 +1,10 @@
 package com.samsam.happybird;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
+import android.view.View;
 import android.widget.Toast;
 
 
@@ -28,4 +31,28 @@ public class ActionResolverAndroid implements ActionResolver {
         });
     }
 
+
+    public void showAds()
+    {
+        final Activity activity = (Activity)context;
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                View adsView = activity.findViewById(R.id.adjust_height);
+                adsView.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    public void hideAds()
+    {
+        final Activity activity = (Activity)context;
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                View adsView = activity.findViewById(R.id.adjust_height);
+                adsView.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
 }

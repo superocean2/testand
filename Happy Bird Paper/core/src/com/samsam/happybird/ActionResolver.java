@@ -5,4 +5,6 @@ package com.samsam.happybird;
  */
 public interface ActionResolver {
      void showToast(CharSequence text);
+     void showAds();
+     void hideAds();
 }

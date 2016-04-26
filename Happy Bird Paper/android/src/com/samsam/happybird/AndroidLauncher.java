@@ -15,6 +15,7 @@ import com.google.android.gms.ads.AdView;
 
 public class AndroidLauncher extends AndroidApplication {
 	ActionResolverAndroid showDialogAndroid;
+	protected AdView adView;
 	protected View gameView;
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
@@ -32,31 +33,58 @@ public class AndroidLauncher extends AndroidApplication {
 
 		gameView = createGameView(config);
 		layout.addView(gameView);
+
+		//---create google ads----
+		adView = createAdView();
+		layout.addView(adView);
+
 		setContentView(layout);
+
+		//---start google ads----
+		startAdvertising(adView);
+	}
+	protected AdView createAdView() {
+		adView = new AdView(this);
+		adView.setId(R.id.adjust_height);
+		adView.setAdSize(AdSize.SMART_BANNER);
+		adView.setAdUnitId(getString(R.string.banner_ad_unit_id));
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+		params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+		params.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+		adView.setLayoutParams(params);
+		adView.setBackgroundColor(Color.BLACK);
+		return adView;
 	}
 
 	protected View createGameView(AndroidApplicationConfiguration cfg) {
 		gameView = initializeForView(new HappyBird(showDialogAndroid), cfg);
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
 		params.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
 		params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
 		gameView.setLayoutParams(params);
 		return gameView;
 	}
 
+	protected void startAdvertising(AdView adView) {
+		AdRequest adRequest = new AdRequest.Builder().build();
+		adView.loadAd(adRequest);
+	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
+		if (adView != null) adView.resume();
 	}
 
 	@Override
 	public void onPause() {
+		if (adView != null) adView.pause();
 		super.onPause();
 	}
 
 	@Override
 	public void onDestroy() {
+		if (adView != null) adView.destroy();
 		super.onDestroy();
 	}
 }
