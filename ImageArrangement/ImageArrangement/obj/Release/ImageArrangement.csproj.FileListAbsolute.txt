@@ -1,0 +1,9 @@
+E:\Nghia\ImageArrangement\ImageArrangement\bin\Release\ImageArrangement.exe.config
+E:\Nghia\ImageArrangement\ImageArrangement\bin\Release\ImageArrangement.exe
+E:\Nghia\ImageArrangement\ImageArrangement\bin\Release\ImageArrangement.pdb
+E:\Nghia\ImageArrangement\ImageArrangement\obj\Release\ImageArrangement.Main.resources
+E:\Nghia\ImageArrangement\ImageArrangement\obj\Release\ImageArrangement.Properties.Resources.resources
+E:\Nghia\ImageArrangement\ImageArrangement\obj\Release\ImageArrangement.SelectSourceDialog.resources
+E:\Nghia\ImageArrangement\ImageArrangement\obj\Release\ImageArrangement.csproj.GenerateResource.Cache
+E:\Nghia\ImageArrangement\ImageArrangement\obj\Release\ImageArrangement.exe
+E:\Nghia\ImageArrangement\ImageArrangement\obj\Release\ImageArrangement.pdb

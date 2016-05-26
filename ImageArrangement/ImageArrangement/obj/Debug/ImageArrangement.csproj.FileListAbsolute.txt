@@ -1,0 +1,11 @@
+E:\Nghia\ImageArrangement\ImageArrangement\bin\Debug\ImageArrangement.exe.config
+E:\Nghia\ImageArrangement\ImageArrangement\bin\Debug\ImageArrangement.exe
+E:\Nghia\ImageArrangement\ImageArrangement\bin\Debug\ImageArrangement.pdb
+E:\Nghia\ImageArrangement\ImageArrangement\obj\Debug\ImageArrangement.csprojResolveAssemblyReference.cache
+E:\Nghia\ImageArrangement\ImageArrangement\obj\Debug\ImageArrangement.Main.resources
+E:\Nghia\ImageArrangement\ImageArrangement\obj\Debug\ImageArrangement.Properties.Resources.resources
+E:\Nghia\ImageArrangement\ImageArrangement\obj\Debug\ImageArrangement.csproj.GenerateResource.Cache
+E:\Nghia\ImageArrangement\ImageArrangement\obj\Debug\ImageArrangement.exe
+E:\Nghia\ImageArrangement\ImageArrangement\obj\Debug\ImageArrangement.pdb
+E:\Nghia\ImageArrangement\ImageArrangement\obj\Debug\ImageArrangement.SelectSourceDialog.resources
+E:\Nghia\ImageArrangement\ImageArrangement\obj\Debug\ImageArrangement.ProgressForm.resources
