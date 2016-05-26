@@ -15,6 +15,7 @@ namespace ImageArrangement
         public ProgressForm()
         {
             InitializeComponent();
+            this.CenterToScreen();
         }
 
         private void ProgressForm_Load(object sender, EventArgs e)

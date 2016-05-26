@@ -66,7 +66,6 @@
             this.Load += new System.EventHandler(this.ProgressForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
-            this.CenterToScreen();
 
         }
 

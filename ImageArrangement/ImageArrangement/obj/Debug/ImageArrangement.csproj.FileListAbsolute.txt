@@ -9,3 +9,14 @@ E:\Nghia\ImageArrangement\ImageArrangement\obj\Debug\ImageArrangement.exe
 E:\Nghia\ImageArrangement\ImageArrangement\obj\Debug\ImageArrangement.pdb
 E:\Nghia\ImageArrangement\ImageArrangement\obj\Debug\ImageArrangement.SelectSourceDialog.resources
 E:\Nghia\ImageArrangement\ImageArrangement\obj\Debug\ImageArrangement.ProgressForm.resources
+D:\AndroidTest\TestAndroid\ImageArrangement\ImageArrangement\bin\Debug\ImageArrangement.exe.config
+D:\AndroidTest\TestAndroid\ImageArrangement\ImageArrangement\obj\Debug\ImageArrangement.exe
+D:\AndroidTest\TestAndroid\ImageArrangement\ImageArrangement\obj\Debug\ImageArrangement.pdb
+D:\AndroidTest\TestAndroid\ImageArrangement\ImageArrangement\bin\Debug\ImageArrangement.exe
+D:\AndroidTest\TestAndroid\ImageArrangement\ImageArrangement\bin\Debug\ImageArrangement.pdb
+D:\AndroidTest\TestAndroid\ImageArrangement\ImageArrangement\obj\Debug\ImageArrangement.csprojResolveAssemblyReference.cache
+D:\AndroidTest\TestAndroid\ImageArrangement\ImageArrangement\obj\Debug\ImageArrangement.Main.resources
+D:\AndroidTest\TestAndroid\ImageArrangement\ImageArrangement\obj\Debug\ImageArrangement.ProgressForm.resources
+D:\AndroidTest\TestAndroid\ImageArrangement\ImageArrangement\obj\Debug\ImageArrangement.Properties.Resources.resources
+D:\AndroidTest\TestAndroid\ImageArrangement\ImageArrangement\obj\Debug\ImageArrangement.SelectSourceDialog.resources
+D:\AndroidTest\TestAndroid\ImageArrangement\ImageArrangement\obj\Debug\ImageArrangement.csproj.GenerateResource.Cache

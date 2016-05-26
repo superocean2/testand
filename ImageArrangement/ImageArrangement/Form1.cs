@@ -16,9 +16,10 @@ namespace ImageArrangement
         public Main()
         {
             InitializeComponent();
-            
+            this.CenterToScreen();
         }
         public List<string> SourceFolders { get; set; }
+        public string SearchPattern { get; set; }
         ProgressForm progressDialog;
 
         private void btnBrowseSource_Click(object sender, EventArgs e)
@@ -77,9 +78,21 @@ namespace ImageArrangement
             List<FileInfo> files = new List<FileInfo>();
             DateTime fromDate = dateTimePickerFrom.Value;
             DateTime toDate = dateTimePickerTo.Value;
+            
             foreach (var folder in SourceFolders)
             {
-                files.AddRange(new DirectoryInfo(folder).EnumerateFiles("*.jpg", SearchOption.AllDirectories).Where(c => c.LastWriteTime >= fromDate).Where(c => c.LastWriteTime < toDate).ToList());
+                if (SearchPattern.Contains("jpg"))
+                {
+                    files.AddRange(new DirectoryInfo(folder).EnumerateFiles(SearchPattern, SearchOption.AllDirectories).Where(c => c.LastWriteTime >= fromDate).Where(c => c.LastWriteTime < toDate).ToList());
+                }
+                else
+                {
+                    string[] q = SearchPattern.Split('|');
+                    foreach (var item in q)
+                    {
+                        files.AddRange(new DirectoryInfo(folder).EnumerateFiles(item, SearchOption.AllDirectories).Where(c => c.LastWriteTime >= fromDate).Where(c => c.LastWriteTime < toDate).ToList());
+                    }
+                }
             }
             //end search
             Dictionary<string, List<FileInfo>> listSimilar = new Dictionary<string, List<FileInfo>>();
@@ -132,5 +145,32 @@ namespace ImageArrangement
             progressDialog.Close();
             MessageBox.Show("Progress done!");
         }
+
+        private void Main_Load(object sender, EventArgs e)
+        {
+            comboBoxSearchType.Items.Add(new ListItem() { Text = "Image (*.jpg)", Value = "1" });
+            comboBoxSearchType.Items.Add(new ListItem() { Text = "Video (*.mp4,*.avi,*.3gp)", Value = "2" });
+            comboBoxSearchType.DisplayMember = "Text";
+            comboBoxSearchType.ValueMember = "Value";
+            comboBoxSearchType.SelectedIndex = 0;
+            SearchPattern = "*.jpg";
+        }
+
+        private void comboBoxSearchType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxSearchType.SelectedIndex == 0)
+            {
+                SearchPattern = "*.jpg";
+            }
+            else
+            {
+                SearchPattern = "*.mp4|*.avi|*.3gp";
+            }
+        }
+    }
+    public class ListItem
+    {
+        public string Text { get; set; }
+        public string Value { get; set; }
     }
 }

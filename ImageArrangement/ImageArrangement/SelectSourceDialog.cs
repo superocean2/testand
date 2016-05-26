@@ -18,6 +18,7 @@ namespace ImageArrangement
         public SelectSourceDialog()
         {
             InitializeComponent();
+            this.CenterToScreen();
         }
         public List<ListViewItem> SourcesSelected { get; set; }
         private void SelectSourceDialog_Load(object sender, EventArgs e)
@@ -46,7 +47,7 @@ namespace ImageArrangement
                         break;
                 }
 
-                TreeNode node = new TreeNode("Drive "+drive.Substring(0, 1), driveImage, driveImage);
+                TreeNode node = new TreeNode(drive.Substring(0, 1), driveImage, driveImage);
                 node.Tag = drive;
                 if (driveInfo.IsReady)
                 {
@@ -73,7 +74,7 @@ namespace ImageArrangement
             }
 
 
-            if (!isAdded && !selectedNode.Text.Contains("Drive"))
+            if (!isAdded && selectedNode.ImageIndex!=2)
             {
                 listViewSource.Items.Add(Additem);
             }

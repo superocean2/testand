@@ -42,9 +42,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnRun = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.comboBoxSearchType = new System.Windows.Forms.ComboBox();
             this.groupBoxSource.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBoxSource
@@ -110,7 +113,7 @@
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.dateTimePickerFrom);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(12, 225);
+            this.panel1.Location = new System.Drawing.Point(14, 343);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(460, 155);
             this.panel1.TabIndex = 3;
@@ -149,7 +152,7 @@
             // 
             // btnRun
             // 
-            this.btnRun.Location = new System.Drawing.Point(349, 408);
+            this.btnRun.Location = new System.Drawing.Point(351, 526);
             this.btnRun.Name = "btnRun";
             this.btnRun.Size = new System.Drawing.Size(75, 23);
             this.btnRun.TabIndex = 4;
@@ -165,11 +168,32 @@
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.comboBoxSearchType);
+            this.groupBox2.Location = new System.Drawing.Point(14, 225);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(460, 100);
+            this.groupBox2.TabIndex = 3;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Search Type";
+            // 
+            // comboBoxSearchType
+            // 
+            this.comboBoxSearchType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxSearchType.FormattingEnabled = true;
+            this.comboBoxSearchType.Location = new System.Drawing.Point(18, 40);
+            this.comboBoxSearchType.Name = "comboBoxSearchType";
+            this.comboBoxSearchType.Size = new System.Drawing.Size(329, 21);
+            this.comboBoxSearchType.TabIndex = 0;
+            this.comboBoxSearchType.SelectedIndexChanged += new System.EventHandler(this.comboBoxSearchType_SelectedIndexChanged);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 461);
+            this.ClientSize = new System.Drawing.Size(484, 561);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnRun);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox1);
@@ -177,14 +201,15 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Main";
             this.Text = "Image Arrangement";
+            this.Load += new System.EventHandler(this.Main_Load);
             this.groupBoxSource.ResumeLayout(false);
             this.groupBoxSource.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.CenterToScreen();
 
         }
 
@@ -203,6 +228,8 @@
         private System.Windows.Forms.DateTimePicker dateTimePickerFrom;
         private System.Windows.Forms.Label label1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.ComboBox comboBoxSearchType;
     }
 }
 
